@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-navbar',
@@ -8,5 +9,6 @@ import { RouterModule } from '@angular/router';
   styleUrl: './admin-navbar.css',
 })
 export class AdminNavbar {
-
+  ngOnInit(){
+  }
 }

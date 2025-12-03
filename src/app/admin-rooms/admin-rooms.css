@@ -2,13 +2,13 @@
     font-family: Quicksand;
 }
 
-h2 {    
+h2{    
     color: #364e43;
     font-size: 70px;
     font-weight: bold;
 }
 
-.card {
+.card{
     height: 500px;
     width: 400px;
     border-width: 3px;
@@ -17,7 +17,7 @@ h2 {
     overflow: hidden  
 }
 
-h5 {
+h5{
     color: #364e43;
     font-size: 40px;
     font-weight: bold;
@@ -57,4 +57,21 @@ h5 {
 .btn-add:hover{
     background: #364e43;
     color: #ffffff;
+}
+
+.btn-green{
+    background: #364e43;
+    color: #ffffff;
+}
+
+.modal-title{
+    font-size: 30px;
+}
+
+.modal-btn{
+    font-size: 20px;
+}
+
+.modal-body{
+    font-size: 20px;
 }

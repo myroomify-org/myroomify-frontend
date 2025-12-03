@@ -18,3 +18,9 @@ AdminRooms
 
 AdminLoginService
 AdminRoomsService
+
+## Colors
+
+#c3ae80
+#364e43
+#e4edea

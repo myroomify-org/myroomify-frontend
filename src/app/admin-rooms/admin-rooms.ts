@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 interface CardData {
   id: number,
@@ -9,20 +10,25 @@ interface CardData {
 
 @Component({
   selector: 'app-admin-rooms',
-  imports: [CommonModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './admin-rooms.html',
   styleUrl: './admin-rooms.css',
 })
 
 
 export class AdminRooms {
+
+  carForm!: any;
+
   cards: CardData[] = [
     { id: 1, roomName: 'Béta', description: 'Dinamikusan hozzáadott szoba.' }
   ]
 
   nextId: number = 2
 
-  constructor() {}
+  constructor(
+    private build: FormBuilder
+  ) {}
 
   addCard(): void {
     const newCard: CardData = {
