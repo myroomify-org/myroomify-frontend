@@ -3,10 +3,10 @@
     <div class="row g-4">
         <div class="col-lg-4 col-md-6 col-12" *ngFor="let card of cards">
             <div class="card">
-                <img src="/login/login_background.png" class="card-img-top" alt="Illustration">
+                <img [src]="card.image" class="card-img-top" alt="Illustration">
                 <div class="card-body">
-                    <h5 class="card-title">Alfa</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the cards content.</p>
+                    <h5 class="card-title">{{ card.title }}</h5>
+                    <p class="card-text">{{ card.about }}</p>
                     <a class="btn btn-brown mt-3">Go somewhere</a>
                 </div>
             </div>
@@ -24,25 +24,25 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <div>
-                <label for="image" class="form-label">Image</label>
-                <input type="file" id="" formControlName="image" class="form-control">
-            </div>
-            <div>
-                <label for="title" class="form-label">Title</label>
-                <input type="text" id="" formControlName="title" class="form-control">
-            </div>
-            <div>
-                <label for="about" class="form-label">About</label>
-                <input type="text" id="" formControlName="about" class="form-control">
-            </div>
+            <form [formGroup]="cardForm" (ngSubmit)="addCard()" id="cardForm">
+                <div>
+                    <label for="image" class="form-label">Image</label>
+                    <input input type="file" class="form-control" (change)="selectedImage($event)">
+                </div>
+                <div>
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" id="cardForm" formControlName="title" class="form-control">
+                </div>
+                <div>
+                    <label for="about" class="form-label">About</label>
+                    <input type="text" id="cardForm" formControlName="about" class="form-control">
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary modal-btn" data-bs-dismiss="modal">Mégse</button>
+                <button type="button" class="btn btn-green modal-btn" data-bs-dismiss="modal" (click)="addCard()">Hozzáad</button>
+            </div>           
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary modal-btn" data-bs-dismiss="modal">Mégse</button>
-            <button type="button" class="btn btn-green modal-btn" data-bs-dismiss="modal" (click)="addCard()">Hozzáad</button>
-        </div>
-        </div>
-    </div>
     </div>    
 </div>
 
