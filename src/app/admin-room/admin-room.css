@@ -3,7 +3,7 @@
     font-family: Quicksand;
 }
 
-h2{    
+.h2{    
     color: #364e43;
     font-size: 46px;
     font-weight: bold;
@@ -44,3 +44,35 @@ img{
     color: #ffffff;
 }
 
+.buttons{
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}
+
+.btn-add-green{
+    background: #364e43;
+    color: #ffffff;
+    margin-right: 5px;
+    height: 45px;
+    min-width: 80px;
+    width: auto;
+}
+
+.btn-add-green:hover{
+    background: #ffffff;
+    color: #364e43;
+    border-color: #364e43;
+}
+
+.btn-dark{
+    height: 45px;
+    min-width: 80px;
+    width: auto;
+}
+
+.btn-dark:hover{
+    background: #ffffff;
+    color: #000000;
+    border-color: #000000;
+}
