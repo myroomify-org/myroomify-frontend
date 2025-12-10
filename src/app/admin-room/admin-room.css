@@ -5,6 +5,42 @@
 
 h2{    
     color: #364e43;
-    font-size: 45px;
+    font-size: 46px;
     font-weight: bold;
 }
+
+h3{
+    color: #364e43;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+p{
+  color: #364e43;
+    font-size: 18px;
+    font-weight: medium;  
+}
+
+img{
+    border-radius: 20px;
+}
+
+.btn-add{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #364e43;
+    font-size: 20px;
+    font-weight: medium;
+    border-color: #364e43; 
+    border-style: dashed;
+    border-radius: 10px;
+    height: 60px;
+    width: 60px;
+}
+
+.btn-add:hover{
+    background: #364e43;
+    color: #ffffff;
+}
+
