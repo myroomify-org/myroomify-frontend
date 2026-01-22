@@ -1,6 +1,8 @@
 <div class="container mb-5">
     <h2 class="mt-5 mb-5">Bookings</h2>
+    
     <div class="row g-3 mb-4 align-items-end">
+        <!--Search-->
         <div class="col-md-4">
             <label class="form-label text-muted small">Search</label>
             <input type="search" class="form-control" placeholder="Name, email or id..." (input)="onSearch($event)">
@@ -16,6 +18,7 @@
             </select>
         </div>
 
+        <!--Add booking-->
         <div class="col-md-5 text-end">
             <button type="button" class="btn btn-add" (click)="setShowModal()">
                 <i class="bi bi-plus-lg"></i> Add booking
@@ -23,6 +26,7 @@
         </div>
     </div>
     
+    <!--Booking table-->
     <table class="table table-striped bookingTable">
         <thead>
             <tr>
@@ -66,6 +70,7 @@
         </tbody>
     </table>
 
+    <!--Modal-->
     @if(showModal){
     
     <div class="modal fade show" id="operatorModal" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: block">

@@ -64,7 +64,8 @@ export class AdminRooms {
     this.cardForm.reset()
   }
 
-  // Get (R-read)
+  // Crud start
+  // read
   get(){
     this.roomApi.getRooms$().subscribe({
       next: (result: any) => {
@@ -93,7 +94,7 @@ export class AdminRooms {
   //   })
   // }
 
-  // Delete (D)
+  // delete
   delete(id: number) {
     this.roomApi.deleteRoom$(id).subscribe({
       next: (result: any) => {
@@ -136,12 +137,14 @@ export class AdminRooms {
     });
   }
 
-  // Edit (U)
+  // edit
   edit(id: number) {
     this.router.navigate(['/navbar/room', id])
   }
 
-  // Modal
+  // Crud end
+
+  // modal
   setShowModal() {
     this.showModal = true
   }

@@ -1,0 +1,55 @@
+/*Page*/
+.container{
+    font-family: Quicksand;
+}
+
+h2{    
+    color: #364e43;
+    font-size: 45px;
+    font-weight: bold;
+}
+
+.bookingTable th{
+    vertical-align: top;
+}
+
+/*Add-button*/
+.btn-add{
+    background-color: #364e43;
+    color: #ffffff;
+    font-weight: medium;
+}
+
+.btn-add:hover{
+    background-color: rgb(255, 255, 255);
+    border-width: 1px;
+    border-color: #364e43;
+    color: #364e43;
+}
+
+/*Edit button*/
+.btn-edit{
+    color: #ffffff;
+    background-color: #c3ae80;
+}
+
+.btn-edit:hover{
+    background-color: rgb(255, 255, 255);
+    border-width: 1px;
+    border-color: #c3ae80;
+    color: #c3ae80;
+}
+
+/*Delete button*/
+.btn-delete{
+    background: #bb5127;
+    color: #ffffff;
+    margin-left: 5px;
+}
+
+.btn-delete:hover{
+    background-color: rgb(255, 255, 255);
+    border-width: 1px;
+    border-color: #bb5127;
+    color: #bb5127;
+}

@@ -4,10 +4,12 @@ import { AdminBookingService } from '../../shared/admin-booking-service';
 import { AdminRoomsService } from '../../shared/admin-rooms-service';
 import { FormBuilder } from '@angular/forms';
 import { AdminUserService } from '../../shared/admin-user-service';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-admin-users',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './admin-users.html',
   styleUrl: './admin-users.css',
 })
@@ -39,7 +41,7 @@ export class AdminUsers {
   }
 
 
-  // Crud eleje
+  // Crud start
   // read
   getUsers(){
     this.userApi.getUsers$().subscribe({
@@ -79,11 +81,8 @@ export class AdminUsers {
     })
   }
 
-  about(data:any){
 
-  }
-
-  //delete
+  // delete
   deleteUser(id: number){
     this.userApi.deleteUser$(id).subscribe({
       next: (result: any) => {
@@ -113,7 +112,7 @@ export class AdminUsers {
       }
     });
   }
-  //Crud vége
+  //Crud end
   
   //Alert
   success(errorText: string){
@@ -149,27 +148,29 @@ export class AdminUsers {
   //Search
   onSearch(event: any) {
     const term = event.target.value.toLowerCase()
-    this.filteredUsers = this.bookings.filter(booking => 
-      booking.username?.toLowerCase().includes(term) ||
-      booking.id.toString().includes(term)
+    this.filteredUsers = this.users.filter((user: any) => 
+      user.name?.toLowerCase().includes(term) ||
+      user.email?.toLowerCase().includes(term) ||
+      user.id.toString().includes(term)
     )
   }
 
   onSort(event: any) {
-    const key = event.target.value;
-    
-    this.filteredUsers.sort((firstUser, secondUser) => {
-      let dataFirst = firstUser[key]
-      let dataSecond = secondUser[key]
+    const key = event.target.value;      
+    if (!key) return
 
-      if(key === 'user') {
-        dataFirst = firstUser.user?.name
-        dataSecond = secondUser.user?.name
+    this.filteredUsers.sort((a, b) => {
+      let valA = a[key]
+      let valB = b[key]
+
+      if (typeof valA === 'string') {
+        valA = valA.toLowerCase()
+        valB = valB.toLowerCase()
       }
 
-      if(dataFirst < dataSecond) return -1
-      if(dataFirst > dataSecond) return 1
-      return 0
+      if (valA < valB) return -1
+      if (valA > valB) return 1
+      return 0;
     })
   }
 }

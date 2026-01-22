@@ -1,0 +1,113 @@
+.navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: transparent !important;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    border: none;
+    font-size: 25px;
+    font-weight: medium;
+    font-family: 'Quicksand';
+}
+
+.navbar .container-fluid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-left {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.nav-center {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.navbar-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.navbar-nav .nav-item:last-child .nav-link {
+    margin-right: 20px;
+}
+
+.nav-item {
+    margin-right: 50px;
+}
+
+a {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: 'Quicksand';
+    margin: 0 1.5rem;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+a:hover { 
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #c3ae8094;
+    border-radius: 12px;
+    padding: 8px 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+a:active {
+    background-color: #c3ae80 !important;
+    color: #ffffff !important;
+    border-radius: 12px;
+    padding: 8px 20px !important;
+    font-weight: bold;
+    text-shadow: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.navbar .nav .nav-link.active {
+    background-color: #c3ae8094 !important;
+    color: #ffffff !important;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1.5rem !important;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.login-btn {
+    color: white;
+    text-decoration: none;
+    background: none
+}
+
+.register-btn {
+    background: none;
+    color: white;
+    text-decoration: none;
+}

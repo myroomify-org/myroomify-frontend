@@ -25,32 +25,16 @@ img{
     border-radius: 30px;
 }
 
-.btn-add{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #364e43;
-    font-size: 20px;
-    font-weight: medium;
-    border-color: #364e43; 
-    border-style: dashed;
-    border-radius: 10px;
-    height: 60px;
-    width: 60px;
-}
 
-.btn-add:hover{
-    background: #364e43;
-    color: #ffffff;
-}
-
+/*Buttons*/
 .buttons{
     display: flex;
     justify-content: end;
     align-items: end;
 }
 
-.btn-add-green{
+/*Save-button*/
+.btn-save{
     background: #364e43;
     color: #ffffff;
     margin-right: 5px;
@@ -59,19 +43,21 @@ img{
     width: auto;
 }
 
-.btn-add-green:hover{
+.btn-save:hover{
     background: #ffffff;
     color: #364e43;
     border-color: #364e43;
 }
 
-.btn-dark{
+
+/*Navigate button*/
+.btn-navigate{
     height: 45px;
     min-width: 80px;
     width: auto;
 }
 
-.btn-dark:hover{
+.btn-navigate:hover{
     background: #ffffff;
     color: #000000;
     border-color: #000000;

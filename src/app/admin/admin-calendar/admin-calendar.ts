@@ -33,6 +33,8 @@ export class AdminCalendar {
       this.get()
   }
 
+  // Crud start
+  // read
   get() {
     forkJoin({
       rooms: this.roomApi.getRooms$(),
@@ -47,6 +49,7 @@ export class AdminCalendar {
     })
   }
 
+  // Calendar
   getCalendars(rooms: any[], allBookings: any[]) {
     this.roomCalendar = rooms.map(room => {
       return {
@@ -72,7 +75,9 @@ export class AdminCalendar {
       }
     })
   }
+  // Crud end
 
+  // Info modal
   handleEventClick(info: any) {
     const extraData = info.event.extendedProps
     this.booking = {
@@ -89,6 +94,7 @@ export class AdminCalendar {
     }
   }
 
+  // Search
   onFilter(event: any) {
     const roomId = event.target.value
 

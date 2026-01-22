@@ -1,11 +1,11 @@
 <div class="container mb-5">
     <h2 class="mt-5 mb-5">Rooms</h2>
     <div class="row g-4">
-        <!-- <div class="col-lg-3 col-md-6 col-12 mb-5">
+        <div class="col-lg-3 col-md-6 col-12 mb-5">
             <button type="button" class="btn btn-add h-100 w-100 d-flex align-items-center justify-content-center" (click)="setShowModal()">
                 <span>+</span>
             </button>
-        </div>  -->
+        </div> 
         <div class="col-lg-3 col-md-6 col-12 mb-5" *ngFor="let card of cards">
             <div class="card">
                 <img src="/rooms/room.png" class="card-img-top" alt="Illustration">
@@ -13,13 +13,13 @@
                     <h5 class="card-title">{{ card.name }}</h5>
                     <p class="card-text">{{ card.description }}</p>
                     <a class="btn btn-edit mt-1 mb-3 mr-3" (click)="edit(card.id)">Edit</a>
-                    <!-- <a class="btn btn-delete mt-1 mb-3" (click)="confirmDelete(card.id)">Delete</a> -->
+                    <a class="btn btn-delete mt-1 mb-3" (click)="confirmDelete(card.id)">Delete</a>
                 </div>
             </div>
         </div>               
     </div>
 
-    <!-- @if(showModal){
+    @if(showModal){
     Modal
     <div class="modal fade show" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: block;">
         <div class="modal-dialog">
@@ -56,5 +56,5 @@
         </div>
     </div>
     <div class="modal-backdrop fade show"></div>
-    } -->
+    }
 </div>

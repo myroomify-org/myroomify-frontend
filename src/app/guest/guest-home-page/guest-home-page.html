@@ -1,56 +1,80 @@
-<div>
+<div class="content">
     <!-- Hero Section -->
-    <section class="hero text-center d-flex align-items-center justify-content-center">
-    <div class="hero-content text-white">
-        <h1>Welcome to Our Hotel</h1>
-        <p class="lead">Comfortable rooms, amazing service, unforgettable stay</p>
-        <a href="#rooms" class="btn btn-primary btn-lg">Explore Rooms</a>
-    </div>
+    <section class="hero-section">
+        <div class="hero-top">
+            <img class="img-fluid mb-5 hero-logo" src="/home/logo.png" alt="logo">
+        </div>
+        <div>
+            <h1>Welcome to MyRoomify!</h1>
+            <p class="lead">Comfortable rooms, amazing service, unforgettable stay</p>
+            <a routerLink="rooms" class="btn btn-explore btn-lg">Explore Rooms</a>
+        </div>
     </section>
 
     <!-- About Section -->
     <section class="about container mt-5">
-    <div class="row align-items-center">
+    <div class="row align-items-start">
         <div class="col-md-6">
-        <img src="/assets/hotel-about.jpg" class="img-fluid rounded" alt="About Us">
+            <img class="room-img mt-0" src="/home/room.jpg" alt="room">
         </div>
         <div class="col-md-6">
-        <h2>About Us</h2>
-        <p>Our hotel offers cozy rooms, premium amenities, and a location right in the heart of the city. Enjoy your stay with us and experience hospitality like never before!</p>
+            <h2 class="mb-4 mt-0"><strong>Welcome to the Island of Tranquility!</strong></h2>
+            <p><strong>MyRoomify</strong> is more than just a destination – it is a sanctuary from the rush of everyday life. 
+                Our grand lakeside lodge, nestled in the heart of the forest, 
+                awaits those who wish to escape the city noise and immerse themselves in the serenity of nature.</p>
+            <p class="mb-4"><strong>Why choose us?</strong></p>
+            <ul>
+                <li>
+                    <p><strong>Boutique Experience:</strong>
+                        Our manor features <strong>20 elegantly designed guest rooms</strong>, providing an intimate yet professional atmosphere for your stay.</p>
+                </li>
+                <li>
+                    <p><strong>Panoramic Views: </strong>
+                        Wake up in the comfort of our lodge to the sight of misty pine forests and the mirror-smooth lake right outside your window.</p>
+                </li>
+                <li>
+                    <p><strong>Heritage Meets Modernity: </strong>
+                        Enjoy the charm of traditional rustic architecture paired with high-end, modern interiors and premium amenities.</p>
+                </li>                
+            </ul>            
+            <p>Whether it’s a romantic weekend or a corporate retreat, our lodge offers the perfect environment for complete rejuvenation.</p>
         </div>
     </div>
     </section>
 
     <!-- Rooms Section -->
-    <section id="rooms" class="container mt-5">
-    <h2 class="mb-4 text-center">Our Rooms</h2>
-    <div class="row g-4">
-        <div class="col-md-4" *ngFor="let room of rooms">
-        <div class="card h-100 shadow-sm">
-            <img [src]="room.image || '/rooms/room.png'" class="card-img-top" alt="Room Image">
-            <div class="card-body">
-            <h5 class="card-title">{{ room.name }}</h5>
-            <p class="card-text">{{ room.description }}</p>
-            <p class="card-text"><strong>Price:</strong> ${{ room.price }}</p>
-            <p class="card-text">
-                <strong>Status:</strong>
-                <span [class.text-success]="room.is_available" [class.text-danger]="!room.is_available">
-                {{ room.is_available ? 'Available' : 'Not available' }}
-                </span>
-            </p>
+    <section id="rooms" class="full-width-section mt-5 py-5">
+        <div class="container">
+            <h2 class="section-title text-center mb-5"><strong>Our Signature Rooms</strong></h2>
+            <div class="row g-4">
+                <div class="col-md-4" *ngFor="let room of rooms">
+                    <div class="card room-card h-100 shadow-sm border-0">
+                        <div class="room-img-wrapper">
+                            <img [src]="room.image || '/rooms/room_inside.jpg'" class="card-img-top" alt="Room Image">
+                        </div>
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-bold">{{ room.name }}</h5>
+                            <p class="card-text text-muted small">{{ room.description }}</p>
+                            <div class="room-price-tag">${{ room.price }}<span>/night</span></div>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="status-badge isAvailable" [class.available]="room.is_available">
+                                    {{ room.is_available ? 'Available' : 'Full' }}
+                                </span>
+                                <button class="btn btn-sm btn-outline-dark rounded-pill px-3">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        </div>
-    </div>
     </section>
 
     <!-- Contact Section -->
-    <section class="contact bg-light mt-5 p-5">
+    <section class="contact mt-5 p-5">
     <div class="container text-center">
-        <h2>Contact Us</h2>
-        <p>123 Main Street, City, Country</p>
-        <p>Email: info@ourhotel.com | Phone: +36 20 123 4567</p>
-        <a href="mailto:info@ourhotel.com" class="btn btn-primary mt-3">Send Us an Email</a>
+        <h2 class="mb-4">Contact Us</h2>
+        <p class="mb-2">Glenview Lodge, 12 Lochside Way, Aviemore, Scotland</p>
+        <p>Email: info@myroomify.com | Phone: +36 20 123 4567</p>
     </div>
     </section>
 

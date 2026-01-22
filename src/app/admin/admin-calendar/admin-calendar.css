@@ -19,6 +19,7 @@ full-calendar {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  flex-grow: 1
 }
 
 :host ::ng-deep .fc .fc-button-primary {
@@ -51,6 +52,7 @@ full-calendar {
     transform: scale(1.02);
 }
 
+/*Modal*/
 .modal-header{
     background-color: #134e4a;
     color: white;
@@ -71,8 +73,4 @@ full-calendar {
     min-height: 550px;
     display: flex;
     flex-direction: column;
-}
-
-full-calendar {
-    flex-grow: 1;
 }

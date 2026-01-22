@@ -49,7 +49,8 @@ export class AdminRoom implements OnInit{
     })
   }
 
-  // Get (R-read)
+  // Crud start
+  // read
   get(id:number){
     this.roomApi.getRoom$(id).subscribe({
       next: (result: any) => {
@@ -67,7 +68,7 @@ export class AdminRoom implements OnInit{
     })
   }
 
-  // Edit (U-update)
+  // edit
   edit() {
     if (this.roomForm.invalid) {
       Swal.fire('Hiba', 'Kérlek tölts ki minden kötelező mezőt!', 'warning')
@@ -92,6 +93,8 @@ export class AdminRoom implements OnInit{
       }
     })
   }
+  //Crud end
+
 
   // Alerts
   editSuccess(){

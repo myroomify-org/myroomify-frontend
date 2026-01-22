@@ -1,16 +1,16 @@
 <div class="container mb-5">
-    <h2 class="mt-5 mb-5">Users</h2>
+    <h2 class="mt-5 mb-5">Guests</h2>
     
     <!--Search-->
     <div class="row g-3 mb-4 align-items-end">
         <div class="col-md-4">
             <label class="form-label text-muted small">Search</label>
-            <input type="search" class="form-control" placeholder="Name, email or id..." (input)="onSearch($event)">
+            <input type="search" class="form-control" placeholder="Name, email or id...">
         </div>
 
         <div class="col-md-3">
             <label class="form-label text-muted small">Rendezés</label>
-            <select class="form-select" (change)="onSort($event)">
+            <select class="form-select">
                 <option value="id">Id (Default)</option>
                 <option value="name">Order by name (A-Z)</option>
             </select>
@@ -30,17 +30,17 @@
             </tr>
         </thead>
         <tbody>
-            @for(user of filteredUsers; track user.id) {
+            @for(guest of filteredGuests; track guest.id) {
                 <tr>
-                    <td data-column="Id: ">{{ user.id }}</td>
-                    <td data-column="User: ">{{ user.name }}</td>
-                    <td data-column="Name: ">{{ user.email }}</td>
-                    <td data-column="Email: ">{{ user.role }}</td>
+                    <td data-column="Id: ">{{ guest.id }}</td>
+                    <td data-column="User: ">{{ guest.name }}</td>
+                    <td data-column="Name: ">{{ guest.email }}</td>
+                    <td data-column="Email: ">{{ guest.role }}</td>
                     <!-- <td>
                         <button class="btn btn-edit btn-sm" (click)="about(user)" (click)="setShowModal()">About</button>
                     </td> -->
                     <td>
-                        <button class="btn btn-delete btn-sm" (click)="confirmDelete(user.id)">Delete</button>
+                        <!-- <button class="btn btn-delete btn-sm" (click)="confirmDelete(user.id)">Delete</button> -->
                     </td>
                 </tr>
             }
