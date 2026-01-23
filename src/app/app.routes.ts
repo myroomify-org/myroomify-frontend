@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { AdminLogin } from './admin/admin-login/admin-login';
 import { AdminNavbar } from './admin/admin-navbar/admin-navbar';
 import { AdminRooms } from './admin/admin-rooms/admin-rooms';
 import { AdminBookings } from './admin/admin-bookings/admin-bookings';
@@ -29,7 +28,6 @@ export const routes: Routes = [
         ]
     },
     { path: 'home', component: GuestHomePage },
-    // { path: 'login', component: AdminLogin },
     { path: 'navbar', component: AdminNavbar,
         children: [
             { path: '', redirectTo: 'calendar', pathMatch: 'full' },

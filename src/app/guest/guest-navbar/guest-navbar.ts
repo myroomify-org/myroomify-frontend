@@ -27,7 +27,8 @@ export class GuestNavbar {
   public authApi = inject(AdminAuthService)
 
   constructor(
-    private router: Router,    
+    private router: Router,
+    private aiuthApi: AdminAuthService    
   ) {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
@@ -38,7 +39,8 @@ export class GuestNavbar {
   }
 
   logout(): void {
-    this.authApi.logout();
-    this.router.navigate(['/login']);
+    this.authApi.logout$();
+    this.router.navigate(['/login'])
+    console.log('Logout successful!')
   }
 }

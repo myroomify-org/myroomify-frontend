@@ -7,11 +7,12 @@ import { BehaviorSubject, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class AdminAuthService {
-  private _isLoggedIn = new BehaviorSubject(false)
+  private _isLoggedIn = new BehaviorSubject<boolean>(!!localStorage.getItem('token'))
   isLoggedIn$ = this._isLoggedIn.asObservable()
 
-  private currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('user') || 'null'));
-  public currentUser$ = this.currentUserSubject.asObservable();
+  private currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('user') || 'null'))
+  public currentUser$ = this.currentUserSubject.asObservable()
+  
 
   //Api
   registerApi = "http://localhost:8000/api/auth/register/"
@@ -21,13 +22,6 @@ export class AdminAuthService {
     private http: HttpClient,
     private router: Router
   ) {}
-
-  loginSuccess(){
-    this._isLoggedIn.next(true)
-  }
-  logout(){
-    this._isLoggedIn.next(false)
-  }
 
   register$(data: any){
     return this.http.post(this.registerApi, data)
@@ -43,7 +37,8 @@ export class AdminAuthService {
           localStorage.setItem('token', token)
           localStorage.setItem('user', JSON.stringify(userData))
 
-          this.currentUserSubject.next(response.data.user)
+          this.currentUserSubject.next(userData)
+          this._isLoggedIn.next(true)
         }
       })
     );
@@ -52,7 +47,9 @@ export class AdminAuthService {
   logout$() {
     localStorage.removeItem('user')
     localStorage.removeItem('token')
+
     this.currentUserSubject.next(null)
+    this._isLoggedIn.next(false)
     this.router.navigate(['/login'])
   }
 }
