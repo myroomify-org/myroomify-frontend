@@ -56,8 +56,8 @@
 }
 
 .btn-explore {
-    background-color: #c3ae80; /* Aranybarna 90% opacity */
-    color: #364e43;
+    background-color: #ffffff25; /* Aranybarna 90% opacity */
+    color: #ffffff;
     border: none;
     padding: 12px 35px;
     border-radius: 30px;
@@ -67,7 +67,8 @@
 }
 
 .btn-explore:hover {
-    background-color: white;
+    color: black;
+    background-color: #ffffff95;
     transform: scale(1.05);
 }
 

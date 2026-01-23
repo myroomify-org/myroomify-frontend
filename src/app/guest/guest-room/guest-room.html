@@ -1,0 +1,83 @@
+<div class="full-width-section py-5" *ngIf="room; else loader">
+  <div class="container" style="margin-top: 80px;"> 
+    <nav aria-label="breadcrumb" class="mb-4">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/rooms" class="text-decoration-none">Rooms</a></li>
+        <li class="breadcrumb-item active text-muted">{{ room.name }}</li>
+      </ol>
+    </nav>
+
+    <div class="row g-5 align-items-start">
+      <div class="col-lg-8">
+        <div class="main-room-image shadow-sm mb-4">
+          <img [src]="room.image || '/rooms/room_inside.jpg'" [alt]="room.name" class="img-fluid rounded-4 w-100">
+        </div>
+
+        <h1 class="display-4 fw-bold mb-3">{{ room.name }}</h1>
+        <div class="d-flex gap-3 mb-4">
+          <span class="badge bg-soft-green text-dark px-3 py-2"><i class="bi bi-people"></i> {{ room.capacity }} Guests</span>
+        </div>
+
+        <div class="description-text lead mb-5">
+          {{ room.description }}
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card booking-card border-0 shadow-lg p-4 sticky-top" style="top: 110px;">
+          <h4 class="fw-bold mb-1">From ${{ room.price }}</h4>
+          <p class="text-muted small mb-4">per night, including breakfast</p>
+
+          <form>
+            <div class="booking-dates-container border rounded-3 mb-3">
+              <div class="d-flex align-items-center p-0">
+                <button type="button" mat-button [matMenuTriggerFor]="calendarMenu" #menuTrigger="matMenuTrigger"
+                  (click)="openCalendar(false)" class="filter-btn flex-grow-1 text-start border-0 py-2 px-3">
+                  <label class="small text-muted d-block">Check-in</label>
+                  <span class="fw-bold">{{ startDate ? (startDate | date:'MMM d') : 'Add date' }}</span>
+                </button>
+
+                <div class="date-separator-vertical"></div>
+
+                <button type="button" mat-button [matMenuTriggerFor]="calendarMenu"
+                  (click)="openCalendar(true)" class="filter-btn flex-grow-1 text-start border-0 py-2 px-3">
+                  <label class="small text-muted d-block">Check-out</label>
+                  <span class="fw-bold">{{ endDate ? (endDate | date:'MMM d') : 'Add date' }}</span>
+                </button>
+              </div>
+
+              <mat-menu #calendarMenu="matMenu" class="calendar-popover">
+                <div (click)="$event.stopPropagation()" class="p-2">
+                  <mat-calendar 
+                    (selectedChange)="onDateSelected($event)"
+                    [selected]="isChoosingCheckout ? endDate : startDate"
+                    [minDate]="today">
+                  </mat-calendar>
+                </div>
+              </mat-menu>
+            </div>
+            <div class="mb-4">
+              <label class="form-label small fw-bold">GUESTS</label>
+              <select class="form-select">
+                <option *ngFor="let i of [].constructor(room.capacity); let idx = index">{{ idx + 1 }} Person</option>
+              </select>
+            </div>
+            <button class="btn btn-dark-book w-100 py-3 rounded-pill fw-bold mb-3" [disabled]="!room.is_available">
+              {{ room.is_available ? 'Book This Room' : 'Currently Unavailable' }}
+            </button>
+          </form>
+          <p class="text-center text-muted x-small">No payment charged yet</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loader>
+  <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="text-center">
+      <div class="spinner-border text-success" role="status" style="width: 3rem; height: 3rem;"></div>
+      <p class="mt-3 text-muted fw-bold">Finding your highland retreat...</p>
+    </div>
+  </div>
+</ng-template>

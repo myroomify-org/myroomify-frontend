@@ -1,11 +1,75 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+
+// Material & UI
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { AdminAuthService } from '../shared/admin-auth-service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
-  imports: [],
+  standalone: true,
+  imports: [
+    CommonModule, ReactiveFormsModule, RouterModule,
+    MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule
+  ],
   templateUrl: './login.html',
-  styleUrl: './login.css',
+  styleUrl: './login.css'
 })
-export class Login {
 
+export class Login implements OnInit {
+  loginForm!: FormGroup;
+  hidePassword = true;
+
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authApi: AdminAuthService
+  ) {}
+
+  ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      login: ['', Validators.required],
+      password: ['', [Validators.required]]
+    });
+  }
+
+  onSubmit(): void {
+    if (this.loginForm.valid) {
+      this.authApi.login$(this.loginForm.value).subscribe({
+        next: (result: any) => {
+          console.log('Login successful!', result);
+          this.success();
+          this.router.navigate(['/home']);
+        },
+        error: (error: any) => {
+          console.error('Login error', error);
+          this.failed();
+        }
+      });
+    }
+  }
+
+  success() {
+    Swal.fire({
+      icon: 'success',
+      title: 'Welcome back!',
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+
+  failed() {
+    Swal.fire({
+      icon: 'error',
+      title: 'Login failed',
+      text: 'Invalid email or password.',
+      confirmButtonColor: '#2d4037'
+    });
+  }
 }

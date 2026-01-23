@@ -1,1 +1,87 @@
-<p>guest-rooms works!</p>
+<section id="rooms" class="full-width-section">
+  <div class="container">
+    <div class="text-center mb-5 mt-5">
+      <h2 class="section-title">Our Lochside Retreats</h2>
+      <p class="text-muted">Handpicked rooms with breathtaking views of the Highlands.</p>
+    </div>
+
+    <div class="search-filter-bar shadow-sm rounded-pill p-2 mb-5 bg-white border">
+      <div class="row align-items-center g-0 px-3">
+        
+        <div class="col-lg-6 d-flex align-items-center">
+          
+          <button mat-button [matMenuTriggerFor]="calendarMenu"  #menuTrigger="matMenuTrigger" 
+            (click)="openCalendar(false)" class="filter-btn flex-grow-1 text-start border-0">
+            <label class="small text-muted d-block">Check-in</label>
+            <span class="fw-bold">{{ startDate ? (startDate | date:'MMM d') : 'Add date' }}</span>
+          </button>
+
+          <div class="date-separator"></div>
+
+          <button mat-button [matMenuTriggerFor]="calendarMenu" #menuTrigger="matMenuTrigger"
+            (click)="openCalendar(true)" class="filter-btn flex-grow-1 text-start border-0">
+            <label class="small text-muted d-block">Check-out</label>
+            <span class="fw-bold">{{ endDate ? (endDate | date:'MMM d') : 'Add date' }}</span>
+          </button>
+
+          <mat-menu #calendarMenu="matMenu" class="calendar-popover">
+            <div (click)="$event.stopPropagation()" class="p-2">
+              <mat-calendar 
+                (selectedChange)="onDateSelected($event)"
+                [selected]="isChoosingCheckout ? endDate : startDate">
+              </mat-calendar>
+            </div>
+          </mat-menu>
+        </div>
+
+        <div class="col-lg-3 border-start ps-3">
+          <label class="small text-muted d-block">Guests</label>
+          <select class="form-select border-0 p-0 bg-transparent shadow-none fw-bold" [(ngModel)]="selectedGuests">
+            <option [value]="1">1 Person</option>
+            <option [value]="2">2 People</option>
+            <option [value]="3">3 People</option>
+            <option [value]="4">4+ People</option>
+          </select>
+        </div>
+
+        <div class="col-lg-3 text-end">
+          <button class="btn btn-dark-green rounded-pill w-100 py-3 fw-bold shadow-sm" (click)="searchRooms()">
+            Search
+          </button>
+        </div>
+
+      </div>
+    </div>
+    
+    <div class="row g-4">
+      @for (room of filteredRooms; track room.id) {
+        <div class="col-lg-4 col-md-6">
+          <div class="card room-card h-100 border-0 shadow-sm">
+            <div class="room-img-container">
+              <img [src]="room.image || '/rooms/room_inside.jpg'" 
+                   class="card-img-top" 
+                   [alt]="room.name">
+              <div class="room-badge" [class.booked]="!room.is_available">
+                {{ room.is_available ? 'Available' : 'Fully Booked' }}
+              </div>
+            </div>
+            <div class="card-body p-4">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <h5 class="card-title fw-bold mb-0">{{ room.name }}</h5>
+                <span class="room-price">£{{ room.price }}<small>/night</small></span>
+              </div>
+              <p class="card-text text-muted small mb-4">
+                {{ room.description }}
+              </p>
+              <div class="card-footer bg-transparent border-0 p-0">
+                <button class="btn btn-outline-dark w-100 rounded-pill" [disabled]="!room.is_available" (click)="navigate(room.id)">
+                  {{ room.is_available ? 'Book Now' : 'Check Dates' }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

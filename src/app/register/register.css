@@ -1,0 +1,57 @@
+
+.register-container {
+  min-height: 100vh;
+  background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.4)), url('/home/home.jpg');
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: Quicksand;
+  color: white
+}
+
+.glass-card {
+  width: 100%;
+  max-width: 900px;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.15); 
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  color: white;
+}
+
+.glass-card h2, .glass-card p {
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+::ng-deep .mat-mdc-text-field-wrapper {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border-radius: 8px !important;
+}
+
+.btn-register {
+  background-color: #2d4037 !important;
+  color: white !important;
+  padding: 12px 0;
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-family: Quicksand;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.btn-register:hover {
+  background-color: white !important;
+  color: #2d4037 !important;
+  padding: 12px 0;
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-family: Quicksand;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  cursor: pointer;
+}

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg" [ngClass]="{'navbar-solid': !isSpecialPage, 'navbar-transparent': isSpecialPage}">
     <div class="container-fluid">
         <div class="nav-left"></div>
         <div class="collapse navbar-collapse justify-content-center nav-center" id="navbarNav">
@@ -18,8 +18,20 @@
             </ul>
         </div>
         <div class="auth-buttons d-flex align-items-center nav-right">
-            <a routerLink="login" class="nav-link login-text">Login</a>
-            <a routerLink="register" class="btn-register">Register</a>
+            <ng-container *ngIf="!(authApi.currentUser$ | async)">
+                <button routerLink="/login" class="user-profile-btn">Login</button>
+                <button routerLink="/register" class="user-profile-btn">Register</button>
+            </ng-container>
+
+            <ng-container *ngIf="authApi.currentUser$ | async as user">
+                <button [matMenuTriggerFor]="userMenu" class="user-profile-btn">
+                    <mat-icon>account_circle</mat-icon>
+                {{ user.name }} </button>
+                
+                <mat-menu #userMenu="matMenu">
+                    <button class="btn btn-logout" (click)="authApi.logout()">Logout</button>
+                </mat-menu>
+            </ng-container>
         </div>
     </div>
 </nav>

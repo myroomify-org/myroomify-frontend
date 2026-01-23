@@ -4,7 +4,6 @@
     left: 0;
     width: 100%;
     z-index: 1000;
-    background-color: transparent !important;
     height: 100px;
     display: flex;
     align-items: center;
@@ -12,6 +11,22 @@
     font-size: 25px;
     font-weight: medium;
     font-family: 'Quicksand';
+    transition: all 0.4s ease-in-out;
+}
+
+.navbar-transparent {
+    background-color: transparent;
+}
+
+.navbar-solid {
+    background-color: #333833;
+    height: 80px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-solid a {
+    color: #fcfbf7;
+    text-shadow: none;
 }
 
 .navbar .container-fluid {
@@ -69,24 +84,19 @@ a:hover {
     color: white;
     font-weight: bold;
     cursor: pointer;
-    background-color: #c3ae8094;
+    background-color: #ffffff25;
+    border: #ffffff;
+    border-width: 1px;
     border-radius: 12px;
     padding: 8px 20px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-a:active {
-    background-color: #c3ae80 !important;
-    color: #ffffff !important;
-    border-radius: 12px;
-    padding: 8px 20px !important;
-    font-weight: bold;
-    text-shadow: none;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
 
 .navbar .nav .nav-link.active {
-    background-color: #c3ae8094 !important;
+    background-color: #ffffff25 !important;
+    border: #ffffff;
+    border-width: 1px;
     color: #ffffff !important;
     border-radius: 0.5rem;
     padding: 0.5rem 1.5rem !important;
@@ -110,4 +120,53 @@ a:active {
     background: none;
     color: white;
     text-decoration: none;
+}
+
+/* Felhasználónév gomb alaphelyzetbe állítása (Material stílus törlése) */
+.user-profile-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: 'Quicksand';
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+    padding: 8px 20px;
+}
+
+.user-profile-btn:hover {
+    background-color: #ffffff25;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+}
+
+.user-profile-btn mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+}
+
+::ng-deep .mat-mdc-menu-panel {
+    background-color: #333833 !important;
+    border-radius: 12px !important;
+}
+
+::ng-deep .mat-mdc-menu-item {
+    color: white !important;
+    font-family: 'Quicksand' !important;
+}
+
+.btn-logout {
+    color: white;
+    margin-left: 15px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap: 8px;
 }

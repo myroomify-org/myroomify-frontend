@@ -1,1 +1,104 @@
-<p>register works!</p>
+<div class="register-container">
+  <div class="glass-card shadow mt-5">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">Register</h2>
+      <p>Create your account for the full experience</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      
+      <h5>Personal Details</h5>
+      <!-- Full name -->
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="first_name">
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="last_name">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div class="row">
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Country</mat-label>
+            <input matInput formControlName="country_name">
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>City</mat-label>
+            <input matInput formControlName="city_name">
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Postal code</mat-label>
+            <input matInput formControlName="postal_code">
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Address</mat-label>
+            <input matInput formControlName="address">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <h5>Contact Details</h5>
+      <!-- Contact -->
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Phone</mat-label>
+        <input matInput formControlName="phone">
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-100 mb-2">
+        <mat-label>Email Address</mat-label>
+        <input matInput formControlName="email" type="email">
+        <mat-icon matSuffix>email</mat-icon>
+      </mat-form-field>
+
+      <h5>Login Details</h5>
+      <!-- Login -->
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100 mb-2">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+            <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword">
+              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100 mb-4">
+            <mat-label>Confirm Password</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password_confirmation">
+            <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword">
+              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <button mat-flat-button class="btn-register w-100 rounded-pill" [disabled]="registerForm.invalid">
+        CREATE ACCOUNT
+      </button>
+
+      <div class="text-center mt-4">
+        <span class="small">Already have an account? <a routerLink="/login" class="text-white fw-bold">Login</a></span>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,1 +1,26 @@
-<p>login works!</p>
+<div class="register-container">
+  <div class="glass-card shadow mt-5">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">Login</h2>
+      <p>Create your account for the full experience</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Username or Email</mat-label>
+            <input matInput formControlName="login">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100 mb-2">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+          <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <button mat-flat-button class="btn-login w-100 rounded-pill" [disabled]="loginForm.invalid">
+          LOGIN
+        </button>
+    </form>
+  </div>
+</div>

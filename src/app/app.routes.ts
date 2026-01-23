@@ -14,6 +14,7 @@ import { GuestRooms } from './guest/guest-rooms/guest-rooms';
 import { GuestGallery } from './guest/guest-gallery/guest-gallery';
 import { Login } from './login/login';
 import { Register } from './register/register';
+import { GuestRoom } from './guest/guest-room/guest-room';
 
 export const routes: Routes = [
     { path: '', component: GuestNavbar,
@@ -21,6 +22,7 @@ export const routes: Routes = [
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: GuestHomePage },
             { path: 'rooms', component: GuestRooms },
+            { path: 'rooms/:id', component: GuestRoom },
             { path: 'gallery', component: GuestGallery },
             { path: 'login', component: Login },
             { path: 'register', component: Register },

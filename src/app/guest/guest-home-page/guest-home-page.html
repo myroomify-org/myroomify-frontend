@@ -7,7 +7,7 @@
         <div>
             <h1>Welcome to MyRoomify!</h1>
             <p class="lead">Comfortable rooms, amazing service, unforgettable stay</p>
-            <a routerLink="rooms" class="btn btn-explore btn-lg">Explore Rooms</a>
+            <button class="btn btn-explore btn-lg" (click)="navigateRooms()">Explore Rooms</button>
         </div>
     </section>
 
@@ -60,7 +60,7 @@
                                 <span class="status-badge isAvailable" [class.available]="room.is_available">
                                     {{ room.is_available ? 'Available' : 'Full' }}
                                 </span>
-                                <button class="btn btn-sm btn-outline-dark rounded-pill px-3">View Details</button>
+                                <button class="btn btn-sm btn-outline-dark rounded-pill px-3" (click)="navigateRoom(room.id)">View Details</button>
                             </div>
                         </div>
                     </div>

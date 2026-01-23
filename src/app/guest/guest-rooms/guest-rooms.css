@@ -1,0 +1,133 @@
+
+.full-width-section {
+    background-color: #f9f7f2;
+    padding: 100px 0;
+    font-family: Quicksand;
+}
+
+.section-title {
+    color: #333833;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.room-card {
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.room-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12) !important;
+}
+
+.room-img-container {
+    position: relative;
+    height: 260px;
+    overflow: hidden;
+}
+
+.room-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.room-card:hover .room-img-container img {
+    transform: scale(1.05);
+}
+
+.room-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #2d4037;
+}
+
+.room-badge.booked {
+    background: #e9ecef;
+    color: #6c757d;
+}
+
+.room-price {
+    font-weight: 700;
+    color: #c3ae80;
+    font-size: 1.2rem;
+}
+
+.room-price small {
+    font-size: 0.7rem;
+    color: #999;
+    text-transform: uppercase;
+}
+
+.search-filter-bar {
+    background: white;
+    border: 1px solid #eee;
+    margin-top: -30px;
+    z-index: 10;
+    position: relative;
+}
+
+.text-gold {
+    color: #c3ae80;
+    font-size: 1.2rem;
+}
+
+.btn-dark-green {
+    background-color: #2d4037;
+    color: white;
+    transition: all 0.3s;
+}
+
+.btn-dark-green:hover {
+    background-color: #364e43;
+    transform: translateY(-2px);
+}
+
+.form-select:focus, .form-control:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.search-filter-bar {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.date-separator {
+    width: 1px;
+    height: 30px;
+    background-color: #dee2e6;
+    margin: 0 10px;
+}
+
+.filter-btn {
+    font-family: Quicksand;
+    font-size: 16px;
+    padding: 8px 15px !important;
+    border-radius: 12px !important;
+    line-height: 1.2 !important;
+}
+
+.filter-btn:hover {
+  background-color: #f8f9fa !important;
+}
+
+.mat-mdc-button {
+  --mdc-filled-button-container-color: transparent;
+}
+
+::ng-deep .calendar-popover {
+  min-width: 320px !important;
+  border-radius: 15px !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+}
+
