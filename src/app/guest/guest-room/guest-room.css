@@ -108,3 +108,8 @@ h1 {
 ::ng-deep .cdk-overlay-container {
   z-index: 9999 !important;
 }
+
+::ng-deep .mat-calendar {
+    background-color: #ffffff !important;
+    border-radius: 15px;
+}
