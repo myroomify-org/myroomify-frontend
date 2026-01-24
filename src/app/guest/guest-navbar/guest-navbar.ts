@@ -38,6 +38,10 @@ export class GuestNavbar {
     });
   }
 
+  profile(): void {
+    this.router.navigate(['/profile'])
+  }
+
   logout(): void {
     this.authApi.logout$();
     this.router.navigate(['/login'])

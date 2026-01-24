@@ -29,6 +29,7 @@
                 {{ user.name }} </button>
                 
                 <mat-menu #userMenu="matMenu">
+                    <button type="button" class="btn btn-logout" (click)="profile()">Profile</button>
                     <button type="submit" class="btn btn-logout" (click)="logout()">Logout</button>
                 </mat-menu>
             </ng-container>
