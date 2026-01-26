@@ -156,7 +156,7 @@ export class GuestRoom implements OnInit{
       error: (error:any) => {
         this.failed()
       }
-    })
+      })
   }
 
   success() {

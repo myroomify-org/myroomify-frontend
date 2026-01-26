@@ -22,7 +22,15 @@ export class UserBookingService {
     return this.http.get(this.url, {headers: this.getHeaders$()})
   }
 
+  getBooking$(){
+    return this.http.get(this.url, {headers: this.getHeaders$()})
+  }
+
   addBooking$(data: any){
     return this.http.post(this.url, data, {headers: this.getHeaders$()})
+  }
+
+  editBooking$(id:number, data: any){
+    return this.http.put(this.url + id, data, {headers: this.getHeaders$()})
   }
 }

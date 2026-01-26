@@ -1,0 +1,245 @@
+.container{
+    font-family: Quicksand;
+    margin-top: 50px;
+}
+
+.profile-wrapper {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    padding-top: 80px;
+}
+
+.content-card, .profile-nav {
+    background: white;
+    border-radius: 16px;
+    border: none;
+}
+
+/* Avatar */
+.avatar-placeholder {
+    width: 60px;
+    height: 60px;
+    background: #2d4037;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+
+/* NAvigation */
+.list-group-item.active {
+    background-color: #f0f4f2 !important;
+    color: #2d4037 !important;
+    font-weight: 600;
+}
+
+/* Text*/
+.label-minimal {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #999;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.data-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Booking */
+.booking-item {
+    border: 1px solid #f0f0f0;
+    border-radius: 12px;
+    transition: all 0.2s;
+}
+
+.booking-item:hover {
+    border-color: #c3ae80;
+    background-color: #fffdf9;
+}
+
+.room-icon {
+    width: 45px;
+    height: 45px;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    color: #2d4037;
+}
+
+/* Satus */
+.status-pill {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-pill[data-status="pending"] {
+    background: #fff8e1;
+    color: #fbc02d;
+}
+
+/* Buttons */
+.btn-edit-minimal {
+    background: none;
+    border: 1px solid #eee;
+    padding: 6px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.btn-edit-minimal:hover {
+    background: #2d4037;
+    color: white;
+}
+
+.btn-cancel-icon {
+    background: none;
+    border: none;
+    color: #ff5252;
+    font-size: 20px;
+    padding: 0;
+    transition: 0.2s;
+}
+
+.btn-cancel-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Inputs */
+.form-control-custom {
+    border: 1px solid #eee;
+    padding: 12px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.form-control-custom:focus {
+    border-color: #c3ae80;
+    box-shadow: 0 0 0 0.25 row rgba(195, 174, 128, 0.1);
+}
+
+/* Buttons */
+.btn-save {
+    background: #2d4037;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 25px;
+    font-weight: 600;
+}
+
+.btn-cancel-text {
+    background: transparent;
+    color: #666;
+    border: none;
+    font-weight: 500;
+}
+
+/* Animation*/
+.animate-fade-in {
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* NAvigation */
+.list-group-item-action {
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.list-group-item-action:hover {
+    background-color: #f8f9fa;
+}
+
+.btn-save{
+    background: #2d4037;
+    color: white;
+}
+
+.btn-cancel{
+    background: #ffffff;
+    color: rgb(0, 0, 0);
+}
+
+
+/*Mat menu*/
+.date-separator {
+    width: 1px;
+    height: 30px;
+    background-color: #dee2e6;
+    margin: 0 10px;
+}
+
+.filter-btn {
+    font-family: Quicksand;
+    font-size: 16px;
+    padding: 8px 15px !important;
+    border-radius: 12px !important;
+    line-height: 1.2 !important;
+}
+
+.filter-btn:hover {
+  background-color: #f8f9fa !important;
+}
+
+.mat-mdc-button {
+  --mdc-filled-button-container-color: transparent;
+}
+
+::ng-deep .calendar-popover {
+  min-width: 320px !important;
+  border-radius: 15px !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+}
+
+::ng-deep .cdk-overlay-container {
+  z-index: 9999 !important;
+}
+
+::ng-deep .mat-calendar {
+    background-color: #ffffff !important;
+    border-radius: 15px;
+}
+
+.price-display {
+    line-height: 1.2;
+}
+
+.text-success {
+    color: #2d4037 !important;
+}
+
+.price-display .fw-bold:empty::before {
+    content: "Invalid dates";
+    color: #dc3545;
+    font-size: 0.8rem;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.border-top.border-warning {
+  border-top-width: 3px !important;
+}

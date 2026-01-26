@@ -14,6 +14,7 @@ import { GuestGallery } from './guest/guest-gallery/guest-gallery';
 import { Login } from './login/login';
 import { Register } from './register/register';
 import { GuestRoom } from './guest/guest-room/guest-room';
+import { GuestProfile } from './guest/guest-profile/guest-profile';
 
 export const routes: Routes = [
     { path: '', component: GuestNavbar,
@@ -23,6 +24,7 @@ export const routes: Routes = [
             { path: 'rooms', component: GuestRooms },
             { path: 'rooms/:id', component: GuestRoom },
             { path: 'gallery', component: GuestGallery },
+            { path: 'profile', component: GuestProfile },
             { path: 'login', component: Login },
             { path: 'register', component: Register },
         ]

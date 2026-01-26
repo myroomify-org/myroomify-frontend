@@ -74,7 +74,7 @@ export class GuestRooms {
     console.log('Keresett létszám:', guestCount);
     console.log('Összes szoba:', this.rooms);
     this.filteredRooms = this.rooms.filter(room => {
-      const matchesCapacity = room.capacity >= guestCount
+      const matchesCapacity = room.capacity == guestCount
       const isAvailable = room.is_available
       return matchesCapacity && isAvailable
     })
