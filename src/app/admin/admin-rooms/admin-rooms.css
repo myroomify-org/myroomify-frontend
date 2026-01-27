@@ -1,100 +1,88 @@
-/*Page*/
-.container{
-    font-family: Quicksand;
-}
+/* Rooms Dashboard Speciális stílusok */
 
-h2{    
-    color: #364e43;
-    font-size: 45px;
-    font-weight: bold;
-}
-
-/*Card*/
-.card{
-    height: 100%;
-    width: 100%;
-    border-width: 1px;
-    border-color: #364e43; 
-    border-radius: 20px;
-    overflow: hidden  
-}
-
-.card-img-top{
-    max-height: 250px;
-    object-fit: cover;
-}
-
-h5{
-    color: #364e43;
-    font-size: 25px;
-    font-weight: bold;
-}
-
-.card-text{
-    color: #364e43;
-    font-size: 15px;
-    font-weight: medium;
-}
-
-/*Edit button*/
-.btn-edit{
-    color: #ffffff;
-    font-family: 'Quicksand medium';
-    font-size: 15px;
-    background-color: #c3ae80;
-}
-
-.btn-edit:hover{
-    background-color: rgb(255, 255, 255);
-    border-width: 1px;
-    border-color: #c3ae80;
+.add-room-card {
+    border: 2px dashed #c3ae80;
+    background-color: #fcfbf7;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 250px;
     color: #c3ae80;
 }
 
-/*Add button*/
-.btn-add{
+.add-room-card:hover {
+    background-color: #f4f1e8;
+    transform: scale(1.02);
+}
+
+.plus-circle {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #c3ae80;
+    border-radius: 50%;
     display: flex;
+    align-items: center;
     justify-content: center;
-    color: #364e43;
-    font-size: 200px;
-    font-weight: medium;
-    border-color: #364e43; 
-    border-style: dashed;
+    font-size: 1.5rem;
+    margin: 0 auto;
+}
+
+.room-card {
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.room-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.price-tag {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #2d4037;
+    color: #c3ae80;
+    padding: 5px 12px;
     border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 2;
 }
 
-.btn-add:hover{
-    background: #364e43;
-    color: #ffffff;
+.badge-info-light {
+    background-color: #f0f2f1;
+    color: #2d4037;
+    font-weight: 500;
+    padding: 6px 10px;
 }
 
-.btn-add-green{
-    background: #364e43;
-    color: #ffffff;
+.btn-edit-minimal {
+    background: transparent;
+    border: 1px solid #2d4037;
+    color: #2d4037;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    padding: 6px;
+    transition: all 0.2s;
 }
 
-/*Delete button*/
-.btn-delete{
-    background: #bb5127;
-    color: #ffffff;
-    margin-left: 5px;
+.btn-edit-minimal:hover {
+    background: #2d4037;
+    color: #c3ae80;
 }
 
-.btn-delete:hover{
-    background-color: rgb(255, 255, 255);
-    border-width: 1px;
-    border-color: #bb5127;
-    color: #bb5127;
+.btn-delete-danger {
+    background-color: #881c27;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 15px;
+    transition: all 0.2s ease-in-out;
 }
 
-.modal-title{
-    font-size: 30px;
-}
-
-.modal-btn{
-    font-size: 20px;
-}
-
-.modal-body{
-    font-size: 20px;
+.btn-delete-danger:hover {
+    background-color: #eb172c;
+    color: white;
+    transform: scale(1.05);
 }

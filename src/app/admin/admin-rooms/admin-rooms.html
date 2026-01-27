@@ -1,56 +1,106 @@
-<div class="container mb-5">
-    <h2 class="mt-5 mb-5">Rooms</h2>
+<div class="container py-5 animate-fade-in">
+    <div class="text-center mb-5">
+        <h1 class="section-title m-0 mb-3">Room Management</h1>
+        <p class="text-muted d-none d-md-block">Manage your hotel inventory and pricing.</p>
+    </div>
+
+    <div class="btn-group mt-3 shadow-sm rounded-pill p-1 bg-light mb-2">
+        <button class="btn rounded-pill px-4" 
+                [class.btn-dark-green]="currentView === 'active'"
+                (click)="switchView('active')">
+            Active Rooms ({{ activeCount }})
+        </button>
+        <button class="btn rounded-pill px-4" 
+                [class.btn-danger]="currentView === 'deleted'"
+                (click)="switchView('deleted')">
+            <i class="bi bi-trash me-1"></i> Archived ({{ deletedCount }})
+        </button>
+    </div>
+
     <div class="row g-4">
-        <div class="col-lg-3 col-md-6 col-12 mb-5">
-            <button type="button" class="btn btn-add h-100 w-100 d-flex align-items-center justify-content-center" (click)="setShowModal()">
-                <span>+</span>
-            </button>
-        </div> 
-        <div class="col-lg-3 col-md-6 col-12 mb-5" *ngFor="let card of cards">
-            <div class="card">
-                <img src="/rooms/room.png" class="card-img-top" alt="Illustration">
-                <div class="card-body">
-                    <h5 class="card-title">{{ card.name }}</h5>
-                    <p class="card-text">{{ card.description }}</p>
-                    <a class="btn btn-edit mt-1 mb-3 mr-3" (click)="edit(card.id)">Edit</a>
-                    <a class="btn btn-delete mt-1 mb-3" (click)="confirmDelete(card.id)">Delete</a>
+        <div class="col-lg-3 col-md-6 col-12" *ngIf="currentView === 'active'">
+            <div class="add-room-card h-100 shadow-sm d-flex align-items-center justify-content-center" 
+                [class.disabled-card]="!canAddRoom()"
+                (click)="canAddRoom() ? setShowModal() : showLimitMessage()">
+                <div class="text-center">
+                    <div class="plus-circle mb-2">{{ canAddRoom() ? '+' : '!' }}</div>
+                    <span class="fw-bold">{{ canAddRoom() ? 'Add New Room' : 'Limit Reached' }}</span>
+                    <small class="d-block text-muted" *ngIf="!canAddRoom()">(20/20 slots used)</small>
                 </div>
             </div>
-        </div>               
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-12" *ngFor="let card of cards">
+            <div class="room-card card h-100 border-0 shadow-sm overflow-hidden">
+                <div class="price-tag">{{ card.price | number }} Ft / night</div>
+                <img src="/rooms/room_inside.jpg" class="card-img-top" alt="Room illustration">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-dark">{{ card.name }}</h5>
+                    <p class="card-text text-muted small mb-3">{{ card.description | slice:0:60 }}...</p>
+                    
+                    <div class="d-flex gap-2 mb-4">
+                        <span class="badge badge-info-light">
+                            <i class="bi bi-people-fill me-1"></i> {{ card.capacity }} Pers.
+                        </span>
+                        <span class="badge badge-info-light">
+                            <i class="bi bi-door-closed me-1"></i> No. {{ card.id }}
+                        </span>
+                    </div>
+
+                    <div class="d-flex gap-2 border-top pt-3 mt-auto">
+                        <ng-container *ngIf="currentView === 'active'">
+                            <button class="btn btn-edit-minimal flex-grow-1" (click)="edit(card.id)">Edit</button>
+                            <button class="btn btn-delete-danger" (click)="confirmDelete(card.id)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </ng-container>
+
+                        <ng-container *ngIf="currentView === 'deleted'">
+                            <button class="btn btn-success flex-grow-1" (click)="restoreRoom(card.id)">
+                                <i class="bi bi-arrow-counterclockwise me-1"></i> Restore Room
+                            </button>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>                
     </div>
 
     @if(showModal){
-    Modal
-    <div class="modal fade show" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: block;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title" id="exampleModalLabel">Add room</h1>
-                    <button type="button" class="btn-close" (click)="cancel()" aria-label="Close"></button>
+    <div class="modal fade show d-block" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-header bg-dark-green text-white p-4">
+                    <h5 class="modal-title gold-text">{{ isEditing ? 'Edit Room' : 'Add New Room' }}</h5>
+                    <button type="button" class="btn-close btn-close-white" (click)="cancel()"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body p-4">
                     <form [formGroup]="cardForm" (ngSubmit)="addCard()" id="cardForm">
-                        <div>
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" id="cardForm" formControlName="name" class="form-control">
+                        <div class="mb-3">
+                            <label class="label-minimal">Room Name / Number</label>
+                            <input type="text" formControlName="name" class="form-control form-control-custom" placeholder="e.g. Deluxe Suite 101">
                         </div>
-                        <div>
-                            <label for="capacity" class="form-label">Capacity</label>
-                            <input type="number" id="cardForm" formControlName="capacity" class="form-control">
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label class="label-minimal">Capacity (Persons)</label>
+                                <input type="number" formControlName="capacity" class="form-control form-control-custom">
+                            </div>
+                            <div class="col-6">
+                                <label class="label-minimal">Price (HUF / night)</label>
+                                <input type="number" formControlName="price" class="form-control form-control-custom">
+                            </div>
                         </div>
-                        <div>
-                            <label for="price" class="form-label">Price</label>
-                            <input type="number" id="cardForm" formControlName="price" class="form-control">
-                        </div>
-                        <div>
-                            <label for="description" class="form-label">Description</label>
-                            <input type="text" id="cardForm" formControlName="description" class="form-control">
+                        <div class="mb-3">
+                            <label class="label-minimal">Description</label>
+                            <textarea formControlName="description" class="form-control form-control-custom" rows="3" placeholder="Tell something about the room..."></textarea>
                         </div>
                     </form>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary modal-btn" (click)="cancel()">Back</button>
-                        <button type="submit" class="btn btn-add-green modal-btn" form="cardForm">Add</button>
-                    </div>           
+                </div>
+                <div class="modal-footer border-0 p-4 pt-0">
+                    <button type="button" class="btn btn-light rounded-pill px-4" (click)="cancel()">Cancel</button>
+                    <button type="submit" class="btn btn-dark-green px-4 shadow-sm" form="cardForm">
+                        {{ isEditing ? 'Save Changes' : 'Create Room' }}
+                    </button>
                 </div>
             </div>
         </div>

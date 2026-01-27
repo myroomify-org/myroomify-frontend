@@ -1,16 +1,18 @@
-
+/* Full page */
 .full-width-section {
     background-color: #f9f7f2;
     padding: 100px 0;
     font-family: Quicksand;
 }
 
+/* Title */
 .section-title {
     color: #333833;
     font-size: 40px;
     font-weight: bold;
 }
 
+/* Room cards*/
 .room-card {
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     border-radius: 15px;
@@ -68,6 +70,7 @@
     text-transform: uppercase;
 }
 
+/* Search Field bar */
 .search-filter-bar {
     background: white;
     border: 1px solid #eee;
@@ -81,6 +84,7 @@
     font-size: 1.2rem;
 }
 
+/* Search button */
 .btn-dark-green {
     background-color: #2d4037;
     color: white;
@@ -102,6 +106,7 @@
     margin: 0 auto;
 }
 
+/* Calendar */
 .date-separator {
     width: 1px;
     height: 30px;

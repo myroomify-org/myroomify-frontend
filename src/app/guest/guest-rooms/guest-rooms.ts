@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
-// mat imports
+// Mat imports
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
@@ -58,6 +58,7 @@ export class GuestRooms {
     this.getRooms()
   }
 
+  // read
   getRooms(): void {
     this.apiRooms.getRooms$().subscribe({
       next: (result: any) => {
@@ -69,10 +70,12 @@ export class GuestRooms {
     });
   }
 
+  // Search Field
+  // Number of guests
   searchRooms(): void {
     const guestCount = Number(this.selectedGuests)
-    console.log('Keresett létszám:', guestCount);
-    console.log('Összes szoba:', this.rooms);
+    console.log('Number of guests:', guestCount);
+    console.log('All rooms:', this.rooms);
     this.filteredRooms = this.rooms.filter(room => {
       const matchesCapacity = room.capacity == guestCount
       const isAvailable = room.is_available
@@ -86,6 +89,7 @@ export class GuestRooms {
     }, 100)
   }
 
+  // Calendar
   openCalendar(forCheckout: boolean) {
     this.isChoosingCheckout = forCheckout
   }
@@ -112,6 +116,7 @@ export class GuestRooms {
       }
     }, 150);
   }
+  // Search Field end
 
   navigate(id:number){
     this.router.navigate(['/rooms/' + id])

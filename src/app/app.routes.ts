@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { AdminNavbar } from './admin/admin-navbar/admin-navbar';
 import { AdminRooms } from './admin/admin-rooms/admin-rooms';
 import { AdminBookings } from './admin/admin-bookings/admin-bookings';
-import { AdminAccount } from './admin/admin-account/admin-account';
 import { AdminRoom } from './admin/admin-room/admin-room';
 import { AdminCalendar } from './admin/admin-calendar/admin-calendar';
 import { AdminUsers } from './admin/admin-users/admin-users';
@@ -15,6 +14,7 @@ import { Login } from './login/login';
 import { Register } from './register/register';
 import { GuestRoom } from './guest/guest-room/guest-room';
 import { GuestProfile } from './guest/guest-profile/guest-profile';
+import { AdminProfile } from './admin/admin-profile/admin-profile';
 
 export const routes: Routes = [
     { path: '', component: GuestNavbar,
@@ -29,17 +29,16 @@ export const routes: Routes = [
             { path: 'register', component: Register },
         ]
     },
-    { path: 'home', component: GuestHomePage },
-    { path: 'navbar', component: AdminNavbar,
+    { path: 'admin', component: AdminNavbar,
         children: [
             { path: '', redirectTo: 'calendar', pathMatch: 'full' },
             { path: 'calendar', component: AdminCalendar },
             { path: 'rooms', component: AdminRooms },
-            { path: 'room/:id', component: AdminRoom },
+            { path: 'rooms/:id', component: AdminRoom },
             { path: 'bookings', component: AdminBookings },            
             { path: 'users', component: AdminUsers },
             { path: 'guests', component: AdminGuests },
-            { path: 'account', component: AdminAccount }, 
+            { path: 'profile', component: AdminProfile }, 
          ]
     },     
 ];

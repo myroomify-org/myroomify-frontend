@@ -12,7 +12,6 @@ interface CardData {
   capacity: number,
   description: string,
   price: number,
-  equipment: string,
   status: string,
 }
 
@@ -30,6 +29,14 @@ export class AdminRooms {
   rooms: any
   showModal = false
   cards: CardData[] = []
+  isEditing = false
+
+  currentView: 'active' | 'deleted' = 'active'
+  allRooms: any[] = []
+  card: any[] = []
+
+  activeCount: number = 0
+  deletedCount: number = 0
 
   constructor(
     private build: FormBuilder,
@@ -49,97 +56,104 @@ export class AdminRooms {
   }
 
   // Card
-  addCard(){
-    const cardData = {
-      image: this.cardForm.value.image,
-      name: this.cardForm.value.name,      
-      capacity: Number(this.cardForm.value.capacity),
-      description: this.cardForm.value.description,
-      price: Number(this.cardForm.value.price),
-      is_available: Number(this.cardForm.value.is_available)
+  addCard() {
+    if (this.cardForm.invalid) {
+      this.failed("Please fill all required fields correctly.")
+      return
     }
 
-    const { image, ...backendPayload } = cardData;
-    
-    this.cardForm.reset()
+    const payload = {
+      ...this.cardForm.value,
+      capacity: Number(this.cardForm.value.capacity),
+      price: Number(this.cardForm.value.price)
+    };
+
+    this.roomApi.addRoom$(payload).subscribe({
+      next: (result: any) => {
+        this.success("Room added successfully!")
+        this.get()
+        this.cancel()
+      },
+      error: (error: any) => this.failed("Failed to add room.")
+    })
   }
 
   // Crud start
   // read
-  get(){
+  get() {
     this.roomApi.getRooms$().subscribe({
       next: (result: any) => {
-        console.log(result)
-        this.cards = result.data
-        this.rooms = result.data     
+        this.allRooms = result.data;
+        this.updateCounts()
+        this.filterCards()
       },
-      error: (err: any) => {
-        console.log(err)
-      } 
+      error: (err: any) => console.error('Error getting rooms', err)
     })
   }
 
-  // Add (C-create)
-  // add(data: any) {
-  //   this.roomApi.addRoom$(data).subscribe({
-  //     next: (result: any) => {
-  //       console.log(result)
-  //       this.get()
-  //       this.showModal = false
-  //       this.cardForm.reset()
-  //     },
-  //     error: (err: any) => {
-  //       console.log(err)
-  //     }
-  //   })
-  // }
+  switchView(view: 'active' | 'deleted') {
+    this.currentView = view
+    this.filterCards()
+  }
+
+  filterCards() {
+    if (this.currentView === 'active') {
+      this.cards = this.allRooms.filter(r => !r.deleted_at)
+    } else {
+      this.cards = this.allRooms.filter(r => r.deleted_at)
+    }
+  }
+
+  updateCounts() {
+    this.activeCount = this.allRooms.filter(r => !r.deleted_at).length
+    this.deletedCount = this.allRooms.filter(r => r.deleted_at).length
+  }
+
+  restoreRoom(id: number) {
+    this.roomApi.restoreRoom$(id).subscribe({
+      next: (res: any) => {
+        this.success('Room restored successfully')
+        this.get()
+      },
+      error: (err: any) => {
+        this.failed('Error restoring room')
+      }
+    })
+  }
+
+  canAddRoom(): boolean {
+    return this.allRooms.length < 20
+  }
 
   // delete
   delete(id: number) {
     this.roomApi.deleteRoom$(id).subscribe({
-      next: (result: any) => {
-        console.log(result)
-        this.cards = this.cards.filter((card: CardData) => card.id !== id)
+      next: () => {
+        this.cards = this.cards.filter(c => c.id !== id)
+        this.success("Room deleted successfully")
         this.get()
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Your room has been deleted",
-          showConfirmButton: false,
-          timer: 2500
-        });
       },
-      error: (err: any) => {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Oops, something went wrong",
-          showConfirmButton: false,
-          timer: 2500
-        });
-      }
+      error: () => this.failed("Delete failed")
     })
   }
 
-  confirmDelete(id: number){
+  confirmDelete(id: number) {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: "This room will be permanently removed.",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#bb5127",
-      cancelButtonColor: "rgba(0, 0, 0, 1)",
-      confirmButtonText: "Delete"
+      confirmButtonColor: "#2d4037",
+      cancelButtonColor: "#000",
+      confirmButtonText: "Yes, delete it!"
     }).then((result) => {
-      if (result.isConfirmed) {
-        this.delete(id)
-      }
-    });
+      if (result.isConfirmed) this.delete(id)
+    })
   }
 
   // edit
   edit(id: number) {
-    this.router.navigate(['/navbar/room', id])
+    this.router.navigate(['/admin/rooms/', id])
   }
 
   // Crud end
@@ -149,9 +163,36 @@ export class AdminRooms {
     this.showModal = true
   }
 
+  showLimitMessage() {
+    Swal.fire({
+      icon: 'info',
+      title: 'Limit reached',
+      text: 'You have reached the maximum of 20 rooms. Please restore a deleted room or edit an existing one.',
+      confirmButtonColor: '#2d4037'
+    })
+  }
+
   cancel(){
     this.showModal = false
     this.cardForm.reset()
+  }
+
+  success(response: any) {
+    Swal.fire({
+      icon: 'success',
+      title: response,
+      showConfirmButton: false,
+      timer: 1500
+    })
+  }
+  
+  failed(response: any) {
+    Swal.fire({
+      icon: 'error',
+      title: response,
+      text: 'Your booking could not be completed.',
+      confirmButtonColor: '#2d4037'
+    })
   }
 }
 

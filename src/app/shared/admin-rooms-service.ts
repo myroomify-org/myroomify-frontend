@@ -23,6 +23,10 @@ export class AdminRoomsService {
     return this.http.post(this.url, data)
   }
 
+  restoreRoom$(id:number,){
+    return this.http.post(this.url + id + "/restore", {})
+  }
+
   addImage$(id: number, data: any){
     return this.http.post(this.url + id + "/images", data)
   }

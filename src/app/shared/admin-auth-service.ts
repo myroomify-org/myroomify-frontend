@@ -7,9 +7,11 @@ import { BehaviorSubject, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class AdminAuthService {
+  //login state
   private _isLoggedIn = new BehaviorSubject<boolean>(!!localStorage.getItem('token'))
   isLoggedIn$ = this._isLoggedIn.asObservable()
 
+  //current user
   private currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('user') || 'null'))
   public currentUser$ = this.currentUserSubject.asObservable()
   
@@ -23,6 +25,17 @@ export class AdminAuthService {
     private router: Router
   ) {}
 
+  // Role
+  getRole(): string {
+    return this.currentUserSubject.value?.role || 'guest';
+  }
+
+  hasRole(allowedRoles: string[]): boolean {
+    const userRole = this.getRole();
+    return allowedRoles.includes(userRole);
+  }
+
+  // User methods
   register$(data: any){
     return this.http.post(this.registerApi, data)
   }

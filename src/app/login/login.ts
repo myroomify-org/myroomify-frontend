@@ -33,6 +33,12 @@ export class Login implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if (this.authApi.getRole() !== 'guest') {
+      const role = this.authApi.getRole();
+      const target = role === 'customer' ? '/home' : '/admin/profile';
+      this.router.navigate([target]);
+    }
+
     this.loginForm = this.fb.group({
       login: ['', Validators.required],
       password: ['', [Validators.required]]
@@ -45,7 +51,15 @@ export class Login implements OnInit {
         next: (result: any) => {
           console.log('Login successful!', result);
           this.success();
-          this.router.navigate(['/home']);
+
+          // Itt dől el az irány!
+          const role = this.authApi.getRole();
+          
+          if (role === 'customer') {
+            this.router.navigate(['/home']); 
+          } else {
+            this.router.navigate(['/admin/profile']); 
+          }
         },
         error: (error: any) => {
           console.error('Login error', error);

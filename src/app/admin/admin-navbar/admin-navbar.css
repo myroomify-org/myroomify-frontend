@@ -1,33 +1,65 @@
+/*  Full Navbar */
 .navbar {
-    background-image: url("/login/login_background.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
     height: 100px;
-    align-items: center;
-    justify-content: center;
     display: flex;
-    flex-direction: column;
-    text-align: center;
-    color: #c3ae80;
+    align-items: center;
+    border: none;
     font-size: 25px;
     font-weight: medium;
     font-family: 'Quicksand';
+    transition: all 0.4s ease-in-out;
 }
 
-.navbar-logo {
-    height: 50px;
-    width: auto;
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
-    margin-right: 2rem; 
-    margin-left: 50px;
+/* Background and colors */
+.navbar-solid {
+    background-color: #333833;
+    height: 80px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.navbar-nav .nav-link {
-    color: #e4edea;
-    font-weight: 500;
-    margin: 0 1.2rem;
-    text-decoration: none;
+.navbar-solid a {
+    color: #fcfbf7;
+    text-shadow: none;
+}
+
+.navbar .container-fluid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Left, Center, Right */
+.nav-left {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.nav-center {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+/*  Navigation */
+.navbar-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
 .navbar-nav .nav-item:last-child .nav-link {
@@ -39,21 +71,108 @@
 }
 
 a {
-    color: #c3ae80;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: 'Quicksand';
+    margin: 0 1.5rem;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
 }
 
 a:hover { 
-    color: rgb(255, 255, 255);
+    color: white;
     font-weight: bold;
     cursor: pointer;
+    background-color: #ffffff25;
+    border: #ffffff;
+    border-width: 1px;
+    border-radius: 12px;
+    padding: 8px 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
+
 .navbar .nav .nav-link.active {
-    background-color: #c3ae80 !important;
-    color: #364e43 !important;
+    background-color: #ffffff25 !important;
+    border: #ffffff;
+    border-width: 1px;
+    color: #ffffff !important;
     border-radius: 0.5rem;
     padding: 0.5rem 1.5rem !important;
     font-weight: bold;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+/* User profile button */
+.user-profile-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: 'Quicksand';
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+    padding: 8px 20px;
+}
+
+.user-profile-btn:hover {
+    background-color: #ffffff25;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+}
+
+.user-profile-btn mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    color: #c3ae80;
+}
+
+::ng-deep .mat-mdc-menu-panel {
+    background-color: #333833 !important;
+    border-radius: 12px !important;
+}
+
+::ng-deep .mat-mdc-menu-item {
+    color: white !important;
+    font-family: 'Quicksand' !important;
+}
+
+::ng-deep .mat-icon {
+    color: #c3ae80 !important;
+}
+
+/* Logout button */
+.btn-logout {
+    color: white;
+    margin-left: 15px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap: 8px;
+}
+
+/* Role */
+.role-badge {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #c3ae80;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    margin-left: 8px;
+    border: 1px solid rgba(195, 174, 128, 0.3);
+}
+
+/* Main content */
+.admin-main-content {
+    margin-top: 100px; 
+    padding: 20px;
+}

@@ -1,37 +1,55 @@
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg navbar-solid">
     <div class="container-fluid">
-        <img class="navbar-logo" src="/login/login_logo.png" alt="logo">
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="nav">
+        <div class="nav-left">
+            </div>
+        
+        <div class="collapse navbar-collapse justify-content-center nav-center" id="navbarNav">
+            <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link"  routerLink="calendar"
-                    routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Calendar</a>
+                    <a class="nav-link" routerLink="dashboard" routerLinkActive="active">Dashboard</a>
                 </li>
+                
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="rooms"
-                    routerLinkActive="active">Rooms</a>
+                    <a class="nav-link" routerLink="rooms" routerLinkActive="active">Rooms</a>
                 </li>
+                
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="bookings"
-                    routerLinkActive="active">Bookings</a>
+                    <a class="nav-link" routerLink="bookings" routerLinkActive="active">Bookings</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="users"
-                    routerLinkActive="active">Users</a>
+
+                <li class="nav-item" *ngIf="authApi.hasRole(['admin', 'superadmin'])">
+                    <a class="nav-link" routerLink="guests" routerLinkActive="active">Guests</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="users"
-                    routerLinkActive="active">Guests</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="account"
-                    routerLinkActive="active">Account</a>
+
+                <li class="nav-item" *ngIf="authApi.hasRole(['superadmin'])">
+                    <a class="nav-link" routerLink="users" routerLinkActive="active">Users</a>
                 </li>
             </ul>
         </div>
+
+        <div class="auth-buttons d-flex align-items-center nav-right">
+            <ng-container *ngIf="authApi.currentUser$ | async as user">
+                <button [matMenuTriggerFor]="userMenu" class="user-profile-btn">
+                    <mat-icon>account_circle</mat-icon>
+                    {{ user.name }}
+                    <small class="role-badge">{{ user.role }}</small>
+                </button>
+                
+                <mat-menu #userMenu="matMenu">
+                    <button mat-menu-item (click)="profile()">
+                        <mat-icon>person</mat-icon>
+                        <span>Profile</span>
+                    </button>
+                    <button mat-menu-item (click)="logout()">
+                        <mat-icon>logout</mat-icon>
+                        <span>Logout</span>
+                    </button>
+                </mat-menu>
+            </ng-container>
+        </div>
     </div>
 </nav>
-<main>
+
+<main class="admin-main-content">
     <router-outlet></router-outlet> 
 </main>
-

@@ -23,6 +23,10 @@ export class AdminUserService {
     return this.http.post(this.url, data)
   }
 
+  editUser$(id:number, data: any){
+    return this.http.put(this.url + id, data)
+  }
+
   deleteUser$(id: number){
     return this.http.delete(this.url + id)
   }

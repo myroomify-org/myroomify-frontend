@@ -1,55 +1,123 @@
-/*Page*/
-.container{
+.container {
     font-family: Quicksand;
 }
 
-h2{    
-    color: #364e43;
-    font-size: 45px;
+.table-dark-green {
+    background-color: #2d4037;
+}
+
+.section-title{
     font-weight: bold;
 }
 
-.bookingTable th{
-    vertical-align: top;
+.table-dark-green th {
+    color: #c3ae80 !important;
+    border: none;
+    padding: 15px 10px;
 }
 
-/*Add-button*/
-.btn-add{
-    background-color: #364e43;
-    color: #ffffff;
-    font-weight: medium;
+.role-dropdown {
+    max-width: 150px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    font-size: 0.85rem;
 }
 
-.btn-add:hover{
-    background-color: rgb(255, 255, 255);
-    border-width: 1px;
-    border-color: #364e43;
-    color: #364e43;
-}
-
-/*Edit button*/
-.btn-edit{
-    color: #ffffff;
-    background-color: #c3ae80;
-}
-
-.btn-edit:hover{
-    background-color: rgb(255, 255, 255);
-    border-width: 1px;
+.role-dropdown:focus {
     border-color: #c3ae80;
+    box-shadow: 0 0 0 0.25rem rgba(195, 174, 128, 0.25);
+}
+
+.btn-delete {
+    background-color: #bb5127;
+    color: white;
+    border-radius: 8px;
+    padding: 5px 15px;
+    transition: all 0.3s ease;
+}
+
+.btn-delete:hover {
+    background-color: #a04421;
+    transform: translateY(-2px);
+}
+
+
+.s-18 {
+    font-size: 18px !important;
+    width: 18px !important;
+    height: 18px !important;
+}
+
+.mat-icon{
+    display: inline-flex;
+    align-items: center;
+}
+
+.is-staff {
+  background-color: rgba(45, 64, 55, 0.02) !important;
+  border-left: 4px solid #c3ae80;
+}
+
+.is-staff td:first-child {
+  font-weight: bold;
+  color: #2d4037;
+}
+
+
+.is-me {
+    border-left: 6px solid #2d4037 !important;
+    background-color: rgba(45, 64, 55, 0.08) !important;
+}
+
+.bg-dark-green {
+    background-color: #2d4037;
     color: #c3ae80;
+    border: 1px solid #c3ae80;
 }
 
-/*Delete button*/
-.btn-delete{
-    background: #bb5127;
-    color: #ffffff;
-    margin-left: 5px;
+/* admin-users.css */
+
+.custom-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Sötétített háttér */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+    backdrop-filter: blur(4px); /* Modern üveghatás */
 }
 
-.btn-delete:hover{
-    background-color: rgb(255, 255, 255);
-    border-width: 1px;
-    border-color: #bb5127;
-    color: #bb5127;
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 15px;
+    border: 1px solid #c3ae80; /* Arany szegély */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #c3ae80;
+    padding: 1rem 1.5rem;
+    border-radius: 15px 15px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-dark-green {
+    background-color: #2d4037;
+    color: #c3ae80;
+    border: 1px solid #c3ae80;
+    transition: all 0.3s;
+}
+
+.btn-dark-green:hover {
+    background-color: #c3ae80;
+    color: #2d4037;
 }
