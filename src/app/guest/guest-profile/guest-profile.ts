@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { UserBookingService } from '../../shared/user-booking-service';
-import { UserProfileService } from '../../shared/user-profile-service';
+import { MeBookingService } from '../../shared/me/me-booking-service';
+import { MeProfileService  } from '../../shared/me/me-profile-service';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+
+// Mat imports
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -40,8 +42,8 @@ export class GuestProfile implements OnInit {
   showPasswordFields: boolean = false
 
   constructor(
-    private bookingApi: UserBookingService,
-    private profileApi: UserProfileService
+    private bookingApi: MeBookingService,
+    private profileApi: MeProfileService
   ) {}
 
   ngOnInit(): void {

@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AdminRoomsService } from '../../shared/admin-rooms-service';
+import { AdminRoomsService } from '../../shared/admin/admin-rooms-service';
 import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-admin-room',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './admin-room.html',
   styleUrl: './admin-room.css',
 })
 export class AdminRoom implements OnInit{
-  [x: string]: any;
+  [x: string]: any
 
   roomId!: number
   roomForm: any
@@ -45,7 +46,6 @@ export class AdminRoom implements OnInit{
       capacity: [null],
       description: [''],
       price: [null],
-      is_available: [1]
     })
   }
 
@@ -59,7 +59,6 @@ export class AdminRoom implements OnInit{
           capacity: result.data.capacity,
           description: result.data.description,
           price: result.data.price,
-          is_available: result.data.is_available
         })
       },
       error: (err) => {
@@ -87,9 +86,9 @@ export class AdminRoom implements OnInit{
     console.log(payload)
 
     this.roomApi.editRoom$(this.roomId, payload).subscribe({
-      next: () => this.editSuccess(),
+      next: () => this.success(),
       error: err => {
-        this.editFailed()
+        this.failed()
       }
     })
   }
@@ -97,7 +96,7 @@ export class AdminRoom implements OnInit{
 
 
   // Alerts
-  editSuccess(){
+  success(){
     Swal.fire({
       position: "center",
       icon: "success",
@@ -107,14 +106,14 @@ export class AdminRoom implements OnInit{
     })
   }
 
-  editFailed(){
+  failed(){
     Swal.fire({
       position: "center",
       icon: "error",
       title: "Oops, something went wrong",
       showConfirmButton: false,
       timer: 2500
-    });
+    })
   }
 
   // Navigation
@@ -129,8 +128,8 @@ export class AdminRoom implements OnInit{
       confirmButtonText: "Go back to rooms"
     }).then((result) => {
       if (result.isConfirmed) {
-        this.router.navigate(['navbar/rooms'])
+        this.router.navigate(['admin/rooms'])
       }
-    });
+    })
   }
 }

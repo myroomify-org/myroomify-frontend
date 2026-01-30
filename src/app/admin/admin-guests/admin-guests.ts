@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AdminGuestService } from '../../shared/admin-guest-service';
+import { AdminGuestService } from '../../shared/admin/admin-guest-service';
 
 @Component({
   selector: 'app-admin-guests',
@@ -25,23 +25,6 @@ export class AdminGuests {
       name: [''],
       email: [''],
       role: [''],
-    })
-  }
-
-
-  // Crud start
-  // read
-  getUsers(){
-    this.guestApi.getGuests$().subscribe({
-      next: (result: any) => {
-        console.log(result)
-        this.guests = result.data
-        console.log(this.guests)
-        this.filteredGuests = result.data
-      },
-      error: (err: any) => {
-        console.log(err)
-      } 
     })
   }
 }

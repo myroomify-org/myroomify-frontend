@@ -1,7 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { AdminRoomsService } from '../../shared/admin-rooms-service';
+import { AuthService } from '../../shared/auth/auth-service';
+import { firstValueFrom } from 'rxjs';
+import { MeBookingService } from '../../shared/me/me-booking-service';
+import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
+import { PublicRoomService } from '../../shared/public/public-room-service';
+
 
 // mat imports
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -9,11 +15,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { AdminAuthService } from '../../shared/admin-auth-service';
-import { firstValueFrom } from 'rxjs';
-import { UserBookingService } from '../../shared/user-booking-service';
-import { FormsModule } from '@angular/forms';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-guest-room',
@@ -47,9 +48,9 @@ export class GuestRoom implements OnInit{
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private apiRooms: AdminRoomsService,
-    private authApi: AdminAuthService,
-    private bookingApi: UserBookingService,
+    private roomApi: PublicRoomService,
+    private bookingApi: MeBookingService,
+    private authApi: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -60,40 +61,40 @@ export class GuestRoom implements OnInit{
   }
 
   getRoom(id: number): void {
-    this.apiRooms.getRoom$(id).subscribe({
+    this.roomApi.getRoom$(id).subscribe({
       next: (result: any) => {
         console.log(result)
         this.room = result?.data || result
         this.loading = false
       },
-      error: (err) => {
-        console.error('Error loading room details', err)
+      error: (error:any) => {
+        console.error('Error loading room details', error)
         this.loading = false
       }
     });
   }
 
   onDateSelected(date: Date | null) {
-    if (!date) return;
+    if (!date) return
 
     if (!this.isChoosingCheckout) {
       this.startDate = date;
       if (this.endDate && this.startDate > this.endDate) {
-        this.endDate = null;
+        this.endDate = null
       }
     } else {
       if (this.startDate && date < this.startDate) {
-        this.startDate = date;
-        this.endDate = null;
+        this.startDate = date
+        this.endDate = null
       } else {
-        this.endDate = date;
+        this.endDate = date
       }
     }
     setTimeout(() => {
       if (this.menuTrigger) {
-        this.menuTrigger.closeMenu();
+        this.menuTrigger.closeMenu()
       }
-    }, 150);
+    }, 150)
   }
 
   private formatDate(date: Date): string {
@@ -124,18 +125,18 @@ export class GuestRoom implements OnInit{
     const user = userJson ? JSON.parse(userJson) : null
 
     if (!user || !user.id) {
-      alert('Hiba: Nem található felhasználói azonosító. Jelentkezz be újra!')
-      return;
+      this.warning("You must be logged in to book a room.")
+      return
     }
 
     if (!isLoggedIn) {
       localStorage.setItem('pending_booking_room_id', this.room.id)
       this.router.navigate(['/login'])
-      return;
+      return
     }
 
     if (!this.startDate || !this.endDate) {
-      this.warning()
+      this.warning("Please select check-in and check-out dates.")
       return
     }
 
@@ -150,39 +151,40 @@ export class GuestRoom implements OnInit{
 
     this.bookingApi.addBooking$(bookingData).subscribe({
       next: (result:any) => {
-        this.success()
+        this.success("Room has been successfully booked.")
         this.router.navigate(['/me/bookings'])
       },
       error: (error:any) => {
-        this.failed()
+        this.failed("Failed to book room.")
       }
       })
   }
 
-  success() {
+  // Alerts
+  success(text: string) {
     Swal.fire({
       icon: 'success',
-      title: 'Booking successful!',
+      title: text,
       showConfirmButton: false,
       timer: 1500
-    });
+    })
   }
 
-  warning() {
+  warning(text: string) {
     Swal.fire({
       icon: 'warning',
-      title: 'Please select check-in and check-out dates',
+      title: text,
       showConfirmButton: true,
       confirmButtonColor: '#2d4037'
-    });
+    })
   }
 
-  failed() {
+  failed(text: string) {
     Swal.fire({
       icon: 'error',
-      title: 'Booking failed',
+      title: text,
       text: 'Your booking could not be completed.',
       confirmButtonColor: '#2d4037'
-    });
+    })
   }
 }

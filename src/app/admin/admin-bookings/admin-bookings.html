@@ -1,154 +1,193 @@
-<div class="container mb-5">
-    <h2 class="mt-5 mb-5">Bookings</h2>
-    
-    <div class="row g-3 mb-4 align-items-end">
-        <!--Search-->
-        <div class="col-md-4">
-            <label class="form-label text-muted small">Search</label>
-            <input type="search" class="form-control" placeholder="Name, email or id..." (input)="onSearch($event)">
-        </div>
-
-        <div class="col-md-3">
-            <label class="form-label text-muted small">Rendezés</label>
-            <select class="form-select" (change)="onSort($event)">
-                <option value="id">Id (Default)</option>
-                <option value="guest_name">Order by name (A-Z)</option>
-                <option value="check_in">Check-in date</option>
-                <option value="status">Order by status</option>
-            </select>
-        </div>
-
-        <!--Add booking-->
-        <div class="col-md-5 text-end">
-            <button type="button" class="btn btn-add" (click)="setShowModal()">
-                <i class="bi bi-plus-lg"></i> Add booking
-            </button>
-        </div>
+<div class="container py-5 animate-fade-in">
+  <div class="d-flex justify-content-between align-items-center mb-5">
+    <div>
+      <h1 class="section-title m-0">Booking Management</h1>
+      <p class="text-muted">Overview and management of all guest reservations.</p>
     </div>
-    
-    <!--Booking table-->
-    <table class="table table-striped bookingTable">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <!-- <th>User</th> -->
-                <th>Room</th>
-                <th>Check-in</th>
-                <th>Check-out</th>
-                <th>Booking type</th>
-                <th>Status</th>
-                <th>Payment status</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th></th>
-                <th></th>
-            </tr>
+    <button class="btn btn-dark-green rounded-pill px-4 shadow-sm" (click)="setShowModal()">
+      <i class="bi bi-plus-lg me-2"></i>New Reservation
+    </button>
+  </div>
+
+  <div class="card border-0 shadow-sm rounded-4 mb-4">
+    <div class="card-body p-3">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="input-group">
+            <span class="input-group-text bg-transparent border-end-0"><i class="bi bi-search"></i></span>
+            <input type="text" class="form-control border-start-0 ps-0 form-control-custom" 
+                   placeholder="Search by name, email or ID..." (input)="onSearch($event)">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input-group">
+            <span class="input-group-text bg-transparent border-end-0 text-muted small"><i class="bi bi-funnel"></i></span>
+            <select class="form-select form-control-custom border-start-0 ps-0" (change)="filterByStatus($event)">
+              <option value="all">All Statuses</option>
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <select class="form-select form-control-custom" (change)="onSort($event)">
+            <option value="id">Sort by ID</option>
+            <option value="guest_name">Sort by Guest Name</option>
+            <option value="check_in">Sort by Arrival</option>
+            <option value="room">Sort by Room</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0 text-dark">
+        <thead class="bg-light text-uppercase small fw-bold">
+          <tr>
+            <th class="ps-4">ID</th>
+            <th>Guest Details</th>
+            <th>Room</th>
+            <th>Stay Period</th>
+            <th>Status</th>
+            <th class="text-end pe-4">Actions</th>
+          </tr>
         </thead>
         <tbody>
-            @for(booking of filteredBookings; track booking.id) {
-                <tr>
-                    <td data-column="Id: ">{{ booking.id }}</td>
-                    <!-- <td data-column="User: ">{{ booking.user.name }}</td> -->
-                    <td data-column="Room: ">{{ booking.room.name }}</td>
-                    <td data-column="Check-in: ">{{ booking.check_in | date:'shortDate' }}</td>
-                    <td data-column="Check-out: ">{{ booking.check_out | date:'shortDate' }}</td>
-                    <td data-column="Booking type: ">{{ booking.booking_type }}</td>
-                    <td data-column="Status: ">{{ booking.status }}</td>
-                    <td data-column="Payment status: ">{{ booking.payment_status }}</td>
-                    <td data-column="Name: ">{{ booking.guest_name }}</td>
-                    <td data-column="Email: ">{{ booking.guest_email }}</td>
-                    <td data-column="Phone: ">{{ booking.guest_phone }}</td>
-                    <td>
-                        <button class="btn btn-edit btn-sm" (click)="getForEdit(booking)" (click)="setShowModal()">Edit</button>
-                    </td>
-                    <td>
-                        <button class="btn btn-delete btn-sm" (click)="confirmDelete(booking.id)">Delete</button>
-                    </td>
-                </tr>
-            }
+          <tr *ngFor="let booking of filteredBookings">
+            <td class="ps-4 fw-bold">#{{ booking.id }}</td>
+            <td>
+              <div class="d-flex flex-column">
+                <span class="fw-bold text-dark">
+                  {{ booking.guest_name || booking.user?.name || 'No Name Provided' }}
+                </span>
+                <small class="text-muted">
+                  {{ booking.guest_email || booking.user?.email || 'No Email' }}
+                </small>
+              </div>
+            </td>
+            <td>
+              <span class="badge badge-info-light border text-dark">{{ booking.room?.name || 'Unassigned' }}</span>
+            </td>
+            <td>
+              <div class="small fw-bold text-dark">{{ booking.check_in | date:'yyyy. MM. dd.' }}</div>
+              <div class="small text-muted">{{ booking.check_out | date:'yyyy. MM. dd.' }}</div>
+            </td>
+            <td>
+              <span class="badge p-2 px-3 rounded-pill" 
+                [class.bg-success-subtle]="booking.status === 'confirmed'"
+                [class.text-success]="booking.status === 'confirmed'"
+                [class.bg-warning-subtle]="booking.status === 'pending'"
+                [class.text-warning]="booking.status === 'pending'"
+                [class.bg-danger-subtle]="booking.status === 'cancelled'"
+                [class.text-danger]="booking.status === 'cancelled'">
+                {{ booking.status | titlecase }}
+              </span>
+            </td>
+            <td class="text-end pe-4">
+              <button class="btn btn-action me-2" (click)="getForEdit(booking)"><i class="bi bi-pencil-square"></i></button>
+              <button class="btn btn-action text-danger" (click)="confirmCancel(booking.id)"><i class="bi bi-trash"></i></button>
+            </td>
+          </tr>
         </tbody>
-    </table>
-
-    <!--Modal-->
-    @if(showModal){
-    
-    <div class="modal fade show" id="operatorModal" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: block">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">
-                @if(addMode) {
-                    Add
-                } @else {
-                    Edit
-                }
-            </h1>
-            <button type="button" class="btn-close" (click)="cancel()"></button>
-            </div>
-            <div class="modal-body">
-                <form id="bookingForm" [formGroup]="bookingForm" (ngSubmit)="save()">
-                    <div>
-                        <label for="id" class="form-label">Id</label>
-                        <input type="text" class="form-control" id="id" formControlName="id" readonly>
-                    </div>
-                    <!-- <div>
-                        <label for="user" class="form-label">User</label>
-                        <select class="form-select" id="user" formControlName="user">
-                            @for(user of users; track user.id){
-                                <option [ngValue]="user.id">{{ user.name }}</option>
-                            }
-                        </select>
-                    </div> -->
-                    <div>
-                        <label for="room" class="form-label">Room</label>
-                        <select class="form-select" id="room" formControlName="room">
-                            @for(room of rooms; track room.id){
-                                <option [ngValue]="room.id">{{ room.name }}</option>
-                            }
-                        </select>
-                    </div>
-                    <div>
-                        <label for="check_in" class="form-label">Check-in</label>
-                        <input type="date" class="form-control" id="check_in" formControlName="check_in">
-                    </div>
-                    <div>
-                        <label for="check_out" class="form-label">Check-out</label>
-                        <input type="date" class="form-control" id="check_out" formControlName="check_out">
-                    </div>
-                    <div>
-                        <label for="booking_type" class="form-label">Booking type</label>
-                        <input type="text" class="form-control" id="booking_type" formControlName="booking_type">
-                    </div>
-                    <div>
-                        <label for="status" class="form-label">Status</label>
-                        <input type="text" class="form-control" id="status" formControlName="status">
-                    </div>
-                    <div>
-                        <label for="payment_status" class="form-label">Payment status</label>
-                        <input type="text" class="form-control" id="payment_status" formControlName="payment_status">
-                    </div>
-                    <div>
-                        <label for="guest_name" class="form-label">Guest name</label>
-                        <input type="text" class="form-control" id="guest_name" formControlName="guest_name">
-                    </div>
-                    <div>
-                        <label for="guest_email" class="form-label">Guest email</label>
-                        <input type="text" class="form-control" id="guest_email" formControlName="guest_email">
-                    </div>
-                    <div>
-                        <label for="guest_phone" class="form-label">Guest phone</label>
-                        <input type="text" class="form-control" id="guest_phone" formControlName="guest_phone">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light"  (click)="cancel()">Back</button>
-                <button type="submit" class="btn btn-add" form="bookingForm">Save</button>
-            </div>
-        </div>
-        </div>
+      </table>
     </div>
-    <div class="modal-backdrop fade show"></div>
-    }
+  </div>
 </div>
+
+@if(showModal){
+  <div class="modal fade show d-block" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        
+        <div class="modal-header" [class.bg-dark-green]="addMode" [class.bg-gold]="!addMode" [class.text-white]="addMode" [class.text-dark]="!addMode">
+          <h5 class="modal-title fw-bold">
+            <i class="bi me-2" [ngClass]="addMode ? 'bi-plus-circle' : 'bi-pencil-square'"></i>
+            {{ addMode ? 'Create New Booking' : 'Edit Booking #' + bookingForm.get('id')?.value }}
+          </h5>
+          <button type="button" class="btn-close" [class.btn-close-white]="addMode" (click)="cancel()"></button>
+        </div>
+
+        <div class="modal-body p-4 text-dark">
+          <form [formGroup]="bookingForm" id="bookingForm">
+            
+            <div class="row g-3">
+              <div class="col-md-12 mb-2">
+                <label class="label-minimal text-dark">Customer / Registered User</label>
+                <select formControlName="user_id" class="form-select form-control-custom">
+                  <option [value]="null">Select a user (Optional)</option>
+                  <option *ngFor="let user of users" [value]="user.id">
+                    {{ user.name }} ({{ user.email }})
+                  </option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label class="label-minimal text-dark">Guest Name</label>
+                <input type="text" formControlName="guest_name" class="form-control form-control-custom">
+              </div>
+              <div class="col-md-6">
+                <label class="label-minimal text-dark">Guest Email</label>
+                <input type="email" formControlName="guest_email" class="form-control form-control-custom">
+              </div>
+
+              <div class="col-md-6 mt-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Check-in Date</mat-label>
+                  <input matInput [matDatepicker]="pickerIn" formControlName="check_in">
+                  <mat-datepicker-toggle matIconSuffix [for]="pickerIn"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerIn></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6 mt-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Check-out Date</mat-label>
+                  <input matInput [matDatepicker]="pickerOut" formControlName="check_out">
+                  <mat-datepicker-toggle matIconSuffix [for]="pickerOut"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerOut></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6">
+                <label class="label-minimal text-dark">Room Selection</label>
+                <select formControlName="room_id" class="form-select form-control-custom">
+                  <option *ngFor="let room of rooms" [value]="room.id">{{ room.name }}</option>
+                </select>
+              </div>    
+              <div class="col-md-6">
+                <label class="label-minimal text-dark">Number of Guests</label>
+                <input type="number" formControlName="guest_count" class="form-control form-control-custom" min="1">
+              </div>
+
+              <div class="col-md-12">
+                <label class="label-minimal text-dark">Booking Status</label>
+                <select formControlName="status" class="form-select form-control-custom">
+                  <option value="pending">Pending</option>
+                  <option value="confirmed">Confirmed</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer border-0 p-4 pt-0">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-4" (click)="cancel()">
+            Cancel
+          </button>
+          
+          <button type="button" 
+                  [class]="addMode ? 'btn btn-dark-green rounded-pill px-4 shadow-sm' : 'btn btn-gold rounded-pill px-4 shadow-sm'" 
+                  (click)="save()">
+            <i class="bi me-2" [ngClass]="addMode ? 'bi-plus-lg' : 'bi-save'"></i>
+            {{ addMode ? 'Create Reservation' : 'Update Reservation' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show"></div>
+}

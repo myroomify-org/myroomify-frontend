@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { AdminUserService } from '../../shared/admin-user-service';
+import { AdminUserService } from '../../shared/admin/admin-user-service';
 import { CommonModule } from '@angular/common';
-import { UserProfileService } from '../../shared/user-profile-service';
+import { MeProfileService } from '../../shared/me/me-profile-service';
 
 @Component({
   selector: 'app-admin-profile',
@@ -35,7 +35,7 @@ export class AdminProfile implements OnInit{
 
   constructor(
     private builder: FormBuilder,
-    private profileApi: UserProfileService,
+    private profileApi: MeProfileService,
   ) {}
 
   ngOnInit() {   

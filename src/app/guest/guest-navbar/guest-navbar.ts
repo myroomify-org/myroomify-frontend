@@ -7,7 +7,7 @@ import { filter } from 'rxjs';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { AdminAuthService } from '../../shared/admin-auth-service';
+import { AuthService } from '../../shared/auth/auth-service';
 
 @Component({
   selector: 'app-guest-navbar',
@@ -24,11 +24,11 @@ import { AdminAuthService } from '../../shared/admin-auth-service';
 })
 export class GuestNavbar {
   isSpecialPage: boolean = true
-  public authApi = inject(AdminAuthService)
+  public authApi = inject(AuthService)
 
   constructor(
     private router: Router,
-    private aiuthApi: AdminAuthService    
+    // private authApi: AuthService    
   ) {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)

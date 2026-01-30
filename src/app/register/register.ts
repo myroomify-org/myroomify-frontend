@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../shared/auth/auth-service';
+import Swal from 'sweetalert2';
 
 // Mat imports
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { AdminAuthService } from '../shared/admin-auth-service';
-import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-register',
@@ -28,20 +29,23 @@ import Swal from 'sweetalert2';
 })
 
 export class Register implements OnInit {
-  registerForm!: FormGroup;
-  hidePassword = true;
 
+  // Variables
+  registerForm!: FormGroup
+  hidePassword = true
+
+  // Constructor
   constructor(
     private fb: FormBuilder, 
     private router: Router,
-    private authApi: AdminAuthService
+    private authApi: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.initForm();
+    this.initForm()
   }
 
-
+  // Register form
   private initForm(): void {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
@@ -59,48 +63,51 @@ export class Register implements OnInit {
       address: ['', Validators.required]
     }, {
       validators: this.passwordMatchValidator 
-    });
+    })
   }
 
+  // Password validator
   passwordMatchValidator(form: FormGroup) {
-    const password = form.get('password')?.value;
-    const password_confirmation = form.get('password_confirmation')?.value;
-    return password === password_confirmation ? null : { mismatch: true };
+    const password = form.get('password')?.value
+    const password_confirmation = form.get('password_confirmation')?.value
+    return password === password_confirmation ? null : { mismatch: true }
   }
 
+  // Registration submit
   onSubmit(): void {
     if (this.registerForm.valid) {
       this.authApi.register$(this.registerForm.value).subscribe({
         next: (result: any) => {
           console.log('Registration successful!', result)
           this.router.navigate(['/login'])
-          this.success()
+          this.success('Registration successful!')
         },
         error: (error: any) => {
           console.error('Error registering user', error)
-          this.failed()
+          this.failed('Registration failed!')
         }
       });
     }
   }
 
-  success(){
+  // Alerts
+  success(text: string){
     Swal.fire({
       position: "center",
       icon: "success",
-      title: "Registration successful!",
+      title: text,
       showConfirmButton: false,
       timer: 2500
     })
   }
 
-  failed(){
+  failed(text: string){
     Swal.fire({
       position: "center",
       icon: "error",
-      title: "Oops, something went wrong",
+      title: text,
       showConfirmButton: false,
       timer: 2500
-    });
+    })
   }
 }

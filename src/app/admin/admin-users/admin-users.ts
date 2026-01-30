@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import Swal from 'sweetalert2';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AdminUserService } from '../../shared/admin-user-service';
+import { AdminUserService } from '../../shared/admin/admin-user-service';
 import { CommonModule } from '@angular/common';
 
 // Mat imports

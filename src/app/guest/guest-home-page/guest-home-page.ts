@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { AdminRoomsService } from '../../shared/admin-rooms-service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { PublicRoomService } from '../../shared/public/public-room-service';
 
 @Component({
   selector: 'app-guest-home-page',
@@ -13,7 +13,7 @@ export class GuestHomePage {
   rooms: any[] = []
 
   constructor(
-    private apiRooms: AdminRoomsService,
+    private roomApi: PublicRoomService,
     private router: Router
   ) {}
 
@@ -22,12 +22,12 @@ export class GuestHomePage {
   }
 
   getRooms(): void {
-    this.apiRooms.getRooms$().subscribe({
+    this.roomApi.getRooms$().subscribe({
       next: (result: any) => {
         this.rooms = result.data.slice(0, 3)
         console.log(result)
       },
-      error: (err) => console.error('Error getting rooms', err)
+      error: (error:any) => console.error('Error getting rooms', error)
     });
   }
 

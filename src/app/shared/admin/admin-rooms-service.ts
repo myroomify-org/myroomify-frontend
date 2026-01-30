@@ -5,12 +5,14 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class AdminRoomsService {
+  // Api
   url = "http://localhost:8000/api/admin/rooms/"
 
   constructor(
     private http: HttpClient
   ){}
 
+  // Get
   getRooms$(){
     return this.http.get(this.url)
   }
@@ -19,6 +21,7 @@ export class AdminRoomsService {
     return this.http.get(this.url + id)
   }
 
+  // Add
   addRoom$(data: any){
     return this.http.post(this.url, data)
   }
@@ -27,14 +30,12 @@ export class AdminRoomsService {
     return this.http.post(this.url + id + "/restore", {})
   }
 
-  addImage$(id: number, data: any){
-    return this.http.post(this.url + id + "/images", data)
-  }
-
+  // Edit
   editRoom$(id: number, data: any){
     return this.http.put(this.url + id, data)
   }
 
+  // Delete
   deleteRoom$(id: number){
     return this.http.delete(this.url + id)
   }

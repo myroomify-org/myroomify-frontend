@@ -5,12 +5,14 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class AdminBookingService {
+  //Api
   url = "http://localhost:8000/api/admin/bookings/"
 
   constructor(
     private http: HttpClient
   ){}
 
+  // Get
   getBookings$(){
     return this.http.get(this.url)
   }
@@ -19,15 +21,21 @@ export class AdminBookingService {
     return this.http.get(this.url + id)
   }
 
+  // Add
   addBooking$(data: any){
     return this.http.post(this.url, data)
   }
 
-  editBooking$(data: any){
-    return this.http.put(this.url,  data)
+  // Edit
+  editBooking$(data: any, id:number){
+    return this.http.put(this.url + id,  data)
   }
 
-  deleteBooking$(id: number){
-    return this.http.delete(this.url + id)
+  confirmBooking$(id: number){
+    return this.http.put(this.url + id + "/confirm", {})
+  }
+
+  cancelBooking$(id: number){
+    return this.http.put(this.url + id + "/cancel", {})
   }
 }

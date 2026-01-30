@@ -6,19 +6,20 @@ import { BehaviorSubject, tap } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class AdminAuthService {
-  //login state
+export class AuthService {
+  // Login state
   private _isLoggedIn = new BehaviorSubject<boolean>(!!localStorage.getItem('token'))
   isLoggedIn$ = this._isLoggedIn.asObservable()
 
-  //current user
+  // Current user
   private currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('user') || 'null'))
   public currentUser$ = this.currentUserSubject.asObservable()
   
 
-  //Api
+  // Api
   registerApi = "http://localhost:8000/api/auth/register/"
   loginApi = "http://localhost:8000/api/auth/login/"
+  verifyApi = "http://localhost:8000/api/auth/verify-email/"
 
   constructor(
     private http: HttpClient,
@@ -27,12 +28,12 @@ export class AdminAuthService {
 
   // Role
   getRole(): string {
-    return this.currentUserSubject.value?.role || 'guest';
+    return this.currentUserSubject.value?.role || 'guest'
   }
 
   hasRole(allowedRoles: string[]): boolean {
-    const userRole = this.getRole();
-    return allowedRoles.includes(userRole);
+    const userRole = this.getRole()
+    return allowedRoles.includes(userRole)
   }
 
   // User methods
@@ -54,7 +55,7 @@ export class AdminAuthService {
           this._isLoggedIn.next(true)
         }
       })
-    );
+    )
   }
 
   logout$() {
@@ -64,5 +65,10 @@ export class AdminAuthService {
     this.currentUserSubject.next(null)
     this._isLoggedIn.next(false)
     this.router.navigate(['/login'])
+  }
+
+  // Verification
+  verifyEmail$(token: string) {
+    return this.http.get(`${this.verifyApi}?token=${token}`)
   }
 }

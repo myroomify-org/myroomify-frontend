@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { AdminRoomsService } from '../../shared/admin-rooms-service';
+import { AdminRoomsService } from '../../shared/admin/admin-rooms-service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
@@ -25,6 +25,7 @@ interface CardData {
 
 export class AdminRooms {
 
+  // Variables
   cardForm!: any
   rooms: any
   showModal = false
@@ -66,7 +67,7 @@ export class AdminRooms {
       ...this.cardForm.value,
       capacity: Number(this.cardForm.value.capacity),
       price: Number(this.cardForm.value.price)
-    };
+    }
 
     this.roomApi.addRoom$(payload).subscribe({
       next: (result: any) => {
@@ -79,7 +80,7 @@ export class AdminRooms {
   }
 
   // Crud start
-  // read
+  // Get
   get() {
     this.roomApi.getRooms$().subscribe({
       next: (result: any) => {
@@ -91,6 +92,7 @@ export class AdminRooms {
     })
   }
 
+  // View
   switchView(view: 'active' | 'deleted') {
     this.currentView = view
     this.filterCards()
@@ -110,6 +112,11 @@ export class AdminRooms {
   }
 
   restoreRoom(id: number) {
+    if (!this.canAddRoom()) {
+      this.showLimitMessage()
+      return
+    }
+
     this.roomApi.restoreRoom$(id).subscribe({
       next: (res: any) => {
         this.success('Room restored successfully')

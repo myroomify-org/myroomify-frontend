@@ -1,16 +1,17 @@
-
-.register-container {
+/* Full page */
+.login-container {
   min-height: 100vh;
   background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.4)), url('/home/home.jpg');
   background-size: cover;
+  background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  font-family: Quicksand;
-  color: white
+  color: white;
 }
 
+/* Login card */
 .glass-card {
   width: 100%;
   max-width: 450px;
@@ -23,6 +24,7 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   color: white;
+  transition: all 0.3s ease;
 }
 
 .glass-card h2, .glass-card p {
@@ -30,11 +32,13 @@
   text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
+/* Inputs */
 ::ng-deep .mat-mdc-text-field-wrapper {
   background-color: rgba(255, 255, 255, 0.9) !important;
   border-radius: 8px !important;
 }
 
+/* Login button */
 .btn-login {
   background-color: #2d4037 !important;
   color: white !important;
@@ -43,6 +47,7 @@
   letter-spacing: 1px;
   font-family: Quicksand;
   text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  width: 100%;
 }
 
 .btn-login:hover {
@@ -54,4 +59,27 @@
   font-family: Quicksand;
   text-shadow: 0 2px 4px rgba(0,0,0,0.2);
   cursor: pointer;
+}
+
+/*  Responsiveness */
+@media (max-width: 576px) {
+  .register-container {
+    padding: 15px;
+  }
+
+  .glass-card {
+    padding: 25px 20px;
+    border-radius: 15px;
+  }
+
+  .glass-card h2 {
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .glass-card p {
+    text-align: center;
+    font-size: 0.95rem;
+  }
 }

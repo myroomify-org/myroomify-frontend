@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { AdminRoomsService } from '../../shared/admin-rooms-service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { PublicRoomService} from '../../shared/public/public-room-service';
 
 // Mat imports
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -10,6 +10,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMenuTrigger } from '@angular/material/menu';
+
 
 interface Room {
   id: number
@@ -51,7 +52,7 @@ export class GuestRooms {
 
   constructor(
     private router: Router,
-    private apiRooms: AdminRoomsService
+    private roomApi: PublicRoomService
   ) {}
 
   ngOnInit(): void {
@@ -60,32 +61,32 @@ export class GuestRooms {
 
   // read
   getRooms(): void {
-    this.apiRooms.getRooms$().subscribe({
+    this.roomApi.getRooms$().subscribe({
       next: (result: any) => {
         this.rooms = result.data
         this.filteredRooms = [...this.rooms]
         console.log(result)
       },
-      error: (err) => console.error('Error getting rooms', err)
-    });
+      error: (error: any) => console.error('Error getting rooms', error)
+    })
   }
 
   // Search Field
   // Number of guests
   searchRooms(): void {
     const guestCount = Number(this.selectedGuests)
-    console.log('Number of guests:', guestCount);
-    console.log('All rooms:', this.rooms);
+    console.log('Number of guests:', guestCount)
+    console.log('All rooms:', this.rooms)
     this.filteredRooms = this.rooms.filter(room => {
       const matchesCapacity = room.capacity == guestCount
       const isAvailable = room.is_available
       return matchesCapacity && isAvailable
     })
-    console.log('Szűrt szobák:', this.filteredRooms);
+    console.log('Szűrt szobák:', this.filteredRooms)
 
     setTimeout(() => {
-      const element = document.getElementById('room-list');
-      if (element) element.scrollIntoView({ behavior: 'smooth' });
+      const element = document.getElementById('room-list')
+      if (element) element.scrollIntoView({ behavior: 'smooth' })
     }, 100)
   }
 
@@ -95,29 +96,29 @@ export class GuestRooms {
   }
 
   onDateSelected(date: Date | null) {
-    if (!date) return;
+    if (!date) return
 
     if (!this.isChoosingCheckout) {
-      this.startDate = date;
+      this.startDate = date
       if (this.endDate && this.startDate > this.endDate) {
-        this.endDate = null;
+        this.endDate = null
       }
     } else {
       if (this.startDate && date < this.startDate) {
-        this.startDate = date;
-        this.endDate = null;
+        this.startDate = date
+        this.endDate = null
       } else {
-        this.endDate = date;
+        this.endDate = date
       }
     }
     setTimeout(() => {
       if (this.menuTrigger) {
-        this.menuTrigger.closeMenu();
+        this.menuTrigger.closeMenu()
       }
-    }, 150);
+    }, 150)
   }
-  // Search Field end
 
+  // Navigate
   navigate(id:number){
     this.router.navigate(['/rooms/' + id])
   }

@@ -1,36 +1,75 @@
-<div class="container">
-    <form [formGroup]="roomForm" (ngSubmit)="edit()">
-        <input type="text" class="mt-5 mb-5 h2 form-control" placeholder="Room name" formControlName="name">
+<div class="container py-5 animate-fade-in">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+      <h1 class="section-title h2 m-0">Edit Room Details</h1>
+      <p class="text-muted">ID: #{{ roomId }} | Last updated: just now</p>
+    </div>
+    <button class="btn btn-outline-dark rounded-pill px-4" (click)="confirmNavigate()">
+      <i class="bi bi-arrow-left me-2"></i>Back to List
+    </button>
+  </div>
 
-        <div class="row g-4 align-items-start">
-            <div class="col-md-5 text-center">
-                <img [src]="mainImageUrl || '/rooms/room.png'" class="img-fluid" alt="Room Illustration">
-            </div>
-            <div class="col-md-7 ps-3">
-                <div>
-                    <h3>Description</h3>
-                    <input type="text" class="mt-3 mb-5 form-control" placeholder="Description" formControlName="description">
-                </div>
-                <div>
-                    <h3>Capacity</h3>
-                    <input type="number" class="mt-3 mb-5 form-control" placeholder="Capacity" formControlName="capacity"> 
-                </div>
-                <div>
-                    <h3>Price</h3>
-                    <input type="number" class="mt-3 mb-5 form-control" placeholder="Price" formControlName="price">
-                </div>
-                <div>
-                    <h3>Status</h3>
-                    <select class="mt-3 mb-5 form-select" formControlName="is_available">
-                        <option [value]="1">Available</option>
-                        <option [value]="0">Not available</option>
-                    </select>
-                </div>
-                <div class="buttons mb-5">
-                    <button type="submit" class="btn btn-save">Save changes</button>
-                    <button type="button" class="btn btn-navigate" (click)="confirmNavigate()">Go back to rooms</button>
-                </div>
-            </div>
+  <div class="row g-4">
+    <div class="col-lg-4">
+      <div class="room-preview-card shadow-sm border-0 rounded-4 overflow-hidden bg-white">
+        <div class="preview-img-container">
+          <img src="/rooms/room_inside.jpg" class="img-fluid" alt="Room preview">
+          <div class="preview-badge" [class.bg-success]="roomForm.value.is_available" [class.bg-secondary]="!roomForm.value.is_available">
+            {{ roomForm.value.is_available ? 'Available' : 'Maintenance' }}
+          </div>
         </div>
-    </form>  
+        <div class="p-4">
+          <h3 class="fw-bold text-dark">{{ roomForm.value.name || 'Room Name' }}</h3>
+          <p class="text-gold h4 mb-0">{{ roomForm.value.price | number }} $ <small class="text-muted">/ night</small></p>
+          <hr class="my-3">
+          <div class="d-flex gap-3 text-muted">
+            <span><i class="bi bi-people me-2"></i>{{ roomForm.value.capacity }} Guests</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="edit-card shadow-sm border-0 rounded-4 bg-white p-4 p-md-5">
+        <form [formGroup]="roomForm" (ngSubmit)="edit()">
+          <div class="row g-4">
+            <div class="col-12">
+              <label class="label-minimal">Room Identity</label>
+              <input type="text" formControlName="name" class="form-control form-control-custom" placeholder="e.g. Royal Suite 505">
+            </div>
+
+            <div class="col-md-6">
+              <label class="label-minimal">Capacity (Persons)</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-0"><i class="bi bi-people"></i></span>
+                <input type="number" formControlName="capacity" class="form-control form-control-custom">
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="label-minimal">Price per Night ($)</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-0">Ft</span>
+                <input type="number" formControlName="price" class="form-control form-control-custom">
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label class="label-minimal">Detailed Description</label>
+              <textarea formControlName="description" class="form-control form-control-custom" rows="5" placeholder="Describe the amenities..."></textarea>
+            </div>
+
+            <div class="col-12 d-flex gap-3 mt-4">
+              <button type="submit" class="btn btn-dark-green px-5 py-3 rounded-pill shadow-sm flex-grow-1">
+                <i class="bi bi-check2-circle me-2"></i>Save All Changes
+              </button>
+              <button type="button" class="btn btn-light px-4 py-3 rounded-pill border" (click)="confirmNavigate()">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

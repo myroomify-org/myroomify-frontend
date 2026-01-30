@@ -1,249 +1,235 @@
-import { Component } from '@angular/core'
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
-import { DatePipe } from '@angular/common'
-import Swal from 'sweetalert2'
-import { AdminBookingService } from '../../shared/admin-booking-service'
-import { AdminRoomsService } from '../../shared/admin-rooms-service'
-// import { AdminUserService } from '../../shared/admin-user-service'
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule, DatePipe } from '@angular/common';
+import Swal from 'sweetalert2';
+
+// Services
+import { AdminBookingService } from '../../shared/admin/admin-booking-service';
+import { AdminRoomsService } from '../../shared/admin/admin-rooms-service';
+import { AdminUserService } from '../../shared/admin/admin-user-service';
+
+// Material Imports
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatSelectModule } from "@angular/material/select";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatInputModule } from "@angular/material/input";
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-admin-bookings',
-  imports: [ReactiveFormsModule, DatePipe],
+  standalone: true,
+  providers: [provideNativeDateAdapter(), DatePipe],
+  imports: [
+    ReactiveFormsModule, 
+    DatePipe, 
+    CommonModule, 
+    MatFormFieldModule, 
+    MatSelectModule, 
+    MatDatepickerModule, 
+    MatInputModule
+  ],
   templateUrl: './admin-bookings.html',
   styleUrl: './admin-bookings.css',
 })
-export class AdminBookings {
+export class AdminBookings implements OnInit {
+
+  bookings: any[] = [];
+  filteredBookings: any[] = [];
+  rooms: any[] = [];
+  users: any[] = [];
   
-  showModal = false
-  bookings: any[] = []
-  filteredBookings: any[] = []
-  bookingForm: any
-  addMode = true
-  users: any
-  rooms: any
+  bookingForm!: FormGroup;
+  showModal = false;
+  addMode = true;
 
   constructor(
     private bookApi: AdminBookingService,
     private roomApi: AdminRoomsService,
-    // private userApi: AdminUserService,
+    private userApi: AdminUserService,
     private builder: FormBuilder
-  ){}
+  ) {}
 
-  ngOnInit(){
-    this.getBookings()
-    // this.getUsers()
-    this.getRooms()
+  ngOnInit() {
+    this.initForm();
+    this.loadInitialData();
+  }
+
+  private initForm() {
     this.bookingForm = this.builder.group({
       id: [''],
-      // user: [''],
-      room: [''],
+      user_id: [null],
+      room_id: [null],
       check_in: [''],
       check_out: [''],
-      booking_type: [''],
-      status: [''],
-      payment_status: [''],
+      booking_type: ['standard'],
+      status: ['pending'],
+      payment_status: ['unpaid'],
       guest_name: [''],
       guest_email: [''],
       guest_phone: [''],
-    })
+      guest_count: [1],
+    });
   }
 
-
-  //Crud eleje
-  //read
-  // getUsers(){
-  //   this.userApi.getUsers$().subscribe({
-  //     next: (result: any) => {
-  //       console.log(result)
-  //       this.users = result
-  //       console.log(this.users)
-  //     },
-  //     error: (err: any) => {
-  //       console.log(err)
-  //     } 
-  //   })
-  // }
-
-  getRooms(){
-    this.roomApi.getRooms$().subscribe({
-      next: (result: any) => {
-        console.log(result)
-        this.rooms = result.data
-      },
-      error: (err: any) => {
-        console.log(err)
-      } 
-    })
+  private loadInitialData() {
+    this.getBookings();
+    this.getRooms();
+    this.getUsers();
   }
 
-  getBookings(){
+  // 3. API Calls (Read)
+  getBookings() {
     this.bookApi.getBookings$().subscribe({
       next: (result: any) => {
-        console.log(result)
-        this.bookings = result.data
-        this.filteredBookings = result.data
+        this.bookings = result.data;
+        this.filteredBookings = result.data;
       },
-      error: (err: any) => {
-        console.log(err)
-      } 
-    })
+      error: (err) => console.error('Hiba a foglalások betöltésekor:', err)
+    });
   }
 
- //create
-  addBooking(){
+  getRooms() {
+    this.roomApi.getRooms$().subscribe({
+      next: (result: any) => {
+        this.rooms = result.data;
+      },
+      error: (err) => console.error('Hiba a szobák betöltésekor:', err)
+    });
+  }
+
+  getUsers() {
+    this.userApi.getUsers$().subscribe({
+      next: (result: any) => {
+        this.users = result.data || result;
+      },
+      error: (err) => console.error('Hiba a felhasználók betöltésekor:', err)
+    });
+  }
+
+  save() {
+    if (this.bookingForm.invalid) return;
+
+    if (this.addMode) {
+      this.addBooking();
+    } else {
+      const id = this.bookingForm.get('id')?.value
+      this.editBooking(id)
+    }
+  }
+
+  private addBooking() {
     this.bookApi.addBooking$(this.bookingForm.value).subscribe({
-      next: (result: any) => {
-        console.log(result)
-        this.getBookings()
-        this.showModal = false
-        this.bookingForm.reset()
-        this.success("Booking has been added")
-      },
-      error: (err: any) => {
-        console.log(err)
-        this.error()
-      }
-    })
+      next: () => this.handleSuccess("Booking has been added"),
+      error: () => this.handleError()
+    });
   }
 
-  //update
-  getForEdit(booking: any){
-    console.log(booking)
-
-    const bookingToPatch = { ...booking };
-    if (bookingToPatch.user && bookingToPatch.user.id) {
-        bookingToPatch.user = bookingToPatch.user.id; 
-    }
-    if (bookingToPatch.room && bookingToPatch.room.id) {
-        bookingToPatch.room = bookingToPatch.room.id;
-    }
-
-    if (booking.check_in) {
-      booking.check_in = booking.check_in.slice(0, 10); 
-    }
-    if(booking.check_out) {
-      booking.check_out = booking.check_out.slice(0, 10);
-    }
-    this.bookingForm.patchValue(booking)
+  getForEdit(booking: any) {
     this.addMode = false;
+    this.showModal = true;
+    
+    const data = { ...booking };
+
+    if (booking.user?.id) data.user_id = booking.user.id;
+    if (booking.room?.id) data.room_id = booking.room.id;
+
+    if (!data.guest_name && booking.user?.name) data.guest_name = booking.user.name;
+    if (!data.guest_email && booking.user?.email) data.guest_email = booking.user.email;
+    if (!data.guest_phone && booking.user?.phone) data.guest_phone = booking.user.phone;
+
+    if (booking.check_in) data.check_in = new Date(booking.check_in);
+    if (booking.check_out) data.check_out = new Date(booking.check_out);
+
+    this.bookingForm.patchValue(data);
   }
 
-  editBooking(){
-    this.bookApi.editBooking$(this.bookingForm.value).subscribe({
-      next: (result: any) => {
-        console.log(result)
-        this.getBookings()
-        this.showModal = false
-        this.bookingForm.reset()
-        this.success("Booking has been updated")
-      },
-      error: (err: any) => {
-        console.log(err)
-        this.error()
-      }
-    })
+  private editBooking(id:number) {
+    this.bookApi.editBooking$(this.bookingForm.value, id).subscribe({
+      next: () => this.handleSuccess("Booking has been updated"),
+      error: () => this.handleError()
+    });
   }
 
-  //delete
-  deleteBooking(id: number){
-    this.bookApi.deleteBooking$(id).subscribe({
-      next: (result: any) => {
-        console.log(result)
-        this.getBookings()
-        this.success("Booking has been deleted")
-      },
-      error: (err: any) => {
-        console.log(err)
-        this.error()
-      }
-    })
-  }
-  
-  confirmDelete(id: number){
+  confirmCancel(id: number) {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: "This action cannot be undone!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#bb5127",
-      cancelButtonColor: "rgba(0, 0, 0, 1)",
+      cancelButtonColor: "#000000",
       confirmButtonText: "Delete"
     }).then((result) => {
       if (result.isConfirmed) {
-        this.deleteBooking(this.bookingForm.value.id)
+        this.bookApi.cancelBooking$(id).subscribe({
+          next: () => this.handleSuccess("Booking has been deleted"),
+          error: () => this.handleError()
+        });
       }
     });
   }
-  //Crud vége
-  
-  //Alert
-  success(errorText: string){
+
+  // 5. UI Helpers (Modal, Search, Sort)
+  setShowModal() {
+    this.addMode = true;
+    this.bookingForm.reset({ 
+      status: 'pending', 
+      payment_status: 'unpaid',
+      guest_count: 1,
+      booking_type: 'standard'
+    });
+    this.showModal = true;
+  }
+
+  cancel() {
+    this.showModal = false;
+    this.bookingForm.reset();
+  }
+
+  private handleSuccess(message: string) {
+    this.getBookings();
+    this.showModal = false;
     Swal.fire({
       position: "center",
-      icon: "error",
-      title: errorText,
+      icon: "success",
+      title: message,
       showConfirmButton: false,
-      timer: 2500
+      timer: 2000
     });
   }
 
-  error(){
+  private handleError() {
     Swal.fire({
-      position: "center",
       icon: "error",
       title: "Oops, something went wrong",
-      showConfirmButton: false,
       timer: 2500
     });
   }
 
-  //Modal
-  setShowModal(){
-    this.showModal = true
-  }
-
-  cancel(){
-    this.showModal = false
-    this.bookingForm.reset()
-  }
-
-  save(){
-    if(this.addMode){
-      this.addBooking()
-    }else{
-      this.editBooking()
-    }
-  }
-
-  //Search
   onSearch(event: any) {
-    const term = event.target.value.toLowerCase()
-    this.filteredBookings = this.bookings.filter(booking => 
-      booking.guest_name?.toLowerCase().includes(term) || 
-      booking.guest_email?.toLowerCase().includes(term) ||
-      booking.id.toString().includes(term)
-    )
+    const term = event.target.value.toLowerCase();
+    this.filteredBookings = this.bookings.filter(b => 
+      b.guest_name?.toLowerCase().includes(term) || 
+      b.guest_email?.toLowerCase().includes(term) ||
+      b.id.toString().includes(term)
+    );
   }
 
   onSort(event: any) {
     const key = event.target.value;
-    
-    this.filteredBookings.sort((firstBooking, secondBooking) => {
-      let dataFirst = firstBooking[key]
-      let dataSecond = secondBooking[key]
+    this.filteredBookings.sort((a, b) => {
+      let valA = (key === 'room') ? a.room?.name : a[key];
+      let valB = (key === 'room') ? b.room?.name : b[key];
+      return (valA < valB) ? -1 : (valA > valB) ? 1 : 0;
+    });
+  }
 
-      if(key === 'user') {
-        dataFirst = firstBooking.user?.name
-        dataSecond = secondBooking.user?.name
-      }
-      if(key === 'room') {
-        dataFirst = firstBooking.room?.name
-        dataSecond = secondBooking.room?.name
-      }
-
-      if(dataFirst < dataSecond) return -1
-      if(dataFirst > dataSecond) return 1
-      return 0
-    })
+  filterByStatus(event: any) {
+    const status = event.target.value
+    if (status === 'all') {
+      this.filteredBookings = [...this.bookings];
+    } else {
+      this.filteredBookings = this.bookings.filter(b => b.status === status);
+    }
   }
 }

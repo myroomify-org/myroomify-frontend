@@ -15,6 +15,7 @@ import { Register } from './register/register';
 import { GuestRoom } from './guest/guest-room/guest-room';
 import { GuestProfile } from './guest/guest-profile/guest-profile';
 import { AdminProfile } from './admin/admin-profile/admin-profile';
+import { EmailVerification } from './email-verification/email-verification';
 
 export const routes: Routes = [
     { path: '', component: GuestNavbar,
@@ -27,6 +28,7 @@ export const routes: Routes = [
             { path: 'profile', component: GuestProfile },
             { path: 'login', component: Login },
             { path: 'register', component: Register },
+            { path: 'verify-email', component: EmailVerification },
         ]
     },
     { path: 'admin', component: AdminNavbar,

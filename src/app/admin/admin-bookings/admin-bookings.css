@@ -1,55 +1,146 @@
-/*Page*/
-.container{
-    font-family: Quicksand;
+/* 1. Alap elrendezés és Animáció */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
 }
 
-h2{    
-    color: #364e43;
-    font-size: 45px;
-    font-weight: bold;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.bookingTable th{
-    vertical-align: top;
+/* 2. Színek és Gombok */
+.bg-dark-green { background-color: #2d4037 !important; }
+.text-gold { color: #c3ae80 !important; }
+
+.btn-dark-green {
+  background-color: #2d4037;
+  color: #ffffff !important;
+  border: none;
+  transition: all 0.3s ease;
 }
 
-/*Add-button*/
-.btn-add{
-    background-color: #364e43;
-    color: #ffffff;
-    font-weight: medium;
+.btn-dark-green:hover {
+  background-color: #364e43;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(45, 64, 55, 0.2);
 }
 
-.btn-add:hover{
-    background-color: rgb(255, 255, 255);
-    border-width: 1px;
-    border-color: #364e43;
-    color: #364e43;
+/* 3. Táblázat Szövegek és Kontraszt (A FEHÉR SZÖVEG FIXÁLÁSA) */
+/* 1. Atombiztos táblázat szövegszín */
+.table td, 
+.table th,
+.table td span,
+.table td div,
+.table td small {
+    color: #212529 !important; /* Kifejezetten sötét szürke/fekete */
 }
 
-/*Edit button*/
-.btn-edit{
-    color: #ffffff;
-    background-color: #c3ae80;
+/* 2. Room Badge javítása */
+/* Ha a HTML-ben <span class="badge bg-light text-dark"> van */
+.table td .badge.bg-light {
+    background-color: #f1f3f5 !important;
+    color: #212529 !important;
+    border: 1px solid #dee2e6 !important;
 }
 
-.btn-edit:hover{
-    background-color: rgb(255, 255, 255);
-    border-width: 1px;
-    border-color: #c3ae80;
-    color: #c3ae80;
+/* 3. Ha a 'room' oszlopban lévő szöveg még mindig fehér lenne */
+.table td:nth-child(2), /* Feltételezve, hogy a 2. oszlop a szoba */
+.table td .badge-info-light {
+    color: #212529 !important;
+    background-color: #e9ecef !important;
 }
 
-/*Delete button*/
-.btn-delete{
-    background: #bb5127;
-    color: #ffffff;
-    margin-left: 5px;
+/* 4. Text-muted (email, telefon) színe */
+.table td .text-muted, 
+.table td small.text-muted {
+    color: #6c757d !important;
 }
 
-.btn-delete:hover{
-    background-color: rgb(255, 255, 255);
-    border-width: 1px;
-    border-color: #bb5127;
-    color: #bb5127;
+/* 5. A fejléc színe */
+.table thead th {
+    color: #495057 !important;
+    background-color: #f8f9fa !important;
+    border-bottom: 2px solid #dee2e6 !important;
+}
+
+/* 4. Badge-ek (Szoba és Státusz) */
+.badge.bg-light.text-dark.border {
+  background-color: #f1f3f5 !important;
+  color: #2d4037 !important;
+  border: 1px solid #ced4da !important;
+  font-weight: 500;
+}
+
+.bg-success-subtle { background-color: #d1e7dd !important; color: #0f5132 !important; }
+.bg-warning-subtle { background-color: #fff3cd !important; color: #664d03 !important; }
+.bg-danger-subtle { background-color: #f8d7da !important; color: #842029 !important; }
+
+/* 5. Beviteli mezők (Form Control) */
+.form-control-custom {
+  border: 1px solid #e9ecef;
+  padding: 10px 15px;
+  border-radius: 10px;
+  background-color: #fcfcfc;
+  color: #2d4037 !important;
+  transition: all 0.2s;
+}
+
+.form-control-custom:focus {
+  border-color: #c3ae80;
+  box-shadow: 0 0 0 3px rgba(195, 174, 128, 0.1);
+  background-color: #ffffff;
+}
+
+.label-minimal {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #adb5bd; /* Világosszürke címke a mezők felett */
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* 6. Akció gombok (Pencil/Trash) */
+.btn-action {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  background-color: #ffffff;
+  color: #2d4037;
+  transition: all 0.2s ease;
+}
+
+.btn-action:hover {
+  background-color: #f8f9fa;
+  border-color: #c3ae80;
+  color: #c3ae80;
+  transform: translateY(-2px);
+}
+
+/* Aranybarna téma szerkesztéshez */
+.bg-gold-admin {
+  background-color: #c3ae80 !important;
+  color: #ffffff !important;
+}
+
+.btn-gold {
+  background-color: #c3ae80;
+  color: white;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-gold:hover {
+  background-color: #a8946a;
+  color: white;
+  box-shadow: 0 4px 12px rgba(195, 174, 128, 0.4);
+}
+
+.bg-gold {
+  background-color: #c3ae80 !important;
+  color: #ffffff !important;
 }

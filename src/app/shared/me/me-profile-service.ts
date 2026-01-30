@@ -4,13 +4,15 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class UserProfileService {
+export class MeProfileService {
+  // Api
   url = "http://localhost:8000/api/me/"
 
   constructor(
     private http: HttpClient
   ){}
 
+  // Get token
   private getAuthHeaders() {
     const token = localStorage.getItem('token');
     return {
@@ -21,10 +23,12 @@ export class UserProfileService {
     };
   }
 
+  // Get
   getProfile$(){
     return this.http.get(this.url + "profile", this.getAuthHeaders())
   }
 
+  // Edit
   editProfile$(data: any){
     return this.http.put(this.url + "profile", data, this.getAuthHeaders())
   }
