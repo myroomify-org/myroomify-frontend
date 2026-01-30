@@ -1,4 +1,4 @@
-/* 1. Alap elrendezés és Animáció */
+/* Fade */
 .animate-fade-in {
   animation: fadeIn 0.5s ease-in-out;
 }
@@ -8,7 +8,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* 2. Színek és Gombok */
+/* Add Button */
 .bg-dark-green { background-color: #2d4037 !important; }
 .text-gold { color: #c3ae80 !important; }
 
@@ -25,45 +25,39 @@
   box-shadow: 0 4px 12px rgba(45, 64, 55, 0.2);
 }
 
-/* 3. Táblázat Szövegek és Kontraszt (A FEHÉR SZÖVEG FIXÁLÁSA) */
-/* 1. Atombiztos táblázat szövegszín */
+/* Table */
 .table td, 
 .table th,
 .table td span,
 .table td div,
 .table td small {
-    color: #212529 !important; /* Kifejezetten sötét szürke/fekete */
+    color: #212529;
 }
 
-/* 2. Room Badge javítása */
-/* Ha a HTML-ben <span class="badge bg-light text-dark"> van */
 .table td .badge.bg-light {
     background-color: #f1f3f5 !important;
     color: #212529 !important;
     border: 1px solid #dee2e6 !important;
 }
 
-/* 3. Ha a 'room' oszlopban lévő szöveg még mindig fehér lenne */
-.table td:nth-child(2), /* Feltételezve, hogy a 2. oszlop a szoba */
+.table td:nth-child(2),
 .table td .badge-info-light {
-    color: #212529 !important;
-    background-color: #e9ecef !important;
+    color: #212529;
+    background-color: #e9ecef;
 }
 
-/* 4. Text-muted (email, telefon) színe */
 .table td .text-muted, 
 .table td small.text-muted {
-    color: #6c757d !important;
+    color: #6c757d;
 }
 
-/* 5. A fejléc színe */
 .table thead th {
     color: #495057 !important;
     background-color: #f8f9fa !important;
     border-bottom: 2px solid #dee2e6 !important;
 }
 
-/* 4. Badge-ek (Szoba és Státusz) */
+/* Badge */
 .badge.bg-light.text-dark.border {
   background-color: #f1f3f5 !important;
   color: #2d4037 !important;
@@ -71,11 +65,38 @@
   font-weight: 500;
 }
 
-.bg-success-subtle { background-color: #d1e7dd !important; color: #0f5132 !important; }
-.bg-warning-subtle { background-color: #fff3cd !important; color: #664d03 !important; }
-.bg-danger-subtle { background-color: #f8d7da !important; color: #842029 !important; }
+/* Status Pills */
+.status-pill {
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  text-align: center;
+  min-width: 90px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 
-/* 5. Beviteli mezők (Form Control) */
+.status-pill.pending {
+  background-color: #fff9e6;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+
+.status-pill.confirmed {
+  background-color: #e6f4ea;
+  color: #1e7e34;
+  border: 1px solid #c3e6cb;
+}
+
+.status-pill.cancelled {
+  background-color: #fceaea;
+  color: #bd2130;
+  border: 1px solid #f5c6cb;
+}
+
+/* Booking Form */
 .form-control-custom {
   border: 1px solid #e9ecef;
   padding: 10px 15px;
@@ -95,12 +116,12 @@
   font-size: 0.7rem;
   font-weight: 800;
   text-transform: uppercase;
-  color: #adb5bd; /* Világosszürke címke a mezők felett */
+  color: #adb5bd;
   margin-bottom: 5px;
   display: block;
 }
 
-/* 6. Akció gombok (Pencil/Trash) */
+/* Action buttons */
 .btn-action {
   width: 34px;
   height: 34px;
@@ -121,7 +142,7 @@
   transform: translateY(-2px);
 }
 
-/* Aranybarna téma szerkesztéshez */
+/* Edit button */
 .bg-gold-admin {
   background-color: #c3ae80 !important;
   color: #ffffff !important;
@@ -143,4 +164,15 @@
 .bg-gold {
   background-color: #c3ae80 !important;
   color: #ffffff !important;
+}
+
+/* Expandable row */
+.expanded-row {
+  background-color: #f9fbfb !important;
+}
+
+.guest-expansion-wrapper {
+  padding: 20px 40px;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
 }

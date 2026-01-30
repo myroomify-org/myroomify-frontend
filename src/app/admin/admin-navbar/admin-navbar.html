@@ -17,10 +17,6 @@
                     <a class="nav-link" routerLink="bookings" routerLinkActive="active">Bookings</a>
                 </li>
 
-                <li class="nav-item" *ngIf="authApi.hasRole(['admin', 'superadmin'])">
-                    <a class="nav-link" routerLink="guests" routerLinkActive="active">Guests</a>
-                </li>
-
                 <li class="nav-item" *ngIf="authApi.hasRole(['superadmin'])">
                     <a class="nav-link" routerLink="users" routerLinkActive="active">Users</a>
                 </li>

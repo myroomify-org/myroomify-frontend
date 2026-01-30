@@ -1,24 +1,29 @@
 <div class="container py-5 animate-fade-in">
   <div class="d-flex justify-content-between align-items-center mb-5">
+    <!-- Section Title -->
     <div>
       <h1 class="section-title m-0">Booking Management</h1>
       <p class="text-muted">Overview and management of all guest reservations.</p>
     </div>
+    <!-- New Booking Button -->
     <button class="btn btn-dark-green rounded-pill px-4 shadow-sm" (click)="setShowModal()">
       <i class="bi bi-plus-lg me-2"></i>New Reservation
     </button>
   </div>
 
+  <!-- Search and Filter Card -->
   <div class="card border-0 shadow-sm rounded-4 mb-4">
     <div class="card-body p-3">
       <div class="row g-3">
+        <!-- Search -->
         <div class="col-md-6">
           <div class="input-group">
             <span class="input-group-text bg-transparent border-end-0"><i class="bi bi-search"></i></span>
             <input type="text" class="form-control border-start-0 ps-0 form-control-custom" 
-                   placeholder="Search by name, email or ID..." (input)="onSearch($event)">
+              placeholder="Search by name, email or ID..." (input)="onSearch($event)">
           </div>
         </div>
+        <!-- Status -->
         <div class="col-md-3">
           <div class="input-group">
             <span class="input-group-text bg-transparent border-end-0 text-muted small"><i class="bi bi-funnel"></i></span>
@@ -30,10 +35,11 @@
             </select>
           </div>
         </div>
+        <!-- Sort -->
         <div class="col-md-3">
           <select class="form-select form-control-custom" (change)="onSort($event)">
             <option value="id">Sort by ID</option>
-            <option value="guest_name">Sort by Guest Name</option>
+            <option value="guest_name">Sort by Username</option>
             <option value="check_in">Sort by Arrival</option>
             <option value="room">Sort by Room</option>
           </select>
@@ -42,6 +48,7 @@
     </div>
   </div>
 
+  <!-- Bookings Table Card -->
   <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
     <div class="table-responsive">
       <table class="table table-hover align-middle mb-0 text-dark">
@@ -56,47 +63,62 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let booking of filteredBookings">
-            <td class="ps-4 fw-bold">#{{ booking.id }}</td>
-            <td>
-              <div class="d-flex flex-column">
-                <span class="fw-bold text-dark">
-                  {{ booking.guest_name || booking.user?.name || 'No Name Provided' }}
-                </span>
-                <small class="text-muted">
-                  {{ booking.guest_email || booking.user?.email || 'No Email' }}
-                </small>
-              </div>
-            </td>
-            <td>
-              <span class="badge badge-info-light border text-dark">{{ booking.room?.name || 'Unassigned' }}</span>
-            </td>
-            <td>
-              <div class="small fw-bold text-dark">{{ booking.check_in | date:'yyyy. MM. dd.' }}</div>
-              <div class="small text-muted">{{ booking.check_out | date:'yyyy. MM. dd.' }}</div>
-            </td>
-            <td>
-              <span class="badge p-2 px-3 rounded-pill" 
-                [class.bg-success-subtle]="booking.status === 'confirmed'"
-                [class.text-success]="booking.status === 'confirmed'"
-                [class.bg-warning-subtle]="booking.status === 'pending'"
-                [class.text-warning]="booking.status === 'pending'"
-                [class.bg-danger-subtle]="booking.status === 'cancelled'"
-                [class.text-danger]="booking.status === 'cancelled'">
-                {{ booking.status | titlecase }}
-              </span>
-            </td>
-            <td class="text-end pe-4">
-              <button class="btn btn-action me-2" (click)="getForEdit(booking)"><i class="bi bi-pencil-square"></i></button>
-              <button class="btn btn-action text-danger" (click)="confirmCancel(booking.id)"><i class="bi bi-trash"></i></button>
-            </td>
-          </tr>
+          <ng-container *ngFor="let booking of filteredBookings">
+            <tr>
+              <td class="ps-4 fw-bold">#{{ booking.id }}</td>
+              <td>
+                <div class="d-flex flex-column">
+                  <span class="fw-bold text-dark">
+                    {{ booking.guest_name || booking.user?.name || 'No Name Provided' }}
+                  </span>
+                  <small class="text-muted">
+                    {{ booking.guest_email || booking.user?.email || 'No Email' }}
+                  </small>
+                </div>
+              </td>
+              <td>
+                <span class="badge badge-info-light border text-dark">{{ booking.room?.name || 'Unassigned' }}</span>
+              </td>
+              <td>
+                <div class="small fw-bold text-dark">{{ booking.check_in | date:'yyyy. MM. dd.' }}</div>
+                <div class="small text-muted">{{ booking.check_out | date:'yyyy. MM. dd.' }}</div>
+              </td>
+              <td>
+                <div [ngClass]="{
+                    'status-pill pending': booking.status === 'pending',
+                    'status-pill confirmed': booking.status === 'confirmed',
+                    'status-pill cancelled': booking.status === 'cancelled'
+                  }">{{ booking.status | titlecase }}
+                </div>
+              </td>
+              <td class="text-end pe-4">
+                <button class="btn btn-action me-2" (click)="toggleRow(booking)">
+                  <i class="bi" [ngClass]="booking.isExpanded ? 'bi-chevron-up' : 'bi-people'"></i>
+                </button>
+                <button class="btn btn-action me-2" (click)="getForEdit(booking)">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="btn btn-action text-danger" (click)="confirmCancel(booking.id)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+
+            <tr *ngIf="booking.isExpanded" class="expanded-row">
+              <td colspan="6" class="p-0 border-0">
+                <div class="guest-expansion-wrapper">
+                  <app-admin-guests [guests]="booking.guests"></app-admin-guests>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
     </div>
   </div>
 </div>
 
+<!-- Booking Modal -->
 @if(showModal){
   <div class="modal fade show d-block" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -126,29 +148,23 @@
 
               <div class="col-md-6">
                 <label class="label-minimal text-dark">Guest Name</label>
-                <input type="text" formControlName="guest_name" class="form-control form-control-custom">
+                <input type="text" formControlName="guest_name" class="form-control form-control-custom"
+                  [placeholder]="bookingForm.get('user_id')?.value ? 'Auto-filled from user' : 'Enter name'">
               </div>
               <div class="col-md-6">
                 <label class="label-minimal text-dark">Guest Email</label>
-                <input type="email" formControlName="guest_email" class="form-control form-control-custom">
+                <input type="email" formControlName="guest_email" class="form-control form-control-custom"
+                  [placeholder]="bookingForm.get('user_id')?.value ? 'Auto-filled from user' : 'Enter email'">
               </div>
 
               <div class="col-md-6 mt-3">
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>Check-in Date</mat-label>
-                  <input matInput [matDatepicker]="pickerIn" formControlName="check_in">
-                  <mat-datepicker-toggle matIconSuffix [for]="pickerIn"></mat-datepicker-toggle>
-                  <mat-datepicker #pickerIn></mat-datepicker>
-                </mat-form-field>
+                <label class="label-minimal text-dark">Check-in Date</label>
+                <input type="date" formControlName="check_in" class="form-control form-control-custom">
               </div>
 
               <div class="col-md-6 mt-3">
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>Check-out Date</mat-label>
-                  <input matInput [matDatepicker]="pickerOut" formControlName="check_out">
-                  <mat-datepicker-toggle matIconSuffix [for]="pickerOut"></mat-datepicker-toggle>
-                  <mat-datepicker #pickerOut></mat-datepicker>
-                </mat-form-field>
+                <label class="label-minimal text-dark">Check-out Date</label>
+                <input type="date" formControlName="check_out" class="form-control form-control-custom">
               </div>
 
               <div class="col-md-6">
