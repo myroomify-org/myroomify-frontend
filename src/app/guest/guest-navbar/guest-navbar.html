@@ -1,23 +1,45 @@
 <nav class="navbar navbar-expand-lg" [ngClass]="{'navbar-solid': !isSpecialPage, 'navbar-transparent': isSpecialPage}">
     <div class="container-fluid">
         <div class="nav-left"></div>
-        <div class="collapse navbar-collapse justify-content-center nav-center" id="navbarNav">
+
+        <div class="d-flex d-lg-none align-items-center gap-2">
+            <ng-container *ngIf="!(authApi.currentUser$ | async)">
+                <a routerLink="/login" class="login-link-simple">Login</a>
+                <button routerLink="/register" class="user-profile-btn py-1 px-2 fs-6">Register</button>
+            </ng-container>
+
+            <ng-container *ngIf="authApi.currentUser$ | async as user">
+                <button [matMenuTriggerFor]="userMenuMobile" class="user-profile-btn py-1 px-2">
+                    <mat-icon>account_circle</mat-icon>
+                </button>
+                <mat-menu #userMenuMobile="matMenu">
+                    <button mat-menu-item (click)="profile()">Profile</button>
+                    <button mat-menu-item (click)="logout()">Logout</button>
+                </mat-menu>
+            </ng-container>
+
+            <button class="navbar-toggler border-0 shadow-none p-0" type="button" (click)="toggleMenu()">
+                <i class="bi" [ngClass]="isMenuCollapsed ? 'bi-list' : 'bi-x-lg'" 
+                   style="color: #c3ae80; font-size: 2.2rem;"></i>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse justify-content-center nav-center" [class.show]="!isMenuCollapsed" id="navbarNav">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link"  routerLink="home"
-                    routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+                    <a class="nav-link" routerLink="home" routerLinkActive="active" 
+                       [routerLinkActiveOptions]="{exact: true}" (click)="isMenuCollapsed = true">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="gallery"
-                    routerLinkActive="active">Gallery</a>
+                    <a class="nav-link" routerLink="gallery" routerLinkActive="active" (click)="isMenuCollapsed = true">Gallery</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="rooms"
-                    routerLinkActive="active">Rooms</a>
+                    <a class="nav-link" routerLink="rooms" routerLinkActive="active" (click)="isMenuCollapsed = true">Rooms</a>
                 </li>
             </ul>
         </div>
-        <div class="auth-buttons d-flex align-items-center nav-right">
+
+        <div class="auth-buttons d-none d-lg-flex align-items-center nav-right">
             <ng-container *ngIf="!(authApi.currentUser$ | async)">
                 <button routerLink="/login" class="user-profile-btn">Login</button>
                 <button routerLink="/register" class="user-profile-btn">Register</button>
@@ -25,15 +47,15 @@
 
             <ng-container *ngIf="authApi.currentUser$ | async as user">
                 <button [matMenuTriggerFor]="userMenu" class="user-profile-btn">
-                    <mat-icon>account_circle</mat-icon>
-                {{ user.name }} </button>
-                
+                <mat-icon>account_circle</mat-icon>
+                <span class="ms-1">{{ user.name }}</span>
+                </button>
                 <mat-menu #userMenu="matMenu">
-                    <button type="button" class="btn btn-logout" (click)="profile()">Profile</button>
-                    <button type="submit" class="btn btn-logout" (click)="logout()">Logout</button>
+                <button mat-menu-item (click)="profile()">Profile</button>
+                <button mat-menu-item (click)="logout()">Logout</button>
                 </mat-menu>
             </ng-container>
-        </div>
+        </div>        
     </div>
 </nav>
 <main>

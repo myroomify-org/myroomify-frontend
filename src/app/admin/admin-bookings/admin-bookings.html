@@ -59,6 +59,7 @@
             <th>Room</th>
             <th>Stay Period</th>
             <th>Status</th>
+            <th class="text-end">Total Amount</th>
             <th class="text-end pe-4">Actions</th>
           </tr>
         </thead>
@@ -84,16 +85,25 @@
                 <div class="small text-muted">{{ booking.check_out | date:'yyyy. MM. dd.' }}</div>
               </td>
               <td>
-                <div [ngClass]="{
-                    'status-pill pending': booking.status === 'pending',
-                    'status-pill confirmed': booking.status === 'confirmed',
-                    'status-pill cancelled': booking.status === 'cancelled'
-                  }">{{ booking.status | titlecase }}
+                <div class="status-pill" [ngClass]="{
+                    'pending': booking.status?.toLowerCase() === 'pending',
+                    'confirmed': booking.status?.toLowerCase() === 'confirmed',
+                    'cancelled': booking.status?.toLowerCase() === 'cancelled'
+                  }">
+                  {{ booking.status | titlecase }}
                 </div>
+              </td>
+              <td class="text-end fw-bold text-dark">
+                {{ calculateTotal(booking) | currency:'$':'symbol':'1.0-0' }}
               </td>
               <td class="text-end pe-4">
                 <button class="btn btn-action me-2" (click)="toggleRow(booking)">
                   <i class="bi" [ngClass]="booking.isExpanded ? 'bi-chevron-up' : 'bi-people'"></i>
+                </button>
+                <button class="btn btn-action me-2" 
+                  [ngClass]="(booking.guests?.length || 0) < booking.guest_count ? 'text-danger' : 'text-success'"
+                  (click)="openGuestManager(booking)">
+                  <i class="bi" [ngClass]="(booking.guests?.length || 0) < booking.guest_count ? 'bi-person-exclamation' : 'bi-person-check-fill'"></i>
                 </button>
                 <button class="btn btn-action me-2" (click)="getForEdit(booking)">
                   <i class="bi bi-pencil-square"></i>
@@ -189,7 +199,6 @@
             </div>
           </form>
         </div>
-
         <div class="modal-footer border-0 p-4 pt-0">
           <button type="button" class="btn btn-outline-secondary rounded-pill px-4" (click)="cancel()">
             Cancel
@@ -200,6 +209,131 @@
                   (click)="save()">
             <i class="bi me-2" [ngClass]="addMode ? 'bi-plus-lg' : 'bi-save'"></i>
             {{ addMode ? 'Create Reservation' : 'Update Reservation' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show"></div>
+}
+
+<!-- Guest Modal -->
+@if(showGuestModal) {
+  <div class="modal fade show d-block" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg"> <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        
+        <div class="modal-header bg-dark-green text-white border-bottom border-gold border-3 p-4">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-passport-fill me-2 text-gold"></i>
+            Guest Details Management
+            <span class="badge bg-gold text-dark ms-2 fw-bold">Booking #{{selectedBookingForGuests?.id}}</span>
+          </h5>
+          <button type="button" class="btn-close btn-close-white" (click)="showGuestModal = false"></button>
+        </div>
+
+        <div class="modal-body p-4 bg-light">
+          <div class="alert bg-white border-start border-4 border-dark-green shadow-sm d-flex justify-content-between align-items-center mb-4">
+            <div class="small text-muted text-uppercase fw-bold">Required Capacity:</div>
+            <div class="fw-bold text-dark-green h5 m-0">{{selectedBookingForGuests?.guest_count}} Guests</div>
+          </div>
+          
+          <form [formGroup]="bookingForm">
+            <div formArrayName="guests">
+              
+              <div *ngFor="let guestGroup of guestControls; let guestIndex = index" 
+                   [formGroupName]="guestIndex" 
+                   class="guest-card shadow-sm border-start border-4 border-gold animate-fade-in mb-4 bg-white p-3 rounded-3">
+                
+                <div class="guest-card-header d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+                  <span class="guest-number-badge px-3 py-1 rounded-pill bg-dark-green text-gold small fw-bold">
+                    Guest #{{ guestIndex + 1 }}
+                  </span>
+                  <button type="button" class="btn btn-sm btn-outline-danger border-0" (click)="deleteGuest(guestIndex)">
+                    <i class="bi bi-trash3-fill"></i>
+                  </button>
+                </div>
+
+                <div class="row g-3 text-start">
+                  <div class="col-md-6">
+                    <label class="label-minimal text-dark-green fw-bold small">Last Name</label>
+                    <input type="text" formControlName="last_name" class="form-control form-control-custom" placeholder="e.g. Smith">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="label-minimal text-dark-green fw-bold small">First Name</label>
+                    <input type="text" formControlName="first_name" class="form-control form-control-custom" placeholder="e.g. John">
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="label-minimal text-dark-green fw-bold small">Date of Birth</label>
+                    <input type="date" formControlName="birth_date" class="form-control form-control-custom">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="label-minimal text-dark-green fw-bold small">Nationality</label>
+                    <input type="text" formControlName="nationality" class="form-control form-control-custom" placeholder="e.g. Hungarian">
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="label-minimal text-dark-green fw-bold small">Document Type</label>
+                    <select formControlName="document_type" class="form-select form-control-custom">
+                      <option value="id_card">ID Card</option>
+                      <option value="passport">Passport</option>
+                      <option value="driver_license">Driver's License</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="label-minimal text-dark-green fw-bold small">Document Number</label>
+                    <input type="text" formControlName="document_number" class="form-control form-control-custom" placeholder="e.g. 123456AB">
+                  </div>
+
+                  <div class="col-12 mt-4">
+                    <div class="d-flex align-items-center mb-2">
+                      <hr class="flex-grow-1 m-0">
+                      <span class="px-3 small fw-bold text-muted text-uppercase">Address Information</span>
+                      <hr class="flex-grow-1 m-0">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="label-minimal text-dark-green fw-bold small">Country</label>
+                    <input type="text" formControlName="country_name" class="form-control form-control-custom" placeholder="Country">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="label-minimal text-dark-green fw-bold small">City</label>
+                    <input type="text" formControlName="city_name" class="form-control form-control-custom" placeholder="City">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="label-minimal text-dark-green fw-bold small">Zip Code</label>
+                    <input type="text" formControlName="postal_code" class="form-control form-control-custom" placeholder="Zip">
+                  </div>
+                  <div class="col-md-8">
+                    <label class="label-minimal text-dark-green fw-bold small">Street & Address</label>
+                    <input type="text" formControlName="address" class="form-control form-control-custom" placeholder="Street, house number, etc.">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <button class="btn btn-outline-dark-green w-100 rounded-pill mb-3 fw-bold py-2 border-2" 
+                  (click)="addGuest()" 
+                  [disabled]="guestControls.length >= selectedBookingForGuests?.guest_count">
+            <i class="bi bi-person-plus-fill me-2"></i>Add Guest Slot
+          </button>
+        </div>
+
+        <div class="modal-footer border-0 p-4 bg-white shadow-lg">
+          <button class="btn btn-dark-green w-100 rounded-pill py-3 shadow-sm fw-bold text-gold fs-5 transition-all" 
+                  [disabled]="guestControls.length !== selectedBookingForGuests?.guest_count || bookingForm.get('guests')?.invalid"
+                  (click)="saveGuestsOnly()">
+            <i class="bi me-2" [ngClass]="hasExistingGuests() ? 'bi-arrow-repeat' : 'bi-check2-circle'"></i>
+            {{ hasExistingGuests() ? 'Update Guest Registration' : 'Finalize Guest Registration' }}
+            <ng-container *ngIf="selectedBookingForGuests?.status === 'confirmed'">
+                {{ hasExistingGuests() ? 'Update Guest Registration' : 'Finalize Guest Registration' }}
+              </ng-container>
+              
+              <ng-container *ngIf="selectedBookingForGuests?.status !== 'confirmed'">
+                Confirm Booking First to Register Guests
+              </ng-container>
           </button>
         </div>
       </div>

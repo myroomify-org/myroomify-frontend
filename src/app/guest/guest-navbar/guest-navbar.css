@@ -11,7 +11,6 @@
     border: none;
     font-size: 25px;
     font-weight: medium;
-    font-family: 'Quicksand';
     transition: all 0.4s ease-in-out;
 }
 
@@ -121,6 +120,15 @@ a:hover {
     background: none
 }
 
+.login-link-simple {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-family: 'Quicksand';
+    margin-right: 5px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
 .register-btn {
     background: none;
     color: white;
@@ -175,4 +183,85 @@ a:hover {
     align-items: center;
     display: flex;
     gap: 8px;
+}
+
+/* Hamburger icon */
+.navbar-toggler-icon-custom {
+    color: #c3ae80;
+    font-size: 1.8rem;
+}
+
+/* Responsiveness */
+@media (max-width: 991.98px) {
+    .navbar,
+    .navbar-solid,
+    .navbar-collapse.show {
+        background-color: #333833 !important;
+        height: auto !important;
+        min-height: 80px;
+    }
+
+
+    .navbar-collapse:not(.show) {
+        display: none !important;
+    }
+
+    .navbar-collapse.show {
+        display: block !important;
+        background-color: #333833;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        padding: 0;
+        margin: 0;
+        border-bottom: 2px solid #c3ae80;
+        z-index: 1000;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .nav {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 1.5rem 0 !important;
+        flex: none !important;
+    }
+
+    .nav-item {
+        margin: 0 !important;
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-link {
+        display: inline-block !important;
+        color: white !important;
+        font-size: 1.4rem !important;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        padding: 15px 0 !important;
+        margin: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    .nav-link.active {
+        color: #c3ae80 !important;
+        font-weight: bold;
+    }
+
+    .navbar .container-fluid {
+        justify-content: space-between;
+        padding: 0 20px;
+    }
+}
+
+.navbar-toggler {
+    order: 2;
 }

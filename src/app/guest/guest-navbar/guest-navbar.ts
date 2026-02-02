@@ -23,19 +23,25 @@ import { AuthService } from '../../shared/auth/auth-service';
   styleUrl: './guest-navbar.css',
 })
 export class GuestNavbar {
+  isMenuCollapsed: boolean = true
+
   isSpecialPage: boolean = true
   public authApi = inject(AuthService)
 
   constructor(
     private router: Router,
-    // private authApi: AuthService    
   ) {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
       const specialRoutes = ['/', '/home', '/register', '/login']
       this.isSpecialPage = specialRoutes.includes(event.urlAfterRedirects)
-    });
+      this.isMenuCollapsed = true
+    })
+  }
+
+  toggleMenu(): void {
+    this.isMenuCollapsed = !this.isMenuCollapsed
   }
 
   profile(): void {

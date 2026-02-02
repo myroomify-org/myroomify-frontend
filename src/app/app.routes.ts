@@ -3,7 +3,6 @@ import { AdminNavbar } from './admin/admin-navbar/admin-navbar';
 import { AdminRooms } from './admin/admin-rooms/admin-rooms';
 import { AdminBookings } from './admin/admin-bookings/admin-bookings';
 import { AdminRoom } from './admin/admin-room/admin-room';
-import { AdminCalendar } from './admin/admin-calendar/admin-calendar';
 import { AdminUsers } from './admin/admin-users/admin-users';
 import { GuestHomePage } from './guest/guest-home-page/guest-home-page';
 import { AdminGuests } from './admin/admin-guests/admin-guests';
@@ -34,7 +33,6 @@ export const routes: Routes = [
     { path: 'admin', component: AdminNavbar,
         children: [
             { path: '', redirectTo: 'calendar', pathMatch: 'full' },
-            { path: 'calendar', component: AdminCalendar },
             { path: 'rooms', component: AdminRooms },
             { path: 'rooms/:id', component: AdminRoom },
             { path: 'bookings', component: AdminBookings },            

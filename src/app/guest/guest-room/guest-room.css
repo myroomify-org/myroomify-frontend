@@ -35,7 +35,16 @@ h1 {
 .booking-card {
     background: #ffffff;
     border-radius: 24px !important;
-    border: 1px solid rgba(0,0,0,0.03) !important;
+    border: 1px solid rgba(195, 174, 128, 0.2) !important;
+    box-shadow: 0 15px 45px rgba(45, 64, 55, 0.05) !important;
+    padding: 2rem !important;
+}
+
+.booking-dates-container {
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    background-color: #fafafa;
 }
 
 /* Forms */
@@ -84,11 +93,17 @@ h1 {
 }
 
 .filter-btn {
-    font-family: Quicksand;
-    font-size: 16px;
-    padding: 8px 15px !important;
-    border-radius: 12px !important;
-    line-height: 1.2 !important;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.filter-btn label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
 }
 
 .filter-btn:hover {
@@ -100,16 +115,53 @@ h1 {
 }
 
 ::ng-deep .calendar-popover {
-  min-width: 320px !important;
-  border-radius: 15px !important;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
-}
-
-::ng-deep .cdk-overlay-container {
-  z-index: 9999 !important;
-}
-
-::ng-deep .mat-calendar {
     background-color: #ffffff !important;
-    border-radius: 15px;
+    border: 1px solid rgba(195, 174, 128, 0.4) !important;
+    border-radius: 15px !important;
+    overflow: hidden;
+}
+
+::ng-deep .mat-calendar-body-selected {
+    background-color: #c3ae80 !important;
+    color: white !important;
+}
+
+::ng-deep .mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+    border-color: #2d4037 !important;
+}
+
+::ng-deep .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected) {
+    background-color: rgba(195, 174, 128, 0.15) !important;
+}
+
+::ng-deep .mat-calendar-arrow {
+    fill: #2d4037 !important;
+}
+
+::ng-deep .mat-calendar-next-button, 
+::ng-deep .mat-calendar-previous-button {
+    color: #2d4037 !important;
+}
+
+::ng-deep .mat-calendar-table-header th {
+    color: #333833 !important;
+    font-weight: 700 !important;
+    font-family: 'Quicksand', sans-serif;
+}
+
+/* Responsiveness */
+@media (max-width: 992px) {
+    .main-room-image img {
+        height: 300px;
+    }
+
+    .display-4 {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .booking-card {
+        margin-top: 20px;
+        position: static !important;
+    }
 }

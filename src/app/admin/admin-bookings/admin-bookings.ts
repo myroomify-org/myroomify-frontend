@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import Swal from 'sweetalert2';
 
@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { AdminBookingService } from '../../shared/admin/admin-booking-service';
 import { AdminRoomsService } from '../../shared/admin/admin-rooms-service';
 import { AdminUserService } from '../../shared/admin/admin-user-service';
+import { AdminGuestService } from '../../shared/admin/admin-guest-service'; // Új szerviz importálva
 import { AdminGuests } from '../admin-guests/admin-guests';
 
 @Component({
@@ -25,9 +26,6 @@ import { AdminGuests } from '../admin-guests/admin-guests';
   encapsulation: ViewEncapsulation.None,
 })
 
-// Esetleges módosítások:
-// Naptár stylusa a be- és kijelentkezéshez
-
 export class AdminBookings implements OnInit {
 
   // Variables
@@ -40,11 +38,19 @@ export class AdminBookings implements OnInit {
   showModal = false
   addMode = true
   guests: any
+  get guestControls() {
+    const guests = this.bookingForm?.get('guests') as FormArray
+    return guests ? guests.controls : []
+  }
+
+  showGuestModal = false
+  selectedBookingForGuests: any = null
 
   constructor(
     private bookApi: AdminBookingService,
     private roomApi: AdminRoomsService,
     private userApi: AdminUserService,
+    private guestApi: AdminGuestService,
     private builder: FormBuilder
   ) {}
 
@@ -57,19 +63,19 @@ export class AdminBookings implements OnInit {
   // Booking Form Initialization
   private initForm() {
     this.bookingForm = this.builder.group({
-      id: [''],
-      user_id: [null],
-      room_id: [null],
-      check_in: [''],
-      check_out: [''],
-      booking_type: ['standard'],
-      status: ['pending'],
-      payment_status: ['unpaid'],
-      guest_name: [''],
-      guest_email: [''],
-      guest_phone: [''],
-      guest_count: [1],
-      guests: this.builder.array([])
+    id: [''],
+    user_id: [null, Validators.required],
+    room_id: [null, Validators.required],
+    check_in: ['', Validators.required],
+    check_out: ['', Validators.required],
+    booking_type: ['standard'],
+    status: ['pending'],
+    payment_status: ['unpaid'],
+    guest_name: [''],
+    guest_email: [''],
+    guest_phone: [''],
+    guest_count: [1, [Validators.required, Validators.min(1)]],
+    guests: this.builder.array([])
     })
   }
 
@@ -97,6 +103,30 @@ export class AdminBookings implements OnInit {
     })
   }
 
+  setupGuests() {
+    const count = this.bookingForm.get('guest_count')?.value || 0
+    const guestsArray = this.bookingForm.get('guests') as FormArray
+    
+    while (guestsArray.length < count) {
+      guestsArray.push(this.builder.group({
+        id: [null], // Fontos az azonosításhoz
+        first_name: ['', Validators.required],
+        last_name: ['', Validators.required],
+        birth_date: ['', Validators.required],
+        nationality: ['', Validators.required],
+        document_type: ['id_card', Validators.required],
+        document_number: ['', Validators.required],
+        country_name: ['', Validators.required],
+        city_name: ['', Validators.required],
+        postal_code: ['', Validators.required],
+        address: ['', Validators.required]
+      }))
+    }
+    while (guestsArray.length > count) {
+      guestsArray.removeAt(guestsArray.length - 1)
+    }
+  }
+
   private loadInitialData() {
     this.getBookings()
     this.getRooms()
@@ -112,6 +142,7 @@ export class AdminBookings implements OnInit {
           isExpanded: false 
         }))
         this.filteredBookings = [...this.bookings]
+        console.log(this.bookings)
       },
       error: (error) => console.error('Error loading bookings:', error)
     })
@@ -123,7 +154,7 @@ export class AdminBookings implements OnInit {
         this.rooms = result.data
       },
       error: (error) => console.error('Error loading rooms:', error)
-    });
+    })
   }
 
   getUsers() {
@@ -139,9 +170,28 @@ export class AdminBookings implements OnInit {
     return this.bookingForm.get('guests') as FormArray
   }
 
+  calculateTotal(booking: any): number {
+    if (!booking.check_in || !booking.check_out) return 0
+    const pricePerNight = booking.room?.price_per_night || booking.room?.price || 0
+    if (pricePerNight === 0) return 0
+
+    const start = new Date(booking.check_in)
+    const end = new Date(booking.check_out)
+    
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) return 0
+    
+    const diffTime = end.getTime() - start.getTime()
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    
+    return diffDays > 0 ? diffDays * pricePerNight : 0
+  }
+
   // Save changes
   save() {
-    if (this.bookingForm.invalid) return;
+    if (this.bookingForm.invalid) {
+      Swal.fire('Warning', 'Please check the form for errors.', 'warning');
+      return;
+    }
     const formData = this.bookingForm.getRawValue()
 
     if (this.addMode) {
@@ -157,17 +207,25 @@ export class AdminBookings implements OnInit {
     this.bookApi.addBooking$(data).subscribe({
       next: () => this.success("Booking has been added"),
       error: () => this.failed()
-    });
+    })
   }
 
   addGuest(guestData: any = null) {
     const guestGroup = this.builder.group({
-      name: [guestData ? guestData.name : ''],
-      id_card_number: [guestData ? guestData.id_card_number : ''],
-      birth_date: [guestData ? guestData.birth_date : ''],
-      nationality: [guestData ? guestData.nationality : '']
+      id: [guestData?.id || null],
+      first_name: [guestData?.first_name || '', Validators.required],
+      last_name: [guestData?.last_name || '', Validators.required],
+      birth_date: [guestData?.birth_date || '', Validators.required],
+      nationality: [guestData?.nationality || '', Validators.required],
+      document_type: [guestData?.document_type || 'id_card', Validators.required],
+      document_number: [guestData?.document_number || '', Validators.required],
+
+      country_name: [guestData?.['address']?.['city']?.['country']?.['name'] || '', Validators.required],
+      city_name: [guestData?.['address']?.['city']?.['name'] || '', Validators.required],
+      postal_code: [guestData?.['address']?.['postal_code'] || '', Validators.required],
+      address: [guestData?.['address']?.['address'] || '', Validators.required]
     })
-    this.getGuestArray().push(guestGroup)
+    this.getGuestArray().push(guestGroup);
   }
 
   //Edit
@@ -213,7 +271,56 @@ export class AdminBookings implements OnInit {
     return date.toISOString().split('T')[0]
   }
 
-  // Delet (Cancel booking)
+  async saveGuestsOnly() {
+    if (this.getGuestArray().invalid) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Missing Data',
+        text: 'Please fill in all required guest fields.',
+        confirmButtonColor: '#2d4037'
+      })
+      return
+    }
+
+    if (this.selectedBookingForGuests.status !== 'confirmed') {
+      Swal.fire({
+        icon: 'info',
+        title: 'Status Required',
+        text: 'You must confirm the booking before adding guest details.',
+        confirmButtonColor: '#c3ae80'
+      })
+      return;
+    }
+    
+    const guests = this.getGuestArray().getRawValue()
+    const bookingId = this.selectedBookingForGuests?.id
+
+    if (!bookingId) return
+
+    try {
+      for (const guest of guests) {
+        if (guest.id) {
+          await this.guestApi.editGuest$(bookingId, guest.id, guest).toPromise();
+        } else {
+          await this.guestApi.addGuest$(bookingId, guest).toPromise();
+        }
+      }
+      
+      this.success("Guest details successfully updated!")
+      this.showGuestModal = false
+    } catch (err: any) {
+      console.error("Save error:", err)
+      const errorMsg = err.error?.message || "Failed to save guest data."
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: errorMsg,
+        confirmButtonColor: '#2d4037'
+      })
+    }
+  }
+
+  // Delete (Cancel booking)
   cancel() {
     this.showModal = false
     this.bookingForm.reset()
@@ -255,6 +362,34 @@ export class AdminBookings implements OnInit {
 
   toggleRow(booking: any) {  
     booking.isExpanded = !booking.isExpanded
+  }
+
+  openGuestManager(booking: any) {
+    this.selectedBookingForGuests = booking
+    this.showGuestModal = true
+
+    this.bookingForm.patchValue({
+      id: booking.id,
+      guest_count: booking.guest_count,
+      status: booking.status
+    })
+
+    const guestsArray = this.getGuestArray()
+    guestsArray.clear()
+    
+    if (booking.guests && booking.guests.length > 0) {
+      booking.guests.forEach((guest: any) => this.addGuest(guest))
+    } else {
+      const count = booking.guest_count || 1
+      for (let i = 0; i < count; i++) {
+        this.addGuest()
+      }
+    }
+  }
+
+  hasExistingGuests(): boolean {
+    const guests = this.getGuestArray().value;
+    return guests.some((g: any) => g.id !== null && g.id !== undefined)
   }
   
   // Alerts

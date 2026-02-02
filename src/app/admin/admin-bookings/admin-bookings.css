@@ -26,11 +26,7 @@
 }
 
 /* Table */
-.table td, 
-.table th,
-.table td span,
-.table td div,
-.table td small {
+.table {
     color: #212529;
 }
 
@@ -79,21 +75,34 @@
 }
 
 .status-pill.pending {
-  background-color: #fff9e6;
-  color: #856404;
-  border: 1px solid #ffeeba;
+  background-color: #fff9e6 !important;
+  color: #856404 !important;
+  border-color: #ffeeba !important;
 }
 
 .status-pill.confirmed {
-  background-color: #e6f4ea;
-  color: #1e7e34;
-  border: 1px solid #c3e6cb;
+  background-color: #e6f4ea !important;
+  color: #1e7e34 !important;
+  border-color: #c3e6cb !important;
 }
 
 .status-pill.cancelled {
-  background-color: #fceaea;
+  background-color: #fceaea !important;
+  color: #bd2130 !important;
+  border-color: #f5c6cb !important;
+}
+
+/* Price */
+.total-amount {
+  font-family: 'monospace';
+  color: #2d4037;
+  font-weight: 700;
+}
+
+.guest-count-warning {
+  font-size: 0.7rem;
   color: #bd2130;
-  border: 1px solid #f5c6cb;
+  margin-top: 5px;
 }
 
 /* Booking Form */
@@ -175,4 +184,74 @@
   padding: 20px 40px;
   border-top: 1px solid rgba(0,0,0,0.05);
   border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Guest Add button */
+.btn-guest-manager {
+    background-color: #c3ae80; /* Elegáns kék */
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-guest-manager:hover {
+    background-color: #0a58ca;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+}
+
+/*  Guest warning button */
+.btn-guest-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+.btn-guest-warning:hover {
+    background-color: #ffe8a1;
+}
+
+/* Guest Animation */
+.pulse-animation {
+    animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+}
+
+/* Guest card*/
+.guest-card {
+    border-left: 4px solid #0d6efd; /* Kék jelzés az oldalán */
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: transform 0.2s ease;
+}
+
+.guest-card:hover {
+    transform: scale(1.02);
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px #333833;
+}
+
+.guest-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.guest-number-badge {
+    background-color: #333833;
+    color: white;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 20px;
 }

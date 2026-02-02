@@ -52,10 +52,10 @@ export class AdminUsers {
       password_confirmation: ['ManualPassword123!', Validators.required],
       role: ['customer', Validators.required],
       last_name: ['Guest', Validators.required],
-      first_name: ['New', Validators.required],
+      first_name: ['User', Validators.required],
       country_name: ['Hungary', Validators.required],
       city_name: ['Budapest', Validators.required],
-      address: ['Unknown', Validators.required],
+      address: ['Temporary Address', Validators.required],
       postal_code: ['0000', Validators.required],
       is_active: [1]
     })
@@ -83,73 +83,90 @@ export class AdminUsers {
     })
   }
 
-  changeRole(user: any, newRole: string) {
-    const updatedUser = { 
-      ...user, role: newRole ,
+  private flattenUserData(user: any) {
+    return {
+      ...user,
+      first_name: user.first_name || user.profile?.first_name || 'Guest',
+      last_name: user.last_name || user.profile?.last_name || 'User',
+
+      country_name: user.country_name || user.profile?.address?.country_name || 'Hungary',
+      city_name: user.city_name || user.profile?.address?.city_name || 'Budapest',
+      postal_code: user.postal_code || user.profile?.address?.postal_code || '0000',
+      address: user.address || user.profile?.address?.address || 'Default Address',
+
+      email: user.email,
+      phone: user.phone || user.profile?.phone || '000000000',
       password: 'ManualPassword123!',
       password_confirmation: 'ManualPassword123!'
-    }
+    };
+  }
 
-    this.userApi.editUser$(user.id, updatedUser).subscribe({
+toggleUserStatus(user: any) {
+    const payload = this.flattenUserData(user)
+    payload.is_active = user.is_active ? 0 : 1
+
+    this.userApi.editUser$(user.id, payload).subscribe({
       next: () => {
-        user.role = newRole
-        this.success("Jogosultság frissítve")
+        user.is_active = !user.is_active
+        this.success(user.is_active ? "Activated" : "Deactivated")
       },
-      error: (error: any) => {
-        console.error(error)
-        console.log("A többi fejlesztőnek: A módosítás azért nem működik, mert minden adatot vissza kéne adnom, még olyan részleteket is, mint a postcode, ami jelen esetben teljesen felesleges")
-        this.error("Error updating user role")
-        this.getUsers()
+      error: (err: any) => {
+        this.error("Validation error")
       }
     })
   }
 
-  toggleUserStatus(user: any) {
-    const updatedUser = { 
-      ...user, 
-      is_active: user.is_active ? 0 : 1 
-    }
+  changeRole(user: any, newRole: string) {
+    const payload = this.flattenUserData(user)
+    payload.role = newRole
 
-    this.userApi.editUser$(user.id, updatedUser).subscribe({
+    this.userApi.editUser$(user.id, payload).subscribe({
       next: () => {
-        user.is_active = !user.is_active
-        this.success(user.is_active ? "User activated" : "User deactivated")
+        user.role = newRole
+        this.success("Role has been changed successfully")
       },
-      error: (error: any) => {
-        console.log(error)
-        this.error("Error updating user status")
+      error: (err: any) => {
+        this.error("Validation error")
+        this.getUsers()
       }
     });
   }
 
   addUser() {
+    console.log("Form state:", this.userForm.status);
+    
     if (this.userForm.valid) {
-      const fullData = {
-        ...this.userForm.value,
-        password_confirmation: this.userForm.value.password,
-            
-        first_name: this.userForm.value.name,
-        last_name: 'Pending',
-        country_name: 'Hungary',
-        city_name: 'Budapest',
-        address: 'Default Address 1.',
-        postal_code: '0000',
+      const rawData = this.userForm.value;
+      const nameParts = rawData.name ? rawData.name.trim().split(' ') : []
+      
+      const payload = {
+        name: rawData.name,
+        email: rawData.email,
+        phone: rawData.phone || '000000000',
+        password: rawData.password,
+        password_confirmation: rawData.password,
+        role: rawData.role,
+        first_name: nameParts[0] || 'Guest',
+        last_name: nameParts.length > 1 ? nameParts.slice(1).join(' ') : 'User',
+        country_name: rawData.country_name || 'Hungary',
+        city_name: rawData.city_name || 'Budapest',
+        address: rawData.address || 'Default address',
+        postal_code: rawData.postal_code || '0000',
         is_active: 1
       }
 
-      this.userApi.addUser$(fullData).subscribe({
-        next: (res: any) => {
-          this.success("User successfully created!")
+      this.userApi.addUser$(payload).subscribe({
+        next: () => {
+          this.success("User has been added!")
           this.getUsers()
           this.cancel()
         },
         error: (err: any) => {
-          console.error("Backend hiba:", err)
-          this.error("Validation failed. Check console!")
+          this.error("Backend error: " + JSON.stringify(err.error.data))
         }
       })
     } else {
-      this.error("Please fill in name, email and password!")
+      this.error("Form is invalid! Check your inputs.")
     }
   }
 
@@ -227,7 +244,7 @@ export class AdminUsers {
   }
 
   onSort(event: any) {
-    const key = event.target.value;      
+    const key = event.target.value      
     if (!key) return
 
     this.filteredUsers.sort((a, b) => {
@@ -241,7 +258,7 @@ export class AdminUsers {
 
       if (valA < valB) return -1
       if (valA > valB) return 1
-      return 0;
+      return 0
     })
   }
 }
