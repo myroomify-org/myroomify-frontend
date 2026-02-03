@@ -20,13 +20,4 @@ export class PublicRoomService {
   getRoom$(id: number){
     return this.http.get(this.url + id)
   }
-
-  getAvailableRooms$(params: any) {
-    let httpParams = new HttpParams()
-      .set('start_date', params.start_date)
-      .set('end_date', params.end_date)
-      .set('capacity', params.capacity.toString())
-
-    return this.http.get(this.url + 'available', {params: httpParams})
-  }
 }

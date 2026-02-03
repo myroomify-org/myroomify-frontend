@@ -63,19 +63,16 @@
           
           <div class="room-img-container">
             <img [src]="room.image || '/rooms/room_inside.jpg'" class="card-img-top" [alt]="room.name">
-            <div class="room-badge">Available</div>
-          </div>
-
+            <div class="room-badge">Available</div> </div>
+          
           <div class="card-body p-4 d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start mb-2">
-              <h5 class="card-title fw-bold mb-0" style="color: #333833;">{{ room.name }}</h5>
+              <h5 class="card-title fw-bold mb-0" style="color: #2d4037;">{{ room.name }}</h5>
               <span class="room-price">£{{ room.price }}<small>/night</small></span>
             </div>
-            
             <p class="card-text text-muted small mb-4">
               {{ room.description }}
             </p>
-
             <div class="mt-auto">
               <button class="btn btn-outline-dark w-100 rounded-pill" (click)="navigate(room.id)">
                 Book Now

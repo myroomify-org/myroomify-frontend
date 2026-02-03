@@ -76,22 +76,18 @@ export class GuestRooms {
   // Number of guests
   searchRooms(): void {
     if (!this.startDate || !this.endDate) {
-      alert('Please select a check-in and check-out date.')
+      // alert('Please select a check-in and check-out date.')
       return
     }
 
-    const params = {
-      start_date: this.startDate.toISOString().split('T')[0],
-      end_date: this.endDate.toISOString().split('T')[0],
-      capacity: this.selectedGuests
-    }
+    const guestCount = Number(this.selectedGuests)
 
-    this.roomApi.getAvailableRooms$(params).subscribe({
-      next: (result: any) => {
-        this.filteredRooms = result.data
-        this.scrollToResults()
-      }
+    this.filteredRooms = this.rooms.filter(room => {
+      return room.capacity >= guestCount
     })
+
+    this.scrollToResults()
+
   }
 
   private scrollToResults(): void {
