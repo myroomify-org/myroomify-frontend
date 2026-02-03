@@ -23,12 +23,12 @@ export class EmailVerification implements OnInit {
     if (token) {
       this.authApi.verifyEmail$(token).subscribe({
         next: (result:any) => {
-          Swal.fire('Siker!', 'E-mail megerősítve, most már beléphetsz.', 'success');
-          this.router.navigate(['/login']);
+          Swal.fire('Success!', 'Email verified.', 'success')
+          this.router.navigate(['/login'])
         },
         error: (error:any) => {
-          Swal.fire('Hiba', error.error.message || 'Érvénytelen token.', 'error');
-          this.router.navigate(['/login']);
+          Swal.fire('Error', error.error.message || 'Invalid token.', 'error')
+          this.router.navigate(['/login'])
         }
       });
     }

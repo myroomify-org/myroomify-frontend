@@ -15,6 +15,7 @@ import { GuestRoom } from './guest/guest-room/guest-room';
 import { GuestProfile } from './guest/guest-profile/guest-profile';
 import { AdminProfile } from './admin/admin-profile/admin-profile';
 import { EmailVerification } from './email-verification/email-verification';
+import { roleGuard } from './shared/auth/role-guard';
 
 export const routes: Routes = [
     { path: '', component: GuestNavbar,
@@ -32,11 +33,26 @@ export const routes: Routes = [
     },
     { path: 'admin', component: AdminNavbar,
         children: [
-            { path: '', redirectTo: 'calendar', pathMatch: 'full' },
-            { path: 'rooms', component: AdminRooms },
-            { path: 'rooms/:id', component: AdminRoom },
-            { path: 'bookings', component: AdminBookings },            
-            { path: 'users', component: AdminUsers },
+            { path: '', redirectTo: 'bookings', pathMatch: 'full' },
+            { 
+              path: 'rooms', 
+              component: AdminRooms, 
+              canActivate: [roleGuard], 
+              data: { roles: ['admin', 'superadmin'] } 
+            },
+            { 
+              path: 'rooms/:id',
+              component: AdminRoom, 
+              canActivate: [roleGuard], 
+              data: { roles: ['admin', 'superadmin'] } 
+            },                      
+            { 
+              path: 'users', 
+              component: AdminUsers, 
+              canActivate: [roleGuard], 
+              data: { roles: ['superadmin'] } 
+            },
+            { path: 'bookings', component: AdminBookings },  
             { path: 'guests', component: AdminGuests },
             { path: 'profile', component: AdminProfile }, 
          ]

@@ -41,21 +41,21 @@ export class AuthService {
     return this.http.post(this.registerApi, data)
   }
 
-  login$(data: any){
+  login$(data: any) {
     return this.http.post(this.loginApi, data).pipe(
-      tap((response: any) => {
-        if (response.success && response.data) {
-          const userData = response.data.user
-          const token = response.data.token
+        tap((response: any) => {
+          if (response.success && response.data) {
+            const userData = response.data.user;
+            const token = response.data.token;
 
-          localStorage.setItem('token', token)
-          localStorage.setItem('user', JSON.stringify(userData))
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(userData));
 
-          this.currentUserSubject.next(userData)
-          this._isLoggedIn.next(true)
-        }
-      })
-    )
+            this.currentUserSubject.next(userData);
+            this._isLoggedIn.next(true);
+          }
+        })
+      )
   }
 
   logout$() {

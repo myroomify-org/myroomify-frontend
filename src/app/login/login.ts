@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -38,20 +39,15 @@ export class Login implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authApi: AuthService
+    private authApi: AuthService,
+    private http: HttpClient,
   ) {}
 
   ngOnInit(): void {
-    if (this.authApi.getRole() !== 'guest') {
-      const role = this.authApi.getRole()
-      const target = role === 'customer' ? '/home' : '/admin/profile'
-      this.router.navigate([target])
-    }
-
-    this.loginForm = this.fb.group({
-      login: ['', Validators.required],
-      password: ['', [Validators.required]]
-    });
+    this.loginForm = this.fb.group({  
+        login: ['', Validators.required],
+        password: ['', [Validators.required]]
+      })
   }
 
   // Login

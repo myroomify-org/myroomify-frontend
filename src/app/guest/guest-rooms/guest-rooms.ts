@@ -10,6 +10,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { HttpParams } from '@angular/common/http';
 
 
 interface Room {
@@ -74,19 +75,31 @@ export class GuestRooms {
   // Search Field
   // Number of guests
   searchRooms(): void {
-    const guestCount = Number(this.selectedGuests)
-    console.log('Number of guests:', guestCount)
-    console.log('All rooms:', this.rooms)
-    this.filteredRooms = this.rooms.filter(room => {
-      const matchesCapacity = room.capacity == guestCount
-      const isAvailable = room.is_available
-      return matchesCapacity && isAvailable
-    })
-    console.log('Szűrt szobák:', this.filteredRooms)
+    if (!this.startDate || !this.endDate) {
+      alert('Please select a check-in and check-out date.')
+      return
+    }
 
+    const params = {
+      start_date: this.startDate.toISOString().split('T')[0],
+      end_date: this.endDate.toISOString().split('T')[0],
+      capacity: this.selectedGuests
+    }
+
+    this.roomApi.getAvailableRooms$(params).subscribe({
+      next: (result: any) => {
+        this.filteredRooms = result.data
+        this.scrollToResults()
+      }
+    })
+  }
+
+  private scrollToResults(): void {
     setTimeout(() => {
-      const element = document.getElementById('room-list')
-      if (element) element.scrollIntoView({ behavior: 'smooth' })
+      const element = document.getElementById('room-list');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
     }, 100)
   }
 

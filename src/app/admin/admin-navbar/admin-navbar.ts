@@ -28,10 +28,10 @@ export class AdminNavbar {
   ) {}
 
   logout() {
-    this.authApi.logout$();
+    this.authApi.logout$()
   }
 
   profile() {
-    this.router.navigate(['/admin/profile']);
+    this.router.navigate(['/admin/profile'])
   }
 }
