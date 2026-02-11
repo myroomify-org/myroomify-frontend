@@ -79,7 +79,6 @@ export class GuestRooms {
       // alert('Please select a check-in and check-out date.')
       return
     }
-
     const guestCount = Number(this.selectedGuests)
 
     this.filteredRooms = this.rooms.filter(room => {

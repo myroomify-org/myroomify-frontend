@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, tap } from 'rxjs';
+import { MeProfileService } from '../me/me-profile-service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,12 +20,16 @@ export class AuthService {
   // Api
   registerApi = "http://localhost:8000/api/auth/register/"
   loginApi = "http://localhost:8000/api/auth/login/"
+  logoutApi = "http://localhost:8000/api/auth/logout/"
   verifyApi = "http://localhost:8000/api/auth/verify-email/"
 
   constructor(
     private http: HttpClient,
-    private router: Router
-  ) {}
+    private router: Router,
+    private meApi: MeProfileService
+  ) {
+    this.autoLogin()
+  }
 
   // Role
   getRole(): string {
@@ -45,12 +50,9 @@ export class AuthService {
     return this.http.post(this.loginApi, data).pipe(
         tap((response: any) => {
           if (response.success && response.data) {
+            localStorage.setItem('token', response.data.token);
+
             const userData = response.data.user;
-            const token = response.data.token;
-
-            localStorage.setItem('token', token);
-            localStorage.setItem('user', JSON.stringify(userData));
-
             this.currentUserSubject.next(userData);
             this._isLoggedIn.next(true);
           }
@@ -65,10 +67,29 @@ export class AuthService {
     this.currentUserSubject.next(null)
     this._isLoggedIn.next(false)
     this.router.navigate(['/login'])
-  }
 
-  // Verification
-  verifyEmail$(token: string) {
-    return this.http.get(`${this.verifyApi}?token=${token}`)
+    return this.http.post(this.logoutApi, {})
+  }  
+
+  // AutoLogin
+  private autoLogin() {
+    const token = localStorage.getItem('token')
+
+    if (!token) {
+      this._isLoggedIn.next(false)
+      return
+    }
+
+    this.meApi.getProfile$().subscribe({
+      next: (response: any) => {
+        const userData = response.data || response
+        this.currentUserSubject.next(userData)
+        this._isLoggedIn.next(true)
+      },
+      error: (error: any) => {
+        console.error("Error getting user profile", error);
+        this.logout$(); 
+      }
+    });
   }
 }

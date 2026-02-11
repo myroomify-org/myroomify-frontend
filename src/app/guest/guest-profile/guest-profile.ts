@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-guest-profile',
@@ -43,14 +44,16 @@ export class GuestProfile implements OnInit {
 
   constructor(
     private bookingApi: MeBookingService,
-    private profileApi: MeProfileService
+    private profileApi: MeProfileService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
-    this.getUserData()
+    this.getDatas()
   }
 
-  getUserData() {
+  
+  getDatas() {
     this.profileApi.getProfile$().subscribe({
       next: (result: any) => {
         this.user = this.mapUserData(result.data)
@@ -69,6 +72,7 @@ export class GuestProfile implements OnInit {
     })
   }
 
+  // User Profile
   private mapUserData(apiData: any) {
     const profile = apiData?.profile || {}
     const address = profile?.address || {}
@@ -85,20 +89,10 @@ export class GuestProfile implements OnInit {
       postal_code: address.postal_code || '',
       address: address.address || '',
       rawProfile: profile 
-    };
-  }
-
-  calculateTotalPrice(booking: any): number {
-    if (booking.check_in && booking.check_out && booking.room?.price) {
-      const checkIn = new Date(booking.check_in)
-      const checkOut = new Date(booking.check_out)
-      const diffTime = checkOut.getTime() - checkIn.getTime()
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-      return diffDays > 0 ? diffDays * booking.room.price : 0
     }
-    return 0;
   }
 
+  // Edit user
   toggleEdit() {
     this.isEditing = !this.isEditing;
   }
@@ -121,12 +115,12 @@ export class GuestProfile implements OnInit {
         this.success("Email updated successfully")
       },
       error: () => this.failed("Email update failed")
-    });
+    })
   }
 
   savePassword() {
     if (this.passwordData.new_password !== this.passwordData.new_password_confirmation) {
-      Swal.fire('Error', 'The new passwords do not match!', 'error')
+      this.failed("The new passwords do not match!")
       return
     }
 
@@ -134,12 +128,22 @@ export class GuestProfile implements OnInit {
       next: () => {
         this.showPasswordFields = false
         this.passwordData = { current_password: '', new_password: '', new_password_confirmation: '' }
-        this.success("Password updated successfully")
+
+        localStorage.removeItem('token')
+        sessionStorage.removeItem('token')
+
+        setTimeout(() => {
+          this.router.navigate(['/login'])
+        }, 2000)
+        
+        this.success("Password updated successfully!", "You will be redirected to the login page in 2 seconds.")
       },
       error: () => this.failed("Password update failed")
     })
   }
 
+
+  //Booking Profile
   private formatDate(date: Date | string): string {
     const d = new Date(date)
     return [
@@ -168,7 +172,7 @@ export class GuestProfile implements OnInit {
     }
   }
 
-  editBooking(booking: any) {
+  async editBooking(booking: any) {
     const updatedData = {
       check_in: this.formatDate(booking.check_in),
       check_out: this.formatDate(booking.check_out),
@@ -178,65 +182,98 @@ export class GuestProfile implements OnInit {
     }
 
     if (updatedData.status === 'cancelled' && this.originalBookingData?.status !== 'cancelled') {
-      Swal.fire({
-        title: 'Are you sure?',
-        text: "Setting this booking to 'Cancelled' cannot be undone easily!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#2d4037',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, cancel reservation'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.sendUpdateRequest(booking.id, updatedData);
-        } else {
-          this.cancelEdit(booking);
-        }
-      });
+      const confirmed = await this.confirm("Are you sure you want to cancel this reservation?")
+      if (confirmed) {
+        this.sendUpdateRequest(booking.id, updatedData)
+      } else {
+        this.cancelEdit(booking)
+      }
     } else {
-      this.sendUpdateRequest(booking.id, updatedData);
+      this.sendUpdateRequest(booking.id, updatedData)
     }
   }
 
   private sendUpdateRequest(id: number, data: any) {
     this.bookingApi.editBooking$(id, data).subscribe({
-      next: () => {
-        this.success("Booking has been updated")
-        this.editingBookingId = null
+      next: (result: any) => {
+        const index = this.bookings.findIndex(booking => booking.id === id)
+        if (index !== -1) {
+          const updatedBooking = result.data || result
+        
+          this.bookings[index] = {
+            ...updatedBooking,
+            check_in: new Date(updatedBooking.check_in),
+            check_out: new Date(updatedBooking.check_out)
+          }
+          this.bookings = [...this.bookings]
+        }
+        this.editingBookingId = null;
         this.originalBookingData = null
-        this.getUserData()
       },
-      error: (err) => {
-        this.failed("Update failed: " + (err.error?.message || "Server error"))
+      error: (error) => {
+        this.failed("Update failed: " + (error.error?.message || "Server error"))
+        this.getDatas()
       }
-    });
+    })
   }
 
   cancelEdit(booking: any) {
     if (this.originalBookingData) {
-      booking.check_in = new Date(this.originalBookingData.check_in);
-      booking.check_out = new Date(this.originalBookingData.check_out);
-      booking.status = this.originalBookingData.status;
+      booking.check_in = new Date(this.originalBookingData.check_in)
+      booking.check_out = new Date(this.originalBookingData.check_out)
+      booking.status = this.originalBookingData.status
     }
-    this.editingBookingId = null;
-    this.originalBookingData = null;
-    this.isChoosingCheckout = false;
+    this.editingBookingId = null
+    this.originalBookingData = null
+    this.isChoosingCheckout = false
   }
 
-  success(response: any) {
+  // Alerts
+  success(title: string, text?: string) {
     Swal.fire({
       icon: 'success',
-      title: response,
+      iconColor: '#c3ae80',
+      title: title,
+      text: text,
       showConfirmButton: false,
-      timer: 1500
+      timer: 1500,
+      customClass: {
+        popup: 'rounded-4 shadow-lg',
+        confirmButton: 'rounded-pill px-4',
+      }
     })
   }
+
+  async confirm(title: string){
+    const result = await Swal.fire({
+      icon: 'question',
+      iconColor: '#c3ae80',
+      title: title,
+      showCancelButton: true,
+      confirmButtonColor: '#2d4037',
+      cancelButtonColor: '#f8f9fa',
+      confirmButtonText: 'Yes, confirm booking',
+      cancelButtonText: 'Cancel',
+      color: '#2d4037',
+      background: '#fcfbf7',
+      customClass: {
+        popup: 'rounded-4 shadow-lg',
+        confirmButton: 'rounded-pill px-4',
+        cancelButton: 'rounded-pill px-4 text-dark border'
+      }
+    })
+    return result.isConfirmed
+  }
   
-  failed(response: any) {
+  failed(title: string) {
     Swal.fire({
       icon: 'error',
-      title: response,
-      confirmButtonColor: '#2d4037'
+      title: title,
+      confirmButtonColor: '#2d4037',
+      customClass: {
+        popup: 'rounded-4 shadow-lg',
+        confirmButton: 'rounded-pill px-4',
+      }
     })
   }
 }

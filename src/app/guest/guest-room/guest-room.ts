@@ -40,10 +40,10 @@ export class GuestRoom implements OnInit{
   startDate: Date | null = null
   endDate: Date | null = null
   selectedRange: string = ''
-  today: Date = new Date();
+  today: Date = new Date()
 
   isChoosingCheckout: boolean = false
-  guest_count: number = 1;
+  guest_count: number = 1
 
   constructor(
     private route: ActivatedRoute,
@@ -60,6 +60,7 @@ export class GuestRoom implements OnInit{
     }
   }
 
+  // Get
   getRoom(id: number): void {
     this.roomApi.getRoom$(id).subscribe({
       next: (result: any) => {
@@ -74,6 +75,7 @@ export class GuestRoom implements OnInit{
     });
   }
 
+  // Calendar
   onDateSelected(date: Date | null) {
     if (!date) return
 
@@ -90,6 +92,7 @@ export class GuestRoom implements OnInit{
         this.endDate = date
       }
     }
+
     setTimeout(() => {
       if (this.menuTrigger) {
         this.menuTrigger.closeMenu()
@@ -110,26 +113,13 @@ export class GuestRoom implements OnInit{
     this.isChoosingCheckout = forCheckout;
   }
 
-  calculateTotalPrice(): number {
-    if (this.startDate && this.endDate && this.room) {
-      const diffTime = Math.abs(this.endDate.getTime() - this.startDate.getTime());
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      return diffDays * this.room.price;
-    }
-    return 0;
-  }
-
+  //Booking
   async bookRoom() {
     const isLoggedIn = await firstValueFrom(this.authApi.isLoggedIn$)
-    const userJson = localStorage.getItem('user')
-    const user = userJson ? JSON.parse(userJson) : null
-
-    if (!user || !user.id) {
-      this.warning("You must be logged in to book a room.")
-      return
-    }
+    const user = await firstValueFrom(this.authApi.currentUser$)
 
     if (!isLoggedIn) {
+      this.warning("You must be logged in to book a room.")
       localStorage.setItem('pending_booking_room_id', this.room.id)
       this.router.navigate(['/login'])
       return
@@ -140,19 +130,24 @@ export class GuestRoom implements OnInit{
       return
     }
 
+    const confirmed = await this.confirm(
+      `Are you sure you want to book this room for ${this.guest_count} guests?`
+    )
+
+    if (!confirmed) return
+
     const bookingData = {
       room_id: this.room.id,
       user_id: user.id,
       check_in: this.formatDate(this.startDate),
       check_out: this.formatDate(this.endDate),
       guest_count: this.guest_count,
-      status: 'pending'
     }
 
     this.bookingApi.addBooking$(bookingData).subscribe({
       next: (result:any) => {
         this.success("Room has been successfully booked.")
-        this.router.navigate(['/me/bookings'])
+        this.router.navigate(['/profile'])
       },
       error: (error:any) => {
         this.failed("Failed to book room.")
@@ -164,6 +159,7 @@ export class GuestRoom implements OnInit{
   success(text: string) {
     Swal.fire({
       icon: 'success',
+      iconColor: '#c3ae80',
       title: text,
       showConfirmButton: false,
       timer: 1500
@@ -173,10 +169,36 @@ export class GuestRoom implements OnInit{
   warning(text: string) {
     Swal.fire({
       icon: 'warning',
+      iconColor: '#c3ae80',
       title: text,
       showConfirmButton: true,
-      confirmButtonColor: '#2d4037'
+      confirmButtonColor: '#2d4037',
+      customClass: {
+        popup: 'rounded-4 shadow-lg',
+        confirmButton: 'rounded-pill px-4',
+      }
     })
+  }
+
+  async confirm(text: string) {
+    const result = await Swal.fire({
+      icon: 'question',
+      iconColor: '#c3ae80',
+      title: text,
+      showCancelButton: true,
+      confirmButtonColor: '#2d4037',
+      cancelButtonColor: '#f8f9fa',
+      confirmButtonText: 'Yes, confirm booking',
+      cancelButtonText: 'Cancel',
+      color: '#2d4037',
+      background: '#fcfbf7',
+      customClass: {
+        popup: 'rounded-4 shadow-lg',
+        confirmButton: 'rounded-pill px-4',
+        cancelButton: 'rounded-pill px-4 text-dark border'
+      }
+    })
+    return result.isConfirmed
   }
 
   failed(text: string) {
@@ -184,7 +206,11 @@ export class GuestRoom implements OnInit{
       icon: 'error',
       title: text,
       text: 'Your booking could not be completed.',
-      confirmButtonColor: '#2d4037'
+      confirmButtonColor: '#2d4037',
+      customClass: {
+        popup: 'rounded-4 shadow-lg',
+        confirmButton: 'rounded-pill px-4',
+      }
     })
   }
 }
