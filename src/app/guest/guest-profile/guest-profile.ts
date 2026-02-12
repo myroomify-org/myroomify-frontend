@@ -184,13 +184,37 @@ export class GuestProfile implements OnInit {
     if (updatedData.status === 'cancelled' && this.originalBookingData?.status !== 'cancelled') {
       const confirmed = await this.confirm("Are you sure you want to cancel this reservation?")
       if (confirmed) {
-        this.sendUpdateRequest(booking.id, updatedData)
+        this.sendCancelRequest(booking.id)
       } else {
         this.cancelEdit(booking)
       }
     } else {
       this.sendUpdateRequest(booking.id, updatedData)
     }
+  }
+
+  private sendCancelRequest(id: number) {
+    this.bookingApi.cancelBooking$(id).subscribe({
+      next: (result: any) => {
+        const index = this.bookings.findIndex(b => b.id === id)
+        if (index !== -1) {
+          const updatedBooking = result.data || result
+          this.bookings[index] = {
+            ...updatedBooking,
+            check_in: new Date(updatedBooking.check_in),
+            check_out: new Date(updatedBooking.check_out)
+          }
+          this.bookings = [...this.bookings]
+        }
+        this.editingBookingId = null
+        this.originalBookingData = null
+        this.isChoosingCheckout = false
+      },
+      error: (error) => {
+        this.failed("Cancellation failed!")
+        this.getDatas()
+      }
+    })
   }
 
   private sendUpdateRequest(id: number, data: any) {

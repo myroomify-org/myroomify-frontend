@@ -40,6 +40,6 @@ export class MeBookingService {
   }
 
   cancelBooking$(id: number){
-    return this.http.delete(this.url + id + "/cancel", {headers: this.getHeaders$()})
+    return this.http.put(this.url + id + "/cancel", {headers: this.getHeaders$()})
   }
 }
