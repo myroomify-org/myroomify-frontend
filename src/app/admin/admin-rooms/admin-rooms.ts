@@ -87,9 +87,52 @@ export class AdminRooms {
         this.allRooms = result.data;
         this.updateCounts()
         this.filterCards()
+        console.log(result.data)
       },
-      error: (err: any) => console.error('Error getting rooms', err)
+      error: (error: any) => console.error('Error getting rooms', error)
     })
+  }
+
+  getRoomMainImage(card: any): string {
+    const backendUrl = 'http://localhost:8000/storage/';
+    const defaultPlaceholder = 'rooms/room.jpg';
+
+    // 1. Ha nincs images tömb, rögtön placeholder
+    if (!card.images || card.images.length === 0) {
+      return defaultPlaceholder;
+    }
+
+    // 2. LAZA SZŰRÉS: == használata === helyett (szám vs string hiba ellen)
+    // És biztosítjuk, hogy az ID-k léteznek
+    const roomSpecificImages = card.images.filter((img: any) => 
+      img && (img.room_id == card.id)
+    );
+
+    // 3. Ha a szűrés után maradt kép:
+    if (roomSpecificImages.length > 0) {
+      // Megkeressük a primary-t (itt is laza == 1)
+      const primaryImage = roomSpecificImages.find((img: any) => 
+        img.is_primary == 1 || img.is_primary === true
+      );
+
+      // Ha nincs primary, az elsőt vesszük
+      const imageToDisplay = primaryImage || roomSpecificImages[0];
+
+      if (imageToDisplay && imageToDisplay.path) {
+        // Tisztítjuk a path-t a dupla perjelek ellen
+        const cleanPath = imageToDisplay.path.replace(/^\//, '');
+        return `${backendUrl}${cleanPath}`;
+      }
+    }
+
+    // 4. Ha volt kép a tömbben, de a szűrés valamiért elbukott (pl. eltolt ID-k),
+    // tegyünk egy utolsó próbát: adjuk vissza a szoba objektum legelső képét szűrés nélkül
+    if (card.images[0] && card.images[0].path) {
+      const backupPath = card.images[0].path.replace(/^\//, '');
+      return `${backendUrl}${backupPath}`;
+    }
+
+    return defaultPlaceholder;
   }
 
   // View

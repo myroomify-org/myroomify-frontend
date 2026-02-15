@@ -4,7 +4,7 @@
         <p class="text-muted d-none d-md-block">Manage your hotel inventory and pricing.</p>
     </div>
 
-    <div class="btn-group mt-3 shadow-sm rounded-pill p-1 bg-light mb-2">
+    <div class="btn-group mt-3 shadow-sm rounded-pill p-1 bg-light mb-4">
         <button class="btn rounded-pill px-4" 
                 [class.btn-dark-green]="currentView === 'active'"
                 (click)="switchView('active')">
@@ -33,10 +33,19 @@
         <div class="col-lg-3 col-md-6 col-12" *ngFor="let card of cards">
             <div class="room-card card h-100 border-0 shadow-sm overflow-hidden">
                 <div class="price-tag">{{ card.price | number }} $ / night</div>
-                <img src="/rooms/room_inside.jpg" class="card-img-top" alt="Room illustration">
-                <div class="card-body">
+                
+                <div class="room-card-img-container" style="height: 200px; overflow: hidden; background: #eee;">
+                    <img [src]="getRoomMainImage(card)" 
+                         class="card-img-top w-100 h-100 object-fit-cover" 
+                         [alt]="card.name"
+                         (error)="$any($event.target).src = 'assets/images/placeholder-room.jpg'">
+                </div>
+
+                <div class="card-body d-flex flex-column">
                     <h5 class="card-title fw-bold text-dark">{{ card.name }}</h5>
-                    <p class="card-text text-muted small mb-3">{{ card.description | slice:0:60 }}...</p>
+                    <p class="card-text text-muted small mb-3">
+                        {{ (card.description | slice:0:60) || 'No description available' }}...
+                    </p>
                     
                     <div class="d-flex gap-2 mb-4">
                         <span class="badge badge-info-light">
@@ -67,7 +76,7 @@
     </div>
 
     @if(showModal){
-    <div class="modal fade show d-block" tabindex="-1">
+    <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow-lg rounded-4">
                 <div class="modal-header bg-dark-green text-white p-4">
@@ -86,7 +95,7 @@
                                 <input type="number" formControlName="capacity" class="form-control form-control-custom">
                             </div>
                             <div class="col-6">
-                                <label class="label-minimal">Price (HUF / night)</label>
+                                <label class="label-minimal">Price ($ / night)</label>
                                 <input type="number" formControlName="price" class="form-control form-control-custom">
                             </div>
                         </div>
@@ -105,6 +114,5 @@
             </div>
         </div>
     </div>
-    <div class="modal-backdrop fade show"></div>
     }
 </div>

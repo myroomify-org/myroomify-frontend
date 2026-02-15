@@ -158,6 +158,20 @@
     font-weight: 500;
 }
 
+.btn-manage-modern:disabled {
+  background-color: #f8f9fa !important;
+  border-color: #dee2e6 !important;
+  color: #adb5bd !important;
+  cursor: not-allowed; /* Tiltó jelzés az egérkurzornak */
+  opacity: 0.6;
+}
+
+.cancelled-opacity {
+  filter: grayscale(0.5);
+  background-color: #fcfcfc !important;
+  border-style: dashed !important;
+}
+
 /* Animation*/
 .animate-fade-in {
     animation: fadeIn 0.4s ease-in-out;

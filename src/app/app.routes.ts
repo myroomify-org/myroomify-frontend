@@ -48,7 +48,7 @@ export const routes: Routes = [
               path: 'users', 
               component: AdminUsers, 
               canActivate: [roleGuard], 
-              data: { roles: ['superadmin'] } 
+              data: { roles: ['admin', 'superadmin'] } 
             },
             { path: 'bookings', component: AdminBookings },  
             { path: 'guests', component: AdminGuests },

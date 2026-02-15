@@ -32,7 +32,7 @@ export class AdminRoomsService {
 
   // Edit
   editRoom$(id: number, data: any){
-    return this.http.put(this.url + id, data)
+    return this.http.post(this.url + id, data)
   }
 
   // Delete

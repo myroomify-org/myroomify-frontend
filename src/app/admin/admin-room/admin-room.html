@@ -12,10 +12,13 @@
   <div class="row g-4">
     <div class="col-lg-4">
       <div class="room-preview-card shadow-sm border-0 rounded-4 overflow-hidden bg-white">
-        <div class="preview-img-container">
-          <img src="/rooms/room_inside.jpg" class="img-fluid" alt="Room preview">
-          <div class="preview-badge" [class.bg-success]="roomForm.value.is_available" [class.bg-secondary]="!roomForm.value.is_available">
-            {{ roomForm.value.is_available ? 'Available' : 'Maintenance' }}
+        <div class="preview-img-container position-relative">
+          <img *ngIf="existingImages.length > 0" 
+            [src]="getMainImagePath()" 
+            class="room-card-image" 
+            alt="Room image">
+          <div *ngIf="existingImages.length === 0" class="d-flex align-items-center justify-content-center h-100 bg-light">
+            <i class="bi bi-image text-muted fs-1"></i>
           </div>
         </div>
         <div class="p-4">
@@ -49,7 +52,7 @@
             <div class="col-md-6">
               <label class="label-minimal">Price per Night ($)</label>
               <div class="input-group">
-                <span class="input-group-text bg-light border-0">Ft</span>
+                <span class="input-group-text bg-light border-0">$</span>
                 <input type="number" formControlName="price" class="form-control form-control-custom">
               </div>
             </div>
@@ -59,7 +62,56 @@
               <textarea formControlName="description" class="form-control form-control-custom" rows="5" placeholder="Describe the amenities..."></textarea>
             </div>
 
-            <div class="col-12 d-flex gap-3 mt-4">
+            <div class="col-12 mt-4">
+              <label class="label-minimal">Room Gallery</label>
+              
+              <div class="upload-drop-zone border-dashed rounded-4 p-4 text-center mb-3" 
+                   (click)="fileInput.click()"
+                   (drop)="onFileDropped($event)" 
+                   (dragover)="$event.preventDefault()">
+                <input type="file" #fileInput (change)="onFilesSelected($event)" multiple accept="image/*" class="d-none">
+                <i class="bi bi-images fs-1 text-gold"></i>
+                <p class="mb-1 fw-bold">Add more photos to this room</p>
+                <p class="text-muted small">Click to browse or drag and drop images here</p>
+              </div>
+
+              <div class="row g-2 mb-3" *ngIf="previews.length > 0">
+                <div class="col-12"><small class="text-gold text-uppercase fw-bold">Pending upload:</small></div>
+                <div class="col-md-3 col-6" *ngFor="let url of previews; let i = index">
+                  <div class="position-relative rounded-3 overflow-hidden shadow-sm border" style="height: 100px;">
+                    <img [src]="url" class="w-100 h-100 object-fit-cover">
+                    <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1 rounded-circle p-1" 
+                            (click)="removeSelectedFile(i)">
+                      <i class="bi bi-x fs-5"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="gallery-grid">
+                <div class="gallery-item animate-fade-in" 
+                     *ngFor="let image of existingImages; let i = index" 
+                     [class.border-gold]="image.is_primary">
+                  
+                  <img [src]="getImageUrl(image.path)" alt="Room image">
+                  <span class="main-badge" *ngIf="image.is_primary">Main</span>
+
+                  <div class="delete-overlay">
+                    <div class="d-flex flex-column gap-2 align-items-center">
+                      <button type="button" class="btn btn-warning btn-sm rounded-circle shadow" 
+                              *ngIf="!image.is_primary" (click)="setAsMain(image.id)" title="Set as Main">
+                        <i class="bi bi-star-fill"></i>
+                      </button>
+
+                      <button type="button" class="btn btn-danger btn-sm rounded-circle shadow" 
+                              (click)="deleteExistingImage(image.id, i)" title="Delete Image">
+                        <i class="bi bi-x fs-5"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> <div class="col-12 d-flex gap-3 mt-4">
               <button type="submit" class="btn btn-dark-green px-5 py-3 rounded-pill shadow-sm flex-grow-1">
                 <i class="bi bi-check2-circle me-2"></i>Save All Changes
               </button>

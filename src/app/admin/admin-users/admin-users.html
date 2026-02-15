@@ -1,6 +1,7 @@
 <div class="container mb-5 animate-fade-in">
     <h2 class="mt-5 mb-5 section-title">User Management</h2>
     
+    <!-- Search and Filter Card -->
     <div class="row g-3 mb-4 align-items-end search-filter-bar p-3 rounded shadow-sm">
         <div class="col-md-5">
             <label class="form-label text-muted small fw-bold">Search</label>
@@ -28,6 +29,7 @@
         </div>
     </div>
     
+    <!-- Table -->
     <div class="table-responsive rounded-4 shadow-sm bg-white">
         <table class="table table-hover bookingTable mb-0">
             <thead class="table-dark-green">
@@ -41,17 +43,21 @@
             </thead>
             <tbody>
                 @for(user of filteredUsers; track user.id) {
-                    <tr class="align-middle" [class.is-staff]="user.role === 'admin' || user.role === 'receptionist'" 
-                    [class.is-me]="user.id === currentAdminId">
+                    <tr class="align-middle" 
+                        [class.is-staff]="['superadmin', 'admin', 'receptionist'].includes(user.role?.toLowerCase())" 
+                        [class.is-me]="user.id == currentAdminId"> 
                         <td class="ps-4 text-muted">#{{ user.id }}
-                            <span *ngIf="user.id === currentAdminId" class="badge bg-dark-green ms-1" style="font-size: 0.6rem;">YOU</span>
+                            <span *ngIf="user.id == currentAdminId" class="badge bg-dark-green ms-1 animate-pulse" style="font-size: 0.6rem;">
+                                YOU
+                            </span>
                         </td>
                         <td class="fw-bold">{{ user.name }}</td>
-                        <td>{{ user.email }}</td>
+                        <td class="fw-regular">{{ user.email }}</td>
                         <td>
                             <select class="form-select form-select-sm role-dropdown" 
                                     [value]="user.role" 
-                                    (change)="changeRole(user, $any($event.target).value)">
+                                    (change)="changeRole(user, $any($event.target).value)"
+                                    [disabled]="user.role === 'superadmin' || user.id == currentAdminId">
                                 <option value="superadmin">Superadmin</option>
                                 <option value="admin">Admin</option>
                                 <option value="receptionist">Receptionist</option>
@@ -59,20 +65,30 @@
                             </select>
                         </td>
                         <td class="text-center pe-4">
-                            <div class="d-flex justify-content-center gap-2">
-                                <button class="btn btn-sm" 
-                                        (click)="toggleUserStatus(user)"
-                                        [title]="user.is_active ? 'Deactivate' : 'Activate'">
-                                    <mat-icon [class.text-success]="user.is_active" 
-                                            [class.text-danger]="!user.is_active" 
-                                            class="s-18">
-                                        {{ user.is_active ? 'visibility' : 'visibility_off' }}
-                                    </mat-icon>
-                                </button>
+                            <div class="d-flex justify-content-center align-items-center gap-2" style="min-height: 40px;">
                                 
-                                <button class="btn btn-delete btn-sm" (click)="confirmDelete(user.id)">
-                                    <i class="bi bi-trash-fill"></i> Delete
-                                </button>
+                                <span *ngIf="user.role === 'superadmin' || user.id == currentAdminId" 
+                                    class="text-muted small fst-italic protection-text">
+                                    <i class="bi bi-shield-lock-fill me-1"></i>
+                                    You can't modify or delete yourself or the superadmin.
+                                </span>
+
+                                <ng-container *ngIf="user.role !== 'superadmin' && user.id != currentAdminId">
+                                    <button class="btn btn-sm" 
+                                            (click)="toggleUserStatus(user)"
+                                            [title]="user.is_active ? 'Deactivate' : 'Activate'">
+                                        <mat-icon [class.text-success]="user.is_active" 
+                                                [class.text-danger]="!user.is_active" 
+                                                class="s-18">
+                                            {{ user.is_active ? 'visibility' : 'visibility_off' }}
+                                        </mat-icon>
+                                    </button>
+                                    
+                                    <button class="btn btn-delete btn-sm" (click)="warning(user.id)">
+                                        <i class="bi bi-trash-fill"></i> Delete
+                                    </button>
+                                </ng-container>
+
                             </div>
                         </td>
                     </tr>
@@ -88,6 +104,7 @@
         </table>
     </div>
 
+    <!-- Add User Modal -->
     <div class="custom-modal" *ngIf="showModal">
         <div class="modal-content animate-fade-in">
             <div class="modal-header">

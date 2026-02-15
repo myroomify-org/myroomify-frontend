@@ -1,7 +1,3 @@
-.container {
-    font-family: Quicksand;
-}
-
 .table-dark-green {
     background-color: #2d4037;
 }
@@ -16,6 +12,7 @@
     padding: 15px 10px;
 }
 
+/*  Dropdown */
 .role-dropdown {
     max-width: 150px;
     border-radius: 8px;
@@ -28,6 +25,7 @@
     box-shadow: 0 0 0 0.25rem rgba(195, 174, 128, 0.25);
 }
 
+/* Delete Button */
 .btn-delete {
     background-color: #bb5127;
     color: white;
@@ -42,6 +40,7 @@
 }
 
 
+/* Icon */
 .s-18 {
     font-size: 18px !important;
     width: 18px !important;
@@ -53,6 +52,7 @@
     align-items: center;
 }
 
+/*  User check */
 .is-staff {
   background-color: rgba(45, 64, 55, 0.02) !important;
   border-left: 4px solid #c3ae80;
@@ -63,10 +63,20 @@
   color: #2d4037;
 }
 
+tr.is-me {
+    border-left: 8px solid #2d4037 !important;
+    background-color: rgba(195, 174, 128, 0.15) !important;
+}
 
-.is-me {
-    border-left: 6px solid #2d4037 !important;
-    background-color: rgba(45, 64, 55, 0.08) !important;
+tr.is-me td {
+    color: #2d4037 !important;
+    font-weight: 800 !important;
+}
+
+.bg-dark-green.ms-1 {
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    border-radius: 4px;
 }
 
 .bg-dark-green {
@@ -75,7 +85,6 @@
     border: 1px solid #c3ae80;
 }
 
-/* admin-users.css */
 
 .custom-modal {
     position: fixed;
@@ -83,12 +92,12 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6); /* Sötétített háttér */
+    background: rgba(0, 0, 0, 0.6);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1050;
-    backdrop-filter: blur(4px); /* Modern üveghatás */
+    backdrop-filter: blur(4px);
 }
 
 .modal-content {
@@ -96,7 +105,7 @@
     width: 90%;
     max-width: 600px;
     border-radius: 15px;
-    border: 1px solid #c3ae80; /* Arany szegély */
+    border: 1px solid #c3ae80;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
@@ -120,4 +129,14 @@
 .btn-dark-green:hover {
     background-color: #c3ae80;
     color: #2d4037;
+}
+
+.btn:disabled, .form-select:disabled {
+    cursor: not-allowed;
+    filter: grayscale(1);
+    opacity: 0.6;
+}
+
+.d-flex.gap-2 {
+    min-height: 31px;
 }

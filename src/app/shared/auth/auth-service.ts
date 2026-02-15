@@ -50,11 +50,14 @@ export class AuthService {
     return this.http.post(this.loginApi, data).pipe(
         tap((response: any) => {
           if (response.success && response.data) {
-            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('token', response.data.token)
 
             const userData = response.data.user;
-            this.currentUserSubject.next(userData);
-            this._isLoggedIn.next(true);
+            localStorage.setItem('user', JSON.stringify(userData))
+
+            this.currentUserSubject.next(userData)
+            this._isLoggedIn.next(true)
+            localStorage.setItem('isLoggedIn', 'true')
           }
         })
       )

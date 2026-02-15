@@ -27,8 +27,8 @@
         </div>
       </div>
       
-      <!--Profile-->
       <div class="col-lg-9">
+        <!--Profile-->
         <section *ngIf="activeTab === 'details'" class="content-card shadow-sm p-4 mb-4 animate-fade-in">
           <div class="d-flex justify-content-between align-items-center mb-4">
             <h4 class="fw-bold m-0 text-dark">Personal Information</h4>
@@ -147,8 +147,14 @@
             </div>
 
             <div class="ps-4">
-              <button class="btn btn-manage-modern" (click)="startEditBooking(currentBooking)">
-                <i class="bi bi-gear-fill me-2"></i>Manage
+              <button 
+                class="btn btn-manage-modern d-flex align-items-center" 
+                (click)="startEditBooking(currentBooking)"
+                [disabled]="currentBooking.status === 'cancelled'"
+                [title]="currentBooking.status === 'cancelled' ? 'Cancelled bookings cannot be modified' : 'Manage booking'">
+                
+                <i class="bi me-2" [ngClass]="currentBooking.status === 'cancelled' ? 'bi-lock-fill' : 'bi-gear-fill'"></i>
+                <span>{{ currentBooking.status === 'cancelled' ? 'Locked' : 'Manage' }}</span>
               </button>
             </div>
           </div>
@@ -210,6 +216,7 @@
           </div>
         </section>
 
+        <!-- Security Settings -->
         <section *ngIf="activeTab === 'details'" class="content-card shadow-sm p-4 mt-4 animate-fade-in border-top border-warning">
           <h4 class="fw-bold mb-4 text-dark"><i class="bi bi-shield-lock me-2"></i>Security Settings</h4>
 

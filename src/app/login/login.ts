@@ -92,6 +92,7 @@ export class Login implements OnInit {
   success(text: string) {
     Swal.fire({
       icon: 'success',
+      iconColor: '#c3ae80',
       title: text,
       showConfirmButton: false,
       timer: 1500

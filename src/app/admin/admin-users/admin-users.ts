@@ -40,8 +40,13 @@ export class AdminUsers {
   ){}
 
   ngOnInit(){
-    const user = JSON.parse(localStorage.getItem('user') || '{}')
-    this.currentAdminId = user.id
+    const rawUser = localStorage.getItem('user')
+
+    if (rawUser) {
+      const user = JSON.parse(rawUser)
+      this.currentAdminId = user.id ? Number(user.id) : null
+    }
+
     this.getUsers()
     this.userForm = this.builder.group({
       id: [''],
@@ -67,18 +72,19 @@ export class AdminUsers {
   getUsers(){
     this.userApi.getUsers$().subscribe({
       next: (result: any) => {
+        console.log(result.data)
         let allUsers = result.data.filter((u: any) => !u.deleted_at)
-        this.users = allUsers.sort((a: any, b: any) => {
+        this.users = allUsers.sort((userA: any, userB: any) => {
           const priority: any = { 'admin': 1, 'receptionist': 2, 'user': 3, 'guest': 3 }
-          const pA = priority[a.role?.toLowerCase()] || 4
-          const pB = priority[b.role?.toLowerCase()] || 4
-          return pA - pB
+          const priorityA = priority[userA.role?.toLowerCase()] || 4
+          const priorityB = priority[userB.role?.toLowerCase()] || 4
+          return priorityA - priorityB
       })
 
-      this.filteredUsers = [...this.users];
+      this.filteredUsers = [...this.users]
       },
-      error: (err: any) => {
-        console.log(err)
+      error: (error: any) => {
+        console.log(error)
       } 
     })
   }
@@ -98,10 +104,10 @@ export class AdminUsers {
       phone: user.phone || user.profile?.phone || '000000000',
       password: 'ManualPassword123!',
       password_confirmation: 'ManualPassword123!'
-    };
+    }
   }
 
-toggleUserStatus(user: any) {
+  toggleUserStatus(user: any) {
     const payload = this.flattenUserData(user)
     payload.is_active = user.is_active ? 0 : 1
 
@@ -110,8 +116,8 @@ toggleUserStatus(user: any) {
         user.is_active = !user.is_active
         this.success(user.is_active ? "Activated" : "Deactivated")
       },
-      error: (err: any) => {
-        this.error("Validation error")
+      error: (error: any) => {
+        this.failed("Validation error")
       }
     })
   }
@@ -125,16 +131,15 @@ toggleUserStatus(user: any) {
         user.role = newRole
         this.success("Role has been changed successfully")
       },
-      error: (err: any) => {
-        this.error("Validation error")
+      error: (error: any) => {
+        this.failed("Validation error")
         this.getUsers()
       }
     });
   }
 
-  addUser() {
-    console.log("Form state:", this.userForm.status);
-    
+  // add
+  addUser() {    
     if (this.userForm.valid) {
       const rawData = this.userForm.value;
       const nameParts = rawData.name ? rawData.name.trim().split(' ') : []
@@ -161,12 +166,12 @@ toggleUserStatus(user: any) {
           this.getUsers()
           this.cancel()
         },
-        error: (err: any) => {
-          this.error("Backend error: " + JSON.stringify(err.error.data))
+        error: (error: any) => {
+          this.failed("Backend error: " + JSON.stringify(error.error.data))
         }
       })
     } else {
-      this.error("Form is invalid! Check your inputs.")
+      this.failed("Form is invalid! Check your inputs.")
     }
   }
 
@@ -180,32 +185,19 @@ toggleUserStatus(user: any) {
       },
       error: (error: any) => {
         console.log(error)
-        this.error("Error deleting user")
+        this.failed("Error deleting user")
       }
     })
   }
   
-  confirmDelete(id: number){
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#bb5127",
-      cancelButtonColor: "rgba(0, 0, 0, 1)",
-      confirmButtonText: "Delete"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.deleteUser(id)
-      }
-    });
-  }
+
   //Crud end
   
   //Alert
   success(text: string){ {
     Swal.fire({
       icon: 'success',
+      iconColor: '#c3ae80',
       title: text,
       showConfirmButton: false,
       timer: 1500
@@ -213,7 +205,24 @@ toggleUserStatus(user: any) {
     }
   }
 
-  error(text: string){
+  warning(id: number){
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      iconColor: "#c3ae80",
+      showCancelButton: true,
+      confirmButtonColor: "#2d4037",
+      cancelButtonColor: "rgba(0, 0, 0, 1)",
+      confirmButtonText: "Delete"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleteUser(id)
+      }
+    })
+  }
+
+  failed(text: string){
     Swal.fire({
       position: "center",
       icon: "error",
