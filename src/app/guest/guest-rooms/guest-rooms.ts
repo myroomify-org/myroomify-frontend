@@ -20,7 +20,7 @@ interface Room {
   description: string
   price: number
   is_available: boolean
-  image: string
+  primary_image: string
 }
 
 @Component({
@@ -51,6 +51,8 @@ export class GuestRooms {
 
   isChoosingCheckout: boolean = false
 
+  readonly baseUrl = 'http://localhost:8000'
+
   constructor(
     private router: Router,
     private roomApi: PublicRoomService
@@ -61,6 +63,27 @@ export class GuestRooms {
   }
 
   // read
+  getImageUrl(imageObject: any): string {
+    const defaultImage = 'rooms/room.jpg'
+    const baseUrl = 'http://localhost:8000'
+
+    if (!imageObject || !imageObject.path) {
+      return defaultImage
+    }
+
+    const path = imageObject.path
+
+    if (typeof path !== 'string') {
+      return defaultImage;
+    }
+
+    if (path.startsWith('http')) {
+      return path;
+    }
+
+    return `${baseUrl}/storage/${path}`
+  }
+
   getRooms(): void {
     this.roomApi.getRooms$().subscribe({
       next: (result: any) => {
@@ -76,13 +99,12 @@ export class GuestRooms {
   // Number of guests
   searchRooms(): void {
     if (!this.startDate || !this.endDate) {
-      // alert('Please select a check-in and check-out date.')
       return
     }
     const guestCount = Number(this.selectedGuests)
 
     this.filteredRooms = this.rooms.filter(room => {
-      return room.capacity >= guestCount
+      return room.capacity == guestCount
     })
 
     this.scrollToResults()

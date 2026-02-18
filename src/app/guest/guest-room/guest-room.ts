@@ -45,6 +45,10 @@ export class GuestRoom implements OnInit{
   isChoosingCheckout: boolean = false
   guest_count: number = 1
 
+  readonly baseUrl = 'http://localhost:8000'
+  currentImageIndex: number = 0
+  images: any[] = []
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -64,15 +68,45 @@ export class GuestRoom implements OnInit{
   getRoom(id: number): void {
     this.roomApi.getRoom$(id).subscribe({
       next: (result: any) => {
-        console.log(result)
         this.room = result?.data || result
+        
+        if (this.room.images && Array.isArray(this.room.images)) {
+          this.images = this.room.images
+        } else if (this.room.primary_image) {
+          this.images = [this.room.primary_image]
+        }
+        
         this.loading = false
       },
-      error: (error:any) => {
+      error: (error: any) => {
         console.error('Error loading room details', error)
         this.loading = false
       }
-    });
+    })
+  }
+
+  // Gallery Navigation
+  nextImage() {
+    this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length
+  }
+
+  prevImage() {
+    this.currentImageIndex = (this.currentImageIndex - 1 + this.images.length) % this.images.length
+  }
+
+  selectImage(index: number) {
+    this.currentImageIndex = index
+  }
+
+  getImageUrl(imageObject: any): string {
+    const defaultImage = 'rooms/room.jpg'
+
+    if (!imageObject || !imageObject.path) return defaultImage
+    const path = imageObject.path
+
+    if (path.startsWith('http')) return path
+    
+    return `${this.baseUrl}/storage/${path}`
   }
 
   // Calendar

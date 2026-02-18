@@ -3,3 +3,36 @@
 .everyThing {
     font-family: Quicksand;
 }
+
+:root {
+  overflow-x: hidden;
+}
+
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+.row {
+    --bs-gutter-x: 1.5rem;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+    
+    .full-width-section {
+        overflow-x: hidden;
+    }
+}

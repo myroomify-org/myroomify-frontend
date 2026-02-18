@@ -1,6 +1,5 @@
 <div class="full-width-section py-5" *ngIf="room; else loader">
   <div class="container" style="margin-top: 80px;">
-    <!--Mini Navigation-->
     <nav aria-label="breadcrumb" class="mb-4">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a routerLink="/rooms" class="text-decoration-none">Rooms</a></li>
@@ -8,11 +7,36 @@
       </ol>
     </nav>
 
-    <!--Room datas-->
     <div class="row g-5 align-items-start">
       <div class="col-lg-8">
-        <div class="main-room-image shadow-sm mb-4">
-          <img [src]="room.image || '/rooms/room_inside.jpg'" [alt]="room.name" class="img-fluid rounded-4 w-100">
+        
+        <div class="main-room-image shadow-sm mb-4 position-relative overflow-hidden rounded-4">
+          <img [src]="getImageUrl(images[currentImageIndex])" 
+               [alt]="room.name" 
+               class="img-fluid w-100"
+               style="height: 500px; object-fit: cover; transition: opacity 0.3s ease-in-out;">
+
+          <ng-container *ngIf="images.length > 1">
+            <button type="button" class="btn-gallery-nav left-nav" (click)="prevImage()">
+              <i class="bi bi-chevron-left"></i>
+            </button>
+            <button type="button" class="btn-gallery-nav right-nav" (click)="nextImage()">
+              <i class="bi bi-chevron-right"></i>
+            </button>
+            
+            <div class="image-counter-badge">
+              {{ currentImageIndex + 1 }} / {{ images.length }}
+            </div>
+          </ng-container>
+        </div>
+
+        <div class="d-flex gap-2 mb-4 overflow-auto pb-2" *ngIf="images.length > 1">
+          <div *ngFor="let img of images; let i = index" 
+               (click)="selectImage(i)"
+               class="thumb-wrapper"
+               [class.active-thumb]="i === currentImageIndex">
+            <img [src]="getImageUrl(img)" class="rounded-2 shadow-sm" style="width: 80px; height: 60px; object-fit: cover; cursor: pointer;">
+          </div>
         </div>
 
         <h1 class="display-4 fw-bold mb-3">{{ room.name }}</h1>
@@ -25,10 +49,9 @@
         </div>
       </div>
 
-      <!--Booking Card-->
       <div class="col-lg-4">
         <div class="card booking-card border-0 shadow-lg p-4 sticky-top" style="top: 110px;">
-          <h4 class="fw-bold mb-1">From ${{ room.price }}</h4>
+          <h4 class="fw-bold mb-1">From £{{ room.price }}</h4>
           <p class="text-muted small mb-4">per night, including breakfast</p>
 
           <div class="booking-dates-container border rounded-3 mb-3">
@@ -62,7 +85,7 @@
           <div class="mb-4">
             <label class="form-label small fw-bold">GUESTS</label>
             <select class="form-select" [(ngModel)]="guest_count" name="guestCount">
-              <option *ngFor="let i of [].constructor(room.capacity); let idx = index" [value]="idx + 1">
+              <option *ngFor="let i of [].constructor(room.capacity || 1); let idx = index" [value]="idx + 1">
                 {{ idx + 1 }} {{ idx === 0 ? 'Person' : 'People' }}
               </option>
             </select>

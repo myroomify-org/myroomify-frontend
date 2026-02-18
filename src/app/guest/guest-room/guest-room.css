@@ -2,15 +2,82 @@
 .full-width-section {
     background-color: #fcfbf7;
     min-height: 100vh;
-    font-family: Quicksand;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 /* Image*/
+.main-room-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    width: 100%;
+}
+
 .main-room-image img {
     height: 500px;
     object-fit: cover;
     border-radius: 20px;
     transition: transform 0.5s ease;
+}
+
+/* Gallery Navigation */
+.btn-gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 5;
+    color: #2d4037;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.btn-gallery-nav:hover {
+    background: #ffffff;
+    color: #c3ae80;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.left-nav { left: 20px; }
+.right-nav { right: 20px; }
+
+.image-counter-badge {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(45, 64, 55, 0.7);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    backdrop-filter: blur(4px);
+}
+
+/* Thumbnails (Új rész a kis képekhez) */
+.thumb-wrapper {
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 2px;
+}
+
+.thumb-wrapper:hover {
+    opacity: 0.9;
+}
+
+.active-thumb {
+    opacity: 1;
+    border-color: #c3ae80;
 }
 
 /* Text */
@@ -91,6 +158,12 @@ h1 {
     height: 30px;
     background-color: #dee2e6;
     margin: 0 10px;
+}
+
+.date-separator-vertical {
+    width: 1px;
+    height: 40px;
+    background-color: #e0e0e0;
 }
 
 .filter-btn {
