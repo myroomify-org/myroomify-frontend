@@ -115,6 +115,16 @@
     opacity: 1 !important;
 }
 
+.star{
+    background: #c3ae80 !important;
+    font-size: 1.2rem !important;
+}
+
+.delete{
+    background: #881c27 !important;
+    font-size: 1.2rem !important;
+}
+
 .delete-overlay .btn {
     display: flex !important;
     align-items: center !important;

@@ -34,11 +34,10 @@
             <div class="room-card card h-100 border-0 shadow-sm overflow-hidden">
                 <div class="price-tag">{{ card.price | number }} $ / night</div>
                 
-                <div class="room-card-img-container" style="height: 200px; overflow: hidden; background: #eee;">
-                    <img [src]="getRoomMainImage(card)" 
-                         class="card-img-top w-100 h-100 object-fit-cover" 
-                         [alt]="card.name"
-                         (error)="$any($event.target).src = 'assets/images/placeholder-room.jpg'">
+                <div class="image-container">
+                    <img [src]="getPrimaryImage(card)" 
+                         class="img-fluid" 
+                         alt="Room photo">
                 </div>
 
                 <div class="card-body d-flex flex-column">
@@ -65,7 +64,7 @@
                         </ng-container>
 
                         <ng-container *ngIf="currentView === 'deleted'">
-                            <button class="btn btn-success flex-grow-1" (click)="restoreRoom(card.id)">
+                            <button class="restore btn flex-grow-1" (click)="restoreRoom(card.id)">
                                 <i class="bi bi-arrow-counterclockwise me-1"></i> Restore Room
                             </button>
                         </ng-container>
@@ -75,8 +74,8 @@
         </div>                
     </div>
 
-    @if(showModal){
-    <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
+    <!-- AddCard Modal -->
+    <div *ngIf="showModal" class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow-lg rounded-4">
                 <div class="modal-header bg-dark-green text-white p-4">
@@ -114,5 +113,4 @@
             </div>
         </div>
     </div>
-    }
 </div>

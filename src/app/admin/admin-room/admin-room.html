@@ -98,12 +98,12 @@
 
                   <div class="delete-overlay">
                     <div class="d-flex flex-column gap-2 align-items-center">
-                      <button type="button" class="btn btn-warning btn-sm rounded-circle shadow" 
+                      <button type="button" class="star btn btn-sm rounded-circle shadow" 
                               *ngIf="!image.is_primary" (click)="setAsMain(image.id)" title="Set as Main">
                         <i class="bi bi-star-fill"></i>
                       </button>
 
-                      <button type="button" class="btn btn-danger btn-sm rounded-circle shadow" 
+                      <button type="button" class="delete btn btn-sm rounded-circle shadow" 
                               (click)="deleteExistingImage(image.id, i)" title="Delete Image">
                         <i class="bi bi-x fs-5"></i>
                       </button>

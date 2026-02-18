@@ -191,7 +191,47 @@ a:hover {
     font-size: 1.8rem;
 }
 
-/* Responsiveness */
+.mobile-nav-wrapper {
+    display: none !important;
+}
+
+.desktop-auth {
+    display: flex !important;
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+    .mobile-nav-wrapper {
+        display: flex !important;
+        order: 3;
+    }
+
+    .desktop-auth {
+        display: none !important;
+    }
+
+    .nav-center {
+        display: none !important;
+    }
+
+    .navbar-collapse.show {
+        display: block !important;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #333833;
+        z-index: 1000;
+        padding: 20px 0;
+        border-bottom: 2px solid #c3ae80;
+    }
+
+    .navbar-nav {
+        flex-direction: column !important;
+        align-items: center;
+    }
+}
+
 @media (max-width: 991.98px) {
     .navbar,
     .navbar-solid,
@@ -259,6 +299,69 @@ a:hover {
     .navbar .container-fluid {
         justify-content: space-between;
         padding: 0 20px;
+    }
+}
+
+@media (max-width: 880px) {
+    .nav-item {
+        margin-right: 20px;
+    }
+
+    a {
+        font-size: 17px;
+        margin: 0 0.8rem;
+    }
+
+    .user-profile-btn {
+        padding: 6px 12px;
+        font-size: 17px;
+    }
+
+    .nav-right {
+        gap: 8px;
+    }
+
+    .nav-left {
+        flex: 0.5; 
+    }
+}
+
+@media (max-width: 767.98px) {
+    .navbar-solid {
+        height: 70px;
+    }
+
+    a, .user-profile-btn {
+        font-size: 16px !important;
+        margin: 0 0.5rem;
+    }
+
+    .auth-buttons {
+        gap: 8px;
+    }
+
+    .login-link-simple {
+        font-size: 14px;
+    }
+
+    .nav-link {
+        font-size: 1.1rem !important;
+        letter-spacing: 2px;
+        padding: 10px 0 !important;
+    }
+
+    .user-profile-btn {
+        padding: 5px 12px;
+    }
+
+    .nav-left img {
+        max-height: 40px;
+    }
+}
+
+@media (max-width: 375px) {
+    .auth-buttons {
+        display: none;
     }
 }
 

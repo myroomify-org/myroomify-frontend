@@ -24,17 +24,13 @@ interface CardData {
 
 
 export class AdminRooms {
-
-  // Variables
   cardForm!: any
-  rooms: any
   showModal = false
   cards: CardData[] = []
   isEditing = false
-
-  currentView: 'active' | 'deleted' = 'active'
   allRooms: any[] = []
-  card: any[] = []
+
+  currentView: 'active' | 'deleted' = 'active'  
 
   activeCount: number = 0
   deletedCount: number = 0
@@ -47,6 +43,10 @@ export class AdminRooms {
 
   ngOnInit(){
     this.get()
+    this.initForm()
+  }
+
+  private initForm(){
     this.cardForm = this.build.group({
         name: [''],
         capacity: [null],
@@ -56,7 +56,20 @@ export class AdminRooms {
     })
   }
 
-  // Card
+  // read
+  get() {
+    this.roomApi.getRooms$().subscribe({
+      next: (result: any) => {
+        this.allRooms = result.data;
+        this.updateCounts()
+        this.filterCards()
+        console.log(result)
+      },
+      error: (error: any) => console.error('Error getting rooms', error)
+    })
+  }
+
+  // card
   addCard() {
     if (this.cardForm.invalid) {
       this.failed("Please fill all required fields correctly.")
@@ -70,7 +83,7 @@ export class AdminRooms {
     }
 
     this.roomApi.addRoom$(payload).subscribe({
-      next: (result: any) => {
+      next: () => {
         this.success("Room added successfully!")
         this.get()
         this.cancel()
@@ -79,63 +92,54 @@ export class AdminRooms {
     })
   }
 
-  // Crud start
-  // Get
-  get() {
-    this.roomApi.getRooms$().subscribe({
-      next: (result: any) => {
-        this.allRooms = result.data;
-        this.updateCounts()
-        this.filterCards()
-        console.log(result.data)
+  delete(id: number) {
+    this.roomApi.deleteRoom$(id).subscribe({
+      next: () => {
+        // this.cards = this.cards.filter(c => c.id !== id)
+        this.success("Room deleted successfully")
+        this.get()
       },
-      error: (error: any) => console.error('Error getting rooms', error)
+      error: () => this.failed("Delete failed")
     })
   }
 
-  getRoomMainImage(card: any): string {
-    const backendUrl = 'http://localhost:8000/storage/';
-    const defaultPlaceholder = 'rooms/room.jpg';
-
-    // 1. Ha nincs images tömb, rögtön placeholder
-    if (!card.images || card.images.length === 0) {
-      return defaultPlaceholder;
+  restoreRoom(id: number) {
+    if (this.activeCount >= 20) {
+      this.showLimitMessage();
+      return;
     }
 
-    // 2. LAZA SZŰRÉS: == használata === helyett (szám vs string hiba ellen)
-    // És biztosítjuk, hogy az ID-k léteznek
-    const roomSpecificImages = card.images.filter((img: any) => 
-      img && (img.room_id == card.id)
-    );
-
-    // 3. Ha a szűrés után maradt kép:
-    if (roomSpecificImages.length > 0) {
-      // Megkeressük a primary-t (itt is laza == 1)
-      const primaryImage = roomSpecificImages.find((img: any) => 
-        img.is_primary == 1 || img.is_primary === true
-      );
-
-      // Ha nincs primary, az elsőt vesszük
-      const imageToDisplay = primaryImage || roomSpecificImages[0];
-
-      if (imageToDisplay && imageToDisplay.path) {
-        // Tisztítjuk a path-t a dupla perjelek ellen
-        const cleanPath = imageToDisplay.path.replace(/^\//, '');
-        return `${backendUrl}${cleanPath}`;
-      }
-    }
-
-    // 4. Ha volt kép a tömbben, de a szűrés valamiért elbukott (pl. eltolt ID-k),
-    // tegyünk egy utolsó próbát: adjuk vissza a szoba objektum legelső képét szűrés nélkül
-    if (card.images[0] && card.images[0].path) {
-      const backupPath = card.images[0].path.replace(/^\//, '');
-      return `${backendUrl}${backupPath}`;
-    }
-
-    return defaultPlaceholder;
+    this.roomApi.restoreRoom$(id).subscribe({
+      next: () => {
+        this.success('Room restored successfully')
+        this.get()
+      },
+      error: () => this.failed('Error restoring room')      
+    })
   }
 
-  // View
+  // images
+  getPrimaryImage(card: any): string {
+    const backendStorageUrl = 'http://localhost:8000/storage/';
+    const defaultPlaceholder = 'rooms/room.jpg';
+
+    if (card.primary_image && card.primary_image.path) {
+        return this.formatImagePath(card.primary_image.path, backendStorageUrl);
+    }
+
+    if (card.images && card.images.length > 0) {
+        const primaryInArray = card.images.find((img: any) => img.is_primary == 1 || img.is_primary === true);
+        const imageToDisplay = primaryInArray || card.images[0];
+        
+        if (imageToDisplay && imageToDisplay.path) {
+            return this.formatImagePath(imageToDisplay.path, backendStorageUrl);
+        }
+    }
+
+    return defaultPlaceholder
+  }
+
+  // view and filter
   switchView(view: 'active' | 'deleted') {
     this.currentView = view
     this.filterCards()
@@ -154,36 +158,53 @@ export class AdminRooms {
     this.deletedCount = this.allRooms.filter(r => r.deleted_at).length
   }
 
-  restoreRoom(id: number) {
-    if (!this.canAddRoom()) {
-      this.showLimitMessage()
-      return
+  // assistant
+  private formatImagePath(path: string, baseUrl: string): string {
+    let cleanPath = path.replace(/^\//, '')
+    if (cleanPath.startsWith('public/')) {
+        cleanPath = cleanPath.substring(7)
     }
-
-    this.roomApi.restoreRoom$(id).subscribe({
-      next: (res: any) => {
-        this.success('Room restored successfully')
-        this.get()
-      },
-      error: (err: any) => {
-        this.failed('Error restoring room')
-      }
-    })
+    return `${baseUrl}${cleanPath}`
   }
 
   canAddRoom(): boolean {
     return this.allRooms.length < 20
   }
 
-  // delete
-  delete(id: number) {
-    this.roomApi.deleteRoom$(id).subscribe({
-      next: () => {
-        this.cards = this.cards.filter(c => c.id !== id)
-        this.success("Room deleted successfully")
-        this.get()
-      },
-      error: () => this.failed("Delete failed")
+  edit(id: number) {
+    this.router.navigate(['/admin/rooms/', id])
+  }
+
+  setShowModal() {
+    if (!this.canAddRoom()) {
+      this.showLimitMessage()
+      return
+    }
+    this.showModal = true
+  }
+
+  cancel(){
+    this.showModal = false
+    this.cardForm.reset()
+  }
+
+  // alerts
+  success(response: any) {
+    Swal.fire({
+      icon: 'success',
+      iconColor: '#c3ae80',
+      title: response,
+      showConfirmButton: false,
+      timer: 1500
+    })
+  }
+  
+  failed(response: any) {
+    Swal.fire({
+      icon: 'error',
+      title: response,
+      text: 'Your booking could not be completed.',
+      confirmButtonColor: '#2d4037'
     })
   }
 
@@ -201,46 +222,12 @@ export class AdminRooms {
     })
   }
 
-  // edit
-  edit(id: number) {
-    this.router.navigate(['/admin/rooms/', id])
-  }
-
-  // Crud end
-
-  // modal
-  setShowModal() {
-    this.showModal = true
-  }
-
   showLimitMessage() {
     Swal.fire({
       icon: 'info',
+      iconColor: '#c3ae80',
       title: 'Limit reached',
       text: 'You have reached the maximum of 20 rooms. Please restore a deleted room or edit an existing one.',
-      confirmButtonColor: '#2d4037'
-    })
-  }
-
-  cancel(){
-    this.showModal = false
-    this.cardForm.reset()
-  }
-
-  success(response: any) {
-    Swal.fire({
-      icon: 'success',
-      title: response,
-      showConfirmButton: false,
-      timer: 1500
-    })
-  }
-  
-  failed(response: any) {
-    Swal.fire({
-      icon: 'error',
-      title: response,
-      text: 'Your booking could not be completed.',
       confirmButtonColor: '#2d4037'
     })
   }
