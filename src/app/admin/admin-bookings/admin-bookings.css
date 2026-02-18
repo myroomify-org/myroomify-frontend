@@ -188,17 +188,17 @@
 
 /* Guest Add button */
 .btn-guest-manager {
-    background-color: #c3ae80; /* Elegáns kék */
-    color: white;
-    border: none;
-    transition: all 0.3s ease;
+  background-color: #c3ae80 !important;
+  color: white !important;
+  border-radius: 50px;
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
 .btn-guest-manager:hover {
-    background-color: #0a58ca;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+  background-color: #2d4037 !important;
+  box-shadow: 0 4px 12px rgba(45, 64, 55, 0.2);
 }
 
 /*  Guest warning button */
@@ -225,8 +225,8 @@
 
 /* Guest card*/
 .guest-card {
-    border-left: 4px solid #0d6efd; /* Kék jelzés az oldalán */
-    background-color: #f8f9fa;
+    border-left: 4px solid #c3ae80 !important;
+    background-color: #fcfbf7;
     border-radius: 12px;
     padding: 15px;
     margin-bottom: 15px;
@@ -254,4 +254,69 @@
     font-size: 0.75rem;
     padding: 2px 8px;
     border-radius: 20px;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .table thead {
+      display: none
+    }
+
+    .table, .table tbody, .table tr, .table td {
+        display: block;
+        width: 100%;
+    }
+
+    .table tr {
+        margin-bottom: 15px;
+        border: 1px solid #eee;
+        border-radius: 15px;
+        background: #fff;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+    }
+
+    .table td {
+        text-align: right;
+        padding: 8px 15px;
+        border: none !important;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .table td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        color: #adb5bd;
+    }
+
+    .guest-expansion-wrapper {
+        padding: 15px 10px;
+    }
+
+    .guest-card {
+        margin-left: 0;
+        border-left-width: 3px;
+    }
+
+    .btn-action {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .status-pill {
+        min-width: 80px;
+        font-size: 0.65rem;
+        padding: 4px 10px;
+    }
+    
+    .total-amount {
+        font-size: 0.9rem;
+    }
 }

@@ -7,11 +7,21 @@
     box-shadow: 0 0 15px rgba(195, 174, 128, 0.4);
 }
 
+/* --- Buttons --- */
 .btn-dark-green {
     background-color: #2d4037;
     color: white;
-    transition: all 0.3s ease;
-    border: none;
+    border-radius: 50px;
+    padding: 10px 28px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid #2d4037;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .btn-dark-green:hover {
@@ -54,8 +64,13 @@
     border-radius: 15px;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
     padding: 40px 20px;
+    box-sizing: border-box;
 }
 
 .upload-drop-zone:hover {
@@ -72,19 +87,23 @@
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 15px;
     margin-top: 15px;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .gallery-item {
     position: relative !important;
     display: block !important;
     cursor: pointer;
+    overflow: hidden;
+    border-radius: 10px;
 }
 
 .gallery-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
     transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
@@ -92,7 +111,7 @@
     transform: scale(1.1);
 }
 
-/* --- Gallery Interactions */
+/* --- Gallery Interactions --- */
 .delete-overlay {
     position: absolute !important;
     top: 0 !important;
@@ -108,22 +127,14 @@
     opacity: 0 !important;
     transition: opacity 0.3s ease-in-out !important;
     z-index: 999 !important;
-    pointer-events: auto !important;
 }
 
 .gallery-item:hover .delete-overlay {
     opacity: 1 !important;
 }
 
-.star{
-    background: #c3ae80 !important;
-    font-size: 1.2rem !important;
-}
-
-.delete{
-    background: #881c27 !important;
-    font-size: 1.2rem !important;
-}
+.star { background: #c3ae80 !important; font-size: 1.2rem !important; }
+.delete { background: #881c27 !important; font-size: 1.2rem !important; }
 
 .delete-overlay .btn {
     display: flex !important;
@@ -134,20 +145,9 @@
     border-radius: 50% !important;
     border: none !important;
     padding: 0 !important;
-    visibility: visible !important;
 }
 
-.delete-overlay .btn i {
-    font-size: 1.2rem !important;
-    color: white !important;
-    line-height: 1 !important;
-}
-
-.delete-overlay .btn-warning i {
-    color: #2d4037 !important;
-}
-
-/* --- Preview Card (Left Side) --- */
+/* --- Preview Card --- */
 .room-preview-card {
     border-radius: 20px;
     overflow: hidden;
@@ -175,49 +175,53 @@
     height: 100% !important;
     object-fit: cover !important;
     object-position: center 75% !important; 
-    display: block;
     transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.room-preview-card:hover .room-card-image {
-    transform: scale(1.1);
+/* --- Action Buttons Wrapper --- */
+.admin-action-buttons {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 12px;
+    justify-content: flex-start;
+    margin-top: 20px;
 }
 
-/* --- Badges --- */
-.main-badge {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    background: #c3ae80;
-    color: white;
-    padding: 3px 12px;
-    border-radius: 6px;
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    z-index: 2;
+/* --- Responsive --- */
+@media (max-width: 992px) {
+    .room-preview-card {
+        margin-bottom: 30px;
+        position: static !important;
+    }
 }
 
-.preview-badge {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    padding: 5px 15px;
-    border-radius: 50px;
-    font-size: 12px;
-    font-weight: 700;
-    color: white;
-    z-index: 2;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+@media (max-width: 768px) {
+    .admin-action-buttons {
+        justify-content: center;
+    }
+
+    .admin-action-buttons .btn {
+        flex: 0 1 auto;
+        min-width: 140px;
+        padding: 10px 20px !important;
+        font-size: 0.85rem !important;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .upload-drop-zone {
+        padding: 25px 15px;
+    }
 }
 
-/* --- Animations --- */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+@media (max-width: 480px) {
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
 
-.gallery-item:nth-child(1) { animation-delay: 0.1s; }
-.gallery-item:nth-child(2) { animation-delay: 0.2s; }
-.gallery-item:nth-child(3) { animation-delay: 0.3s; }
-.gallery-item:nth-child(4) { animation-delay: 0.4s; }
+    .admin-action-buttons .btn {
+        width: 100%;
+    }
+}

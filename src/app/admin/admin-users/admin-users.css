@@ -87,6 +87,7 @@ tr.is-me td {
 
 
 .custom-modal {
+    padding: 15px;
     position: fixed;
     top: 0;
     left: 0;
@@ -107,6 +108,9 @@ tr.is-me td {
     border-radius: 15px;
     border: 1px solid #c3ae80;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    max-height: 90vh;
+    overflow-y: auto;
+    width: 100%;
 }
 
 .modal-header {
@@ -139,4 +143,115 @@ tr.is-me td {
 
 .d-flex.gap-2 {
     min-height: 31px;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .table-dark-green thead {
+        display: none;
+    }
+
+    .table-dark-green {
+        border: none !important;
+        background-color: transparent !important;
+    }
+
+    .table-dark-green, 
+    .table-dark-green tbody, 
+    .table-dark-green tr, 
+    .table-dark-green td {
+        display: block;
+        width: 100%;
+    }
+
+    .table-dark-green tr {
+        display: block;
+        margin-bottom: 25px;
+        background: #ffffff;
+        border-radius: 15px !important;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08); 
+        border: 1px solid #e0e0e0;
+        position: relative;
+    }
+
+    .table-dark-green td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 15px;
+        text-align: right;
+        border-bottom: 1px solid #f1f3f5 !important;
+    }
+
+    .table-dark-green td:last-child {
+        border-bottom: none !important;
+        background-color: #fafafa;
+        justify-content: space-around !important;
+        gap: 15px !important;
+    }
+
+    .table-dark-green td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+        color: #adb5bd;
+        flex: 1;
+        text-align: left
+    }
+
+    .table-dark-green td[data-label="Role"] {
+        align-items: center;
+    }
+
+    .role-dropdown {
+        width: 100% !important;
+        max-width: 160px !important;
+        padding: 6px 10px !important;
+        border-radius: 6px !important;
+        border: 1px solid #dee2e6 !important;
+        font-size: 0.85rem !important;
+        background-color: #f8f9fa !important;
+    }
+
+    tr.is-me {
+        border-left: 8px solid #2d4037 !important;
+        background-color: rgba(195, 174, 128, 0.05) !important;
+    }
+
+    .is-staff {
+        border-left: 4px solid #c3ae80 !important;
+    }
+
+    .role-dropdown {
+        max-width: 160px;
+        width: auto;
+    }
+}
+
+@media (max-width: 576px) {
+    .modal-header {
+        padding: 1rem;
+    }
+    
+    .modal-content {
+        border-radius: 10px;
+    }
+
+    .role-dropdown {
+        max-width: 100%;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-delete, .btn-dark-green {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .s-18 {
+        transform: scale(1.2);
+    }
 }

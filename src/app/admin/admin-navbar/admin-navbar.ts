@@ -22,10 +22,16 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './admin-navbar.css',
 })
 export class AdminNavbar {
+  isMenuOpen = false
+  
   constructor(
     public authApi: AuthService,
     private router: Router
   ) {}
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
 
   logout() {
     this.authApi.logout$()

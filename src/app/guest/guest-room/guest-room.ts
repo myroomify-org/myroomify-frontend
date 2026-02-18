@@ -169,6 +169,7 @@ export class GuestRoom implements OnInit{
     )
 
     if (!confirmed) return
+    const finalprice = this.calculateTotalPrice()
 
     const bookingData = {
       room_id: this.room.id,
@@ -176,6 +177,8 @@ export class GuestRoom implements OnInit{
       check_in: this.formatDate(this.startDate),
       check_out: this.formatDate(this.endDate),
       guest_count: this.guest_count,
+      total_price: finalprice,
+      status: ''
     }
 
     this.bookingApi.addBooking$(bookingData).subscribe({
@@ -187,6 +190,17 @@ export class GuestRoom implements OnInit{
         this.failed("Failed to book room.")
       }
       })
+  }
+
+  calculateTotalPrice(): number {
+    if (!this.startDate || !this.endDate || !this.room) return 0
+
+    const diffInTime = this.endDate.getTime() - this.startDate.getTime()
+    const diffInDays = Math.ceil(diffInTime / (1000 * 3600 * 24))
+    
+    const nights = diffInDays > 0 ? diffInDays : 1
+
+    return this.room.price_per_night * this.guest_count * nights
   }
 
   // Alerts
