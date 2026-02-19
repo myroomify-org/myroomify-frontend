@@ -200,49 +200,7 @@ a:hover {
 }
 
 /* Mobile Auth */
-.mobile-nav-wrapper {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-end;
-    gap: 8px;
-}
 
-.mobile-auth-group {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.auth-link-mobile {
-    text-decoration: none;
-    color: white;
-    font-family: 'Quicksand';
-    font-size: 16px;
-    padding: 6px 12px;    
-    border: 2px solid transparent; 
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease-in-out;
-    white-space: nowrap;
-}
-
-.auth-link-mobile:hover, 
-.auth-link-mobile:active {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: #c3ae80;
-    color: #c3ae80;
-    text-shadow: 0 0 0.5px #c3ae80; 
-}
-
-.navbar-toggler {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    margin-left: 5px;
-}
 
 /* Responsive */
 @media (max-width: 1400px) {
@@ -274,6 +232,50 @@ a:hover {
     .navbar-nav {
         flex-direction: column !important;
         align-items: center;
+    }
+
+    .mobile-nav-wrapper {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end;
+        gap: 8px;
+    }
+
+    .mobile-auth-group {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .auth-link-mobile {
+        text-decoration: none;
+        color: white;
+        font-family: 'Quicksand';
+        font-size: 16px;
+        padding: 6px 12px;    
+        border: 2px solid transparent; 
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease-in-out;
+        white-space: nowrap;
+    }
+
+    .auth-link-mobile:hover, 
+    .auth-link-mobile:active {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-color: #c3ae80;
+        color: #c3ae80;
+        text-shadow: 0 0 0.5px #c3ae80; 
+    }
+
+    .navbar-toggler {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        margin-left: 5px;
     }
 }
 
