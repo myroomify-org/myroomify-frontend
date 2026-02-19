@@ -54,12 +54,9 @@
                         </div>
                         <div class="card-body p-4">
                             <h5 class="card-title fw-bold">{{ room.name }}</h5>
-                            <p class="card-text text-muted small">{{ room.description }}</p>
-                            <div class="room-price-tag">${{ room.price }}<span>/night</span></div>
+                            <p class="card-text text-muted small">{{ room.description }}</p>                            
                             <div class="d-flex justify-content-between align-items-center mt-3">
-                                <span class="status-badge isAvailable" [class.available]="room.is_available">
-                                    {{ room.is_available ? 'Available' : 'Full' }}
-                                </span>
+                                <div class="room-price-tag">${{ room.price }}<span>/night</span></div>
                                 <button class="btn btn-sm btn-outline-dark rounded-pill px-3" (click)="navigateRoom(room.id)">View Details</button>
                             </div>
                         </div>
