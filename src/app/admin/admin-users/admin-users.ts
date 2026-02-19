@@ -239,7 +239,21 @@ export class AdminUsers {
 
   cancel(){
     this.showModal = false
-    this.userForm.reset()
+    this.userForm.reset({
+      name: '',
+      email: '',
+      phone: '000000000',
+      password: 'ManualPassword123!',
+      password_confirmation: 'ManualPassword123!',
+      role: 'customer',
+      last_name: 'Guest',
+      first_name: 'User',
+      country_name: 'Hungary',
+      city_name: 'Budapest',
+      address: 'Temporary Address',
+      postal_code: '0000',
+      is_active: 1
+    })
   }
 
   //Search

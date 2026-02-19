@@ -14,9 +14,17 @@
 
 .btn-dark-green {
   background-color: #2d4037;
-  color: #ffffff !important;
+  color: #c3ae80 !important;
   border: none;
   transition: all 0.3s ease;
+  height: 42px;
+  flex: 1;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .btn-dark-green:hover {
