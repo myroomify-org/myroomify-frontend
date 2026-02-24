@@ -1,287 +1,306 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AdminUserService } from '../../shared/admin/admin-user-service';
 import { CommonModule } from '@angular/common';
 
-// Mat imports
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+
+type UserRole = 'superadmin' | 'admin' | 'receptionist' | 'customer';
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  password: string;
+  password_confirmation: string;
+  role: UserRole;
+  first_name?: string;
+  last_name?: string;
+  address?: string;
+  city_name?: string;
+  country_name?: string;
+  postal_code?: string;
+  is_active: number;
+  deleted_at?: string | null;
+}
+
+const ROLE_PRIORITY: Record<UserRole, number> = {
+  superadmin: 0,
+  admin: 1,
+  receptionist: 2,
+  customer: 3,
+};
 
 @Component({
   selector: 'app-admin-users',
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatIconModule, 
-    MatFormFieldModule, 
-    MatInputModule, 
-    MatSelectModule
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    TranslateModule
   ],
   templateUrl: './admin-users.html',
-  styleUrl: './admin-users.css',
+  styleUrls: ['./admin-users.css']
 })
-export class AdminUsers {
-  showModal = false
-  bookings: any[] = []
-  filteredUsers: any[] = []
-  userForm: any
-  users: any
-  rooms: any
+export class AdminUsers implements OnInit {
+  private readonly builder = new FormBuilder()
 
+  showModal = false
+  users: User[] = []
+  filteredUsers: User[] = []
   currentAdminId: number | null = null
+  private staffRoles: UserRole[] = ['superadmin', 'admin', 'receptionist']
+
+  userForm = this.builder.nonNullable.group({
+    id: [''],
+    name: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    phone: ['00000000000', Validators.required],
+    password: ['', Validators.required],
+    password_confirmation: [''],
+    role: ['customer' as UserRole, Validators.required],
+    first_name: ['Guest', Validators.required],
+    last_name: ['User', Validators.required],
+    address: ['Temporary Address', Validators.required],
+    city_name: ['Budapest', Validators.required],
+    country_name: ['Hungary', Validators.required],
+    postal_code: ['0000', Validators.required],
+    is_active: [1]
+  })
 
   constructor(
     private userApi: AdminUserService,
-    private builder: FormBuilder
-  ){}
+    private translate: TranslateService
+  ) {}
 
-  ngOnInit(){
-    const rawUser = localStorage.getItem('user')
-
-    if (rawUser) {
-      const user = JSON.parse(rawUser)
-      this.currentAdminId = user.id ? Number(user.id) : null
-    }
-
+  ngOnInit(): void {
+    this.loadCurrentUser()
     this.getUsers()
-    this.userForm = this.builder.group({
-      id: [''],
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['000000000', Validators.required],
-      password: ['ManualPassword123!', Validators.required],
-      password_confirmation: ['ManualPassword123!', Validators.required],
-      role: ['customer', Validators.required],
-      last_name: ['Guest', Validators.required],
-      first_name: ['User', Validators.required],
-      country_name: ['Hungary', Validators.required],
-      city_name: ['Budapest', Validators.required],
-      address: ['Temporary Address', Validators.required],
-      postal_code: ['0000', Validators.required],
-      is_active: [1]
-    })
   }
 
+  private loadCurrentUser(): void {
+    const rawUser = localStorage.getItem('user');
+    if (rawUser) {
+      const parsed = JSON.parse(rawUser);
+      this.currentAdminId = parsed.id ? Number(parsed.id) : null
+    }
+  }
 
-  // Crud start
-  // read
-  getUsers(){
+  // READ
+  getUsers(): void {
     this.userApi.getUsers$().subscribe({
       next: (result: any) => {
-        console.log(result.data)
-        let allUsers = result.data.filter((u: any) => !u.deleted_at)
-        this.users = allUsers.sort((userA: any, userB: any) => {
-          const priority: any = { 'admin': 1, 'receptionist': 2, 'user': 3, 'guest': 3 }
-          const priorityA = priority[userA.role?.toLowerCase()] || 4
-          const priorityB = priority[userB.role?.toLowerCase()] || 4
-          return priorityA - priorityB
-      })
+        const activeUsers: User[] = result.data
+          .filter((user: User) => !user.deleted_at)
+          .sort((a: User, b: User) =>
+            (ROLE_PRIORITY[a.role] ?? 4) - (ROLE_PRIORITY[b.role] ?? 4)
+          )
 
-      this.filteredUsers = [...this.users]
+        this.users = activeUsers
+        this.filteredUsers = [...activeUsers]
       },
-      error: (error: any) => {
+      error: (error:any) => {
         console.log(error)
-      } 
+      }
     })
   }
 
-  private flattenUserData(user: any) {
+  // CREATE
+  addUser(): void {
+    const formValue = this.userForm.getRawValue()
+
+    const payload: User = {
+      ...formValue,
+      password_confirmation: formValue.password
+    }
+
+    this.userApi.addUser$(payload).subscribe({
+      next: () => {
+        this.success(this.translate.instant('ADMIN_ALERTS.SUCCESS.TITLE_CREATE_USER'))
+        this.getUsers()
+        this.cancel()
+      },
+      error: (error:any) => {
+        console.log(error)
+        this.failed(this.translate.instant('ADMIN_ALERTS.FAILED.TITLE_CREATE_USER'))
+      }
+    })
+  }
+
+  // UPDATE ROLE
+  changeRole(user: User, newRole: string): void {
+    if (!newRole) return
+
+    const updatedUser = { ...user, role: newRole as UserRole }
+    const payload = this.preparePayload(updatedUser)
+
+    this.userApi.editUser$(+user.id, payload).subscribe({
+      next: () => {
+        user.role = newRole as UserRole;
+        this.success(this.translate.instant('ADMIN_ALERTS.SUCCESS.TITLE_CHANGE_ROLE'))
+      },
+      error: () => {
+        this.failed(this.translate.instant('ADMIN_ALERTS.FAILED.TITLE_CHANGE_ROLE'))
+      }
+    })
+  }
+
+  private preparePayload(user: User): any {
+    const nameParts = (user.name || '').trim().split(' ')
+    
     return {
-      ...user,
-      first_name: user.first_name || user.profile?.first_name || 'Guest',
-      last_name: user.last_name || user.profile?.last_name || 'User',
-
-      country_name: user.country_name || user.profile?.address?.country_name || 'Hungary',
-      city_name: user.city_name || user.profile?.address?.city_name || 'Budapest',
-      postal_code: user.postal_code || user.profile?.address?.postal_code || '0000',
-      address: user.address || user.profile?.address?.address || 'Default Address',
-
+      id: user.id,
+      name: user.name,
       email: user.email,
-      phone: user.phone || user.profile?.phone || '000000000',
-      password: 'ManualPassword123!',
-      password_confirmation: 'ManualPassword123!'
-    }
+      role: user.role,
+      is_active: user.is_active,
+      phone: user.phone || '00000000000',
+      first_name: user.first_name || nameParts[0] || 'Guest',
+      last_name: user.last_name || (nameParts.length > 1 ? nameParts.slice(1).join(' ') : 'User'),
+      country_name: user.country_name || 'Hungary',
+      city_name: user.city_name || 'Budapest',
+      address: user.address || 'Temporary Address',
+      postal_code: user.postal_code || '0000',
+      password: '',
+      password_confirmation: ''
+    };
   }
 
-  toggleUserStatus(user: any) {
-    const payload = this.flattenUserData(user)
-    payload.is_active = user.is_active ? 0 : 1
+  isStaff(role: UserRole | undefined): boolean {
+    return role ? this.staffRoles.includes(role) : false
+  }
 
-    this.userApi.editUser$(user.id, payload).subscribe({
+  toggleUserStatus(user: User): void {
+    const updatedStatus = user.is_active ? 0 : 1
+    const updatedUser = { ...user, is_active: updatedStatus }
+    const payload = this.preparePayload(updatedUser)
+
+    this.userApi.editUser$(+user.id, payload).subscribe({
       next: () => {
-        user.is_active = !user.is_active
-        this.success(user.is_active ? "Activated" : "Deactivated")
+        user.is_active = updatedStatus
+        this.success(
+          updatedStatus
+            ? this.translate.instant('ADMIN_ALERTS.SUCCESS.ACTIVATED')
+            : this.translate.instant('ADMIN_ALERTS.SUCCESS.DEACTIVATED')
+        )
       },
-      error: (error: any) => {
-        this.failed("Validation error")
+      error: () => {
+        this.failed(this.translate.instant('ADMIN_ALERTS.FAILED.TITLE_DEACTIVATE_USER'))
       }
     })
   }
 
-  changeRole(user: any, newRole: string) {
-    const payload = this.flattenUserData(user)
-    payload.role = newRole
-
-    this.userApi.editUser$(user.id, payload).subscribe({
-      next: () => {
-        user.role = newRole
-        this.success("Role has been changed successfully")
-      },
-      error: (error: any) => {
-        this.failed("Validation error")
-        this.getUsers()
-      }
-    });
-  }
-
-  // add
-  addUser() {    
-    if (this.userForm.valid) {
-      const rawData = this.userForm.value;
-      const nameParts = rawData.name ? rawData.name.trim().split(' ') : []
-      
-      const payload = {
-        name: rawData.name,
-        email: rawData.email,
-        phone: rawData.phone || '000000000',
-        password: rawData.password,
-        password_confirmation: rawData.password,
-        role: rawData.role,
-        first_name: nameParts[0] || 'Guest',
-        last_name: nameParts.length > 1 ? nameParts.slice(1).join(' ') : 'User',
-        country_name: rawData.country_name || 'Hungary',
-        city_name: rawData.city_name || 'Budapest',
-        address: rawData.address || 'Default address',
-        postal_code: rawData.postal_code || '0000',
-        is_active: 1
-      }
-
-      this.userApi.addUser$(payload).subscribe({
-        next: () => {
-          this.success("User has been added!")
-          this.getUsers()
-          this.cancel()
-        },
-        error: (error: any) => {
-          this.failed("Backend error: " + JSON.stringify(error.error.data))
-        }
-      })
-    } else {
-      this.failed("Form is invalid! Check your inputs.")
-    }
-  }
-
-  // delete
-  deleteUser(id: number){
+  // DELETE
+  private deleteUser(id: number): void {
     this.userApi.deleteUser$(id).subscribe({
-      next: (result: any) => {
-        console.log(result)
+      next: () => {
         this.getUsers()
-        this.success("User has been deleted")
+        this.success(this.translate.instant('ADMIN_ALERTS.SUCCESS.TITLE_DELETE_USER'))
       },
-      error: (error: any) => {
-        console.log(error)
-        this.failed("Error deleting user")
+      error: () => {
+        this.failed(this.translate.instant('ADMIN_ALERTS.FAILED.TITLE_DELETE_USER'))
       }
     })
   }
-  
 
-  //Crud end
-  
-  //Alert
-  success(text: string){ {
+  // Search
+  onSearch(event: Event): void {
+    const term = (event.target as HTMLInputElement).value.toLowerCase()
+
+    this.filteredUsers = this.users.filter(user =>
+      user.name.toLowerCase().includes(term) ||
+      user.email.toLowerCase().includes(term) ||
+      user.id.toString().includes(term)
+    )
+  }
+
+  onSort(event: Event): void {
+    const key = (event.target as HTMLSelectElement).value
+    if (!key) return
+
+    this.filteredUsers.sort((a, b) => {
+      let valA: any = (a as any)[key]
+      let valB: any = (b as any)[key]
+
+      if (typeof valA === 'string') valA = valA.toLowerCase()
+      if (typeof valB === 'string') valB = valB.toLowerCase()
+
+      if (valA < valB) return -1
+      if (valA > valB) return 1
+      return 0
+    })
+  }
+
+ 
+  // Modal
+  setShowModal(): void {
+    this.showModal = true
+  }
+
+  cancel(): void {
+    this.showModal = false
+    this.userForm.reset({
+      id: '',
+      name: '',
+      email: '',
+      phone: '00000000000',
+      password: '',
+      password_confirmation: '',
+      role: 'customer',
+      first_name: 'Guest',
+      last_name: 'User',
+      address: 'Temporary Address',
+      city_name: 'Budapest',
+      country_name: 'Hungary',
+      postal_code: '0000',
+      is_active: 1
+    })
+  }
+
+
+  // Alerts
+  success(title: string){
     Swal.fire({
       icon: 'success',
       iconColor: '#c3ae80',
-      title: text,
-      showConfirmButton: false,
-      timer: 1500
+      title: title,
+      timer: 1500,
+      showConfirmButton: false
     })
-    }
   }
 
-  warning(id: number){
+  confirm(id: number): void {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      iconColor: "#c3ae80",
+      title: this.translate.instant('ADMIN_ALERTS.CONFIRM.TITLE_DELETE_USER'),
+      text: this.translate.instant('ADMIN_ALERTS.CONFIRM.TEXT_DELETE_USER'),
+      icon: 'warning',
+      iconColor: '#c3ae80',
       showCancelButton: true,
-      confirmButtonColor: "#2d4037",
-      cancelButtonColor: "rgba(0, 0, 0, 1)",
-      confirmButtonText: "Delete"
-    }).then((result) => {
+      confirmButtonColor: '#2d4037',
+    }).then(result => {
       if (result.isConfirmed) {
         this.deleteUser(id)
       }
     })
   }
 
-  failed(text: string){
+  failed(title: string){
     Swal.fire({
-      position: "center",
-      icon: "error",
-      title: text,
-      showConfirmButton: false,
-      timer: 2500
-    })
-  }
-
-  //Modal
-  setShowModal(){
-    this.showModal = true
-  }
-
-  cancel(){
-    this.showModal = false
-    this.userForm.reset({
-      name: '',
-      email: '',
-      phone: '000000000',
-      password: 'ManualPassword123!',
-      password_confirmation: 'ManualPassword123!',
-      role: 'customer',
-      last_name: 'Guest',
-      first_name: 'User',
-      country_name: 'Hungary',
-      city_name: 'Budapest',
-      address: 'Temporary Address',
-      postal_code: '0000',
-      is_active: 1
-    })
-  }
-
-  //Search
-  onSearch(event: any) {
-    const term = event.target.value.toLowerCase()
-    this.filteredUsers = this.users.filter((user: any) => 
-      user.name?.toLowerCase().includes(term) ||
-      user.email?.toLowerCase().includes(term) ||
-      user.id.toString().includes(term)
-    )
-  }
-
-  onSort(event: any) {
-    const key = event.target.value      
-    if (!key) return
-
-    this.filteredUsers.sort((a, b) => {
-      let valA = a[key]
-      let valB = b[key]
-
-      if (typeof valA === 'string') {
-        valA = valA.toLowerCase()
-        valB = valB.toLowerCase()
-      }
-
-      if (valA < valB) return -1
-      if (valA > valB) return 1
-      return 0
+      icon: 'error',
+      title: title,
+      timer: 2000,
+      showConfirmButton: false
     })
   }
 }

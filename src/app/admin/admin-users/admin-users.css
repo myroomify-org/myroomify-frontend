@@ -1,7 +1,3 @@
-.table-dark-green {
-    background-color: #2d4037;
-}
-
 .section-title{
     font-weight: bold;
 }
@@ -64,7 +60,7 @@
 }
 
 tr.is-me {
-    border-left: 8px solid #2d4037 !important;
+    border-left: 4px solid #2d4037 !important;
     background-color: rgba(195, 174, 128, 0.15) !important;
 }
 

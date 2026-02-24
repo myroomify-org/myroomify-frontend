@@ -1,143 +1,156 @@
 <div class="container mb-5 animate-fade-in">
-    <h2 class="mt-5 mb-5 section-title">User Management</h2>
-    
-    <div class="row g-3 mb-4 align-items-end search-filter-bar p-3 rounded shadow-sm mx-0">
-        <div class="col-12 col-md-5">
-            <label class="form-label text-muted small fw-bold">Search</label>
-            <div class="input-group">
-                <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
-                <input type="search" class="form-control border-start-0" 
-                       placeholder="Name, email or id..." (input)="onSearch($event)">
-            </div>
-        </div>
+  <h2 class="mt-5 mb-5 section-title">{{ 'ADMIN_USERS.TITLE' | translate }}</h2>
 
-        <div class="col-12 col-md-3">
-            <label class="form-label text-muted small fw-bold">Sort</label>
-            <select class="form-select" (change)="onSort($event)">
-                <option value="id">Id (Default)</option>
-                <option value="name">Name (A-Z)</option>
-                <option value="email">Email (A-Z)</option>
-                <option value="role">Role</option>
+  <!-- Search & Sort Bar -->
+  <div class="row g-3 mb-4 align-items-end search-filter-bar p-3 rounded shadow-sm mx-0">
+    <div class="col-12 col-md-5">
+      <label class="form-label text-muted small fw-bold">{{ 'ADMIN_USERS.SEARCH_LABEL' | translate }}</label>
+      <div class="input-group">
+        <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+        <input type="search" class="form-control border-start-0"
+               placeholder="{{ 'ADMIN_USERS.SEARCH_PLACEHOLDER' | translate }}"
+               (input)="onSearch($event)">
+      </div>
+    </div>
+
+    <div class="col-12 col-md-3">
+      <label class="form-label text-muted small fw-bold">{{ 'ADMIN_USERS.SORT_BY' | translate }}</label>
+      <select class="form-select" (change)="onSort($event)">
+        <option value="id">{{ 'ADMIN_USERS.TABLE.ID' | translate }}</option>
+        <option value="name">{{ 'ADMIN_USERS.TABLE.NAME' | translate }}</option>
+        <option value="email">{{ 'ADMIN_USERS.TABLE.EMAIL' | translate }}</option>
+        <option value="role">{{ 'ADMIN_USERS.TABLE.ROLE' | translate }}</option>
+      </select>
+    </div>
+
+    <div class="col-12 col-md-4 text-md-end text-center mt-3 mt-md-0">
+      <button class="btn btn-dark-green w-100 w-md-auto" (click)="setShowModal()">
+        <i class="bi bi-person-plus-fill me-2"></i>{{ 'ADMIN_USERS.BUTTONS.NEW_USER' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Users Table -->
+  <div class="table-responsive rounded-4 shadow-sm bg-white">
+    <table class="table table-hover bookingTable table-dark-green mb-0">
+      <thead class="table-dark-green">
+        <tr>
+          <th class="ps-4">{{ 'ADMIN_USERS.TABLE.ID' | translate }}</th>
+          <th>{{ 'ADMIN_USERS.TABLE.NAME' | translate }}</th>
+          <th>{{ 'ADMIN_USERS.TABLE.EMAIL' | translate }}</th>
+          <th>{{ 'ADMIN_USERS.TABLE.ROLE' | translate }}</th>
+          <th class="text-center">{{ 'ADMIN_USERS.TABLE.ACTIONS' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="filteredUsers.length; else noUsers">
+          <tr *ngFor="let user of filteredUsers" class="align-middle"
+                [class.is-staff]="isStaff(user.role)"
+                [class.is-me]="+user.id === currentAdminId">
+
+            <td class="ps-4 text-muted" data-label="Id">
+              #{{ user.id }}
+              <span *ngIf="+user.id === currentAdminId" class="badge bg-dark-green ms-1 animate-pulse" style="font-size:0.6rem;">
+                {{ 'ADMIN_USERS.TABLE.YOU' | translate }}
+              </span>
+            </td>
+
+            <td class="fw-bold" data-label="Name">{{ user.name }}</td>
+            <td data-label="Email">{{ user.email }}</td>
+
+            <td data-label="Role">
+              <select class="form-select form-select-sm role-dropdown"
+                [value]="user.role"
+                (change)="changeRole(user, $any($event.target).value ?? 'customer')"
+                [disabled]="user.role === 'superadmin' || +user.id === currentAdminId">
+                <option value="superadmin">{{ 'ADMIN_USERS.ROLES.SUPERADMIN' | translate }}</option>
+                <option value="admin">{{ 'ADMIN_USERS.ROLES.ADMIN' | translate }}</option>
+                <option value="receptionist">{{ 'ADMIN_USERS.ROLES.RECEPTIONIST' | translate }}</option>
+                <option value="customer">{{ 'ADMIN_USERS.ROLES.CUSTOMER' | translate }}</option>
+              </select>
+            </td>
+
+            <td class="text-center pe-4" data-label="Actions">
+              <div class="d-flex justify-content-center align-items-center gap-2" style="min-height:40px;">
+
+                <span *ngIf="user.role === 'superadmin' || +user.id === currentAdminId"
+                      class="text-muted small fst-italic protection-text">
+                  <i class="bi bi-shield-lock-fill me-1"></i>{{ 'ADMIN_USERS.TABLE.PROTECTED' | translate }}
+                </span>
+
+                <ng-container *ngIf="user.role !== 'superadmin' && +user.id !== currentAdminId">
+                  <button class="btn btn-sm p-1"
+                          (click)="toggleUserStatus(user)"
+                          [title]="user.is_active ? ('ADMIN_USERS.TABLE.DEACTIVATE' | translate) : ('ADMIN_USERS.TABLE.ACTIVATE' | translate)">
+                    <mat-icon [class.text-success]="user.is_active"
+                              [class.text-danger]="!user.is_active" class="s-18">
+                      {{ user.is_active ? 'visibility' : 'visibility_off' }}
+                    </mat-icon>
+                  </button>
+
+                  <button class="btn btn-delete btn-sm" (click)="confirm(+user.id)">
+                    <i class="bi bi-trash-fill"></i> {{ 'ADMIN_USERS.BUTTONS.DELETE' | translate }}
+                  </button>
+                </ng-container>
+
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+
+        <ng-template #noUsers>
+          <tr>
+            <td colspan="5" class="text-center py-5 text-muted">
+              <i class="bi bi-people mb-2 d-block fs-2"></i>
+              {{ 'ADMIN_USERS.NO_USERS' | translate }}
+            </td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal -->
+  <div class="custom-modal" *ngIf="showModal">
+    <div class="modal-content animate-fade-in">
+      <div class="modal-header">
+        <h5 class="color-dark-green fw-bold mb-0">{{ 'ADMIN_USERS.MODAL.TITLE' | translate }}</h5>
+        <button class="btn-close" (click)="cancel()"></button>
+      </div>
+
+      <form [formGroup]="userForm" (ngSubmit)="addUser()" class="p-4">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label small fw-bold">{{ 'ADMIN_USERS.MODAL.USERNAME' | translate }}</label>
+            <input type="text" formControlName="name" class="form-control">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label small fw-bold">{{ 'ADMIN_USERS.MODAL.EMAIL' | translate }}</label>
+            <input type="email" formControlName="email" class="form-control">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label small fw-bold">{{ 'ADMIN_USERS.MODAL.ROLE' | translate }}</label>
+            <select formControlName="role" class="form-select">
+              <option value="admin">{{ 'ADMIN_USERS.ROLES.ADMIN' | translate }}</option>
+              <option value="receptionist">{{ 'ADMIN_USERS.ROLES.RECEPTIONIST' | translate }}</option>
+              <option value="customer">{{ 'ADMIN_USERS.ROLES.CUSTOMER' | translate }}</option>
             </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label small fw-bold">{{ 'ADMIN_USERS.MODAL.PASSWORD' | translate }}</label>
+            <input type="password" formControlName="password" class="form-control">
+          </div>
         </div>
-        
-        <div class="col-12 col-md-4 text-md-end text-center mt-3 mt-md-0">
-            <button class="btn btn-dark-green w-100 w-md-auto" (click)="setShowModal()">
-                <i class="bi bi-person-plus-fill me-2"></i>New User
-            </button>
+
+        <div class="modal-footer mt-4 px-0 pb-0">
+          <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+            {{ 'ADMIN_USERS.BUTTONS.CANCEL' | translate }}
+          </button>
+          <button type="submit" class="btn btn-dark-green">
+            {{ 'ADMIN_USERS.BUTTONS.CREATE' | translate }}
+          </button>
         </div>
+      </form>
     </div>
-    
-    <div class="table-responsive rounded-4 shadow-sm bg-white">
-        <table class="table table-hover bookingTable table-dark-green mb-0">
-            <thead class="table-dark-green">
-                <tr>
-                    <th class="ps-4">Id</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th class="text-center">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for(user of filteredUsers; track user.id) {
-                    <tr class="align-middle" 
-                        [class.is-staff]="['superadmin', 'admin', 'receptionist'].includes(user.role?.toLowerCase())" 
-                        [class.is-me]="user.id == currentAdminId"> 
-                        
-                        <td class="ps-4 text-muted" data-label="Id">
-                            #{{ user.id }}
-                            <span *ngIf="user.id == currentAdminId" class="badge bg-dark-green ms-1 animate-pulse" style="font-size: 0.6rem;">
-                                YOU
-                            </span>
-                        </td>
-                        <td class="fw-bold" data-label="Name">{{ user.name }}</td>
-                        <td class="fw-regular" data-label="Email">{{ user.email }}</td>
-                        <td data-label="Role">
-                            <select class="form-select form-select-sm role-dropdown" 
-                                    [value]="user.role" 
-                                    (change)="changeRole(user, $any($event.target).value)"
-                                    [disabled]="user.role === 'superadmin' || user.id == currentAdminId">
-                                <option value="superadmin">Superadmin</option>
-                                <option value="admin">Admin</option>
-                                <option value="receptionist">Receptionist</option>
-                                <option value="customer">Customer</option>
-                            </select>
-                        </td>
-                        <td class="text-center pe-4" data-label="Actions">
-                            <div class="d-flex justify-content-center align-items-center gap-2" style="min-height: 40px;">
-                                
-                                <span *ngIf="user.role === 'superadmin' || user.id == currentAdminId" 
-                                      class="text-muted small fst-italic protection-text">
-                                    <i class="bi bi-shield-lock-fill me-1"></i>Protected
-                                </span>
-
-                                <ng-container *ngIf="user.role !== 'superadmin' && user.id != currentAdminId">
-                                    <button class="btn btn-sm p-1" 
-                                            (click)="toggleUserStatus(user)"
-                                            [title]="user.is_active ? 'Deactivate' : 'Activate'">
-                                        <mat-icon [class.text-success]="user.is_active" 
-                                                [class.text-danger]="!user.is_active" 
-                                                class="s-18">
-                                            {{ user.is_active ? 'visibility' : 'visibility_off' }}
-                                        </mat-icon>
-                                    </button>
-                                    
-                                    <button class="btn btn-delete btn-sm" (click)="warning(user.id)">
-                                        <i class="bi bi-trash-fill"></i> Delete
-                                    </button>
-                                </ng-container>
-                            </div>
-                        </td>
-                    </tr>
-                } @empty {
-                    <tr>
-                        <td colspan="5" class="text-center py-5 text-muted">
-                            <i class="bi bi-people mb-2 d-block fs-2"></i>
-                            There are no users.
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-
-    <div class="custom-modal" *ngIf="showModal">
-        <div class="modal-content animate-fade-in">
-            <div class="modal-header">
-                <h5 class="color-dark-green fw-bold mb-0">Create New User</h5>
-                <button class="btn-close" (click)="cancel()"></button>
-            </div>
-            
-            <form [formGroup]="userForm" (ngSubmit)="addUser()" class="p-4">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label small fw-bold">Username</label>
-                        <input type="text" formControlName="name" class="form-control">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small fw-bold">Email</label>
-                        <input type="email" formControlName="email" class="form-control">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small fw-bold">Role</label>
-                        <select formControlName="role" class="form-select">
-                            <option value="admin">Admin</option>
-                            <option value="receptionist">Receptionist</option>
-                            <option value="customer">Customer</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small fw-bold">Initial Password</label>
-                        <input type="password" formControlName="password" class="form-control">
-                    </div>
-                </div>
-
-                <div class="modal-footer mt-4 px-0 pb-0">
-                    <button type="button" class="btn btn-outline-secondary" (click)="cancel()">Cancel</button>
-                    <button type="submit" class="btn btn-dark-green">Create User</button>
-                </div>
-            </form>
-        </div>
-    </div>
+  </div>
 </div>

@@ -1,12 +1,13 @@
 <div class="profile-wrapper">
   <div class="container py-5">
     <div class="text-center mb-5 mt-2">
-      <h1 class="section-title">My profile!</h1>
-      <p class="text-muted">You can edit your profile details and manage your bookings here.</p>
+      <h1 class="section-title">{{ 'PROFILE.HEADER.TITLE' | translate }}</h1>
+      <p class="text-muted">{{ 'PROFILE.HEADER.SUBTITLE' | translate }}</p>
     </div>
 
-    <!--Navigation-->
+    
     <div class="row g-4">  
+      <!--Navigation-->
       <div class="col-lg-3">
         <div class="profile-nav shadow-sm">
           <div class="user-brief p-4 text-center">
@@ -17,11 +18,11 @@
           <div class="list-group list-group-flush p-2">
             <button (click)="activeTab = 'details'" [class.active]="activeTab === 'details'" 
                class="list-group-item list-group-item-action border-0 rounded-3 mb-1">
-              <i class="bi bi-person me-2"></i> Profile Details
+              <i class="bi bi-person me-2"></i> {{ 'PROFILE.MINI_NAV.PROFILE' | translate }}
             </button>
             <button (click)="activeTab = 'bookings'" [class.active]="activeTab === 'bookings'" 
                class="list-group-item list-group-item-action border-0 rounded-3">
-              <i class="bi bi-calendar-check me-2"></i> My Bookings
+              <i class="bi bi-calendar-check me-2"></i> {{ 'PROFILE.MINI_NAV.BOOKINGS' | translate }}
             </button>
           </div>
         </div>
@@ -31,95 +32,137 @@
         <!--Profile-->
         <section *ngIf="activeTab === 'details'" class="content-card shadow-sm p-4 mb-4 animate-fade-in">
           <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="fw-bold m-0 text-dark">Personal Information</h4>
+            <h4 class="fw-bold m-0 text-dark">{{ 'PROFILE.PROFILE.TITLE' | translate }}</h4>
             <button class="btn btn-edit-minimal" (click)="toggleEdit()" *ngIf="!isEditing">
-              <i class="bi bi-pencil"></i> Edit Profile
+              <i class="bi bi-pencil"></i> {{ 'PROFILE.PROFILE.EDIT' | translate }}
             </button>
           </div>
           
           <div class="row g-4" *ngIf="!isEditing; else editForm">
             <div class="col-md-6">
-              <label class="label-minimal">Username</label>
+              <label class="label-minimal">{{ 'PROFILE.PROFILE.USERNAME' | translate }}</label>
               <p class="data-text fw-bold">@{{ user.name }}</p>
             </div>
             <div class="col-md-6">
-              <label class="label-minimal">Email Address</label>
+              <label class="label-minimal">{{ 'PROFILE.PROFILE.EMAIL' | translate }}</label>
               <p class="data-text">{{ user.email }}</p>
             </div>
             <div class="col-md-6">
-              <label class="label-minimal">First Name</label>
-              <p class="data-text">{{ user.first_name || 'Not set' }}</p>
+              <label class="label-minimal">{{ 'PROFILE.PROFILE.FIRST_NAME' | translate }}</label>
+              <p class="data-text">{{ user.first_name || ('PROFILE.COMMON.NOT_SET' | translate) }}</p>
             </div>
             <div class="col-md-6">
-              <label class="label-minimal">Last Name</label>
-              <p class="data-text">{{ user.last_name || 'Not set' }}</p>
+              <label class="label-minimal">{{ 'PROFILE.PROFILE.LAST_NAME' | translate }}</label>
+              <p class="data-text">{{ user.last_name || ('PROFILE.COMMON.NOT_SET' | translate) }}</p>
             </div>
             <div class="col-md-6">
-              <label class="label-minimal">Phone Number</label>
-              <p class="data-text">{{ user.phone || 'Not provided' }}</p>
+              <label class="label-minimal">{{ 'PROFILE.PROFILE.PHONE' | translate }}</label>
+              <p class="data-text">{{ user.phone || ('PROFILE.COMMON.NOT_PROVIDED' | translate) }}</p>
             </div>
             <div class="col-md-6">
-              <label class="label-minimal">Address</label>
-              <p class="data-text">{{ user.address || 'Not provided' }}</p>
+              <label class="label-minimal">{{ 'PROFILE.PROFILE.ADDRESS' | translate }}</label>
+              <p class="data-text">{{ user.address || ('PROFILE.COMMON.NOT_PROVIDED' | translate) }}</p>
             </div>
           </div>
 
           <ng-template #editForm>
             <div class="row g-3 animate-fade-in">
               <div class="col-md-12">
-                <label class="label-minimal">Username</label>
+                <label class="label-minimal">{{ 'PROFILE.PROFILE.USERNAME' | translate }}</label>
                 <input type="text" class="form-control form-control-custom bg-light" [(ngModel)]="user.name" disabled>
-                <small class="text-muted">Username cannot be changed.</small>
+                <small class="text-muted">{{ 'PROFILE.PROFILE.USERNAME_TEXT' | translate }}</small>
               </div>
 
               <div class="col-md-6">
-                <label class="label-minimal">First Name</label>
-                <input type="text" class="form-control form-control-custom" [(ngModel)]="user.first_name" placeholder="Enter first name">
+                <label class="label-minimal">{{ 'PROFILE.PROFILE.FIRST_NAME' | translate }}</label>
+                <input type="text" class="form-control form-control-custom" [(ngModel)]="user.first_name" placeholder="{{'PROFILE.PTOFILE.PLACEHOLDERS.FIRST_NAME' | translate}}">
               </div>
               <div class="col-md-6">
-                <label class="label-minimal">Last Name</label>
-                <input type="text" class="form-control form-control-custom" [(ngModel)]="user.last_name" placeholder="Enter last name">
+                <label class="label-minimal">{{ 'PROFILE.PROFILE.LAST_NAME' | translate }}</label>
+                <input type="text" class="form-control form-control-custom" [(ngModel)]="user.last_name" placeholder="{{'PROFILE.PTOFILE.PLACEHOLDERS.LAST_NAME' | translate}}">
               </div>
 
               <div class="col-md-12">
-                <label class="label-minimal">Phone Number</label>
-                <input type="text" class="form-control form-control-custom" [(ngModel)]="user.phone" placeholder="e.g. 06201234567">
+                <label class="label-minimal">{{ 'PROFILE.PROFILE.PHONE' | translate }}</label>
+                <input type="text" class="form-control form-control-custom" [(ngModel)]="user.phone" placeholder="{{'PROFILE.PTOFILE.PLACEHOLDERS.PHONE' | translate}}">
               </div>
 
               <hr class="my-4 text-muted opacity-25">
-              <h6 class="fw-bold mb-2">Address Details</h6>
+              <h6 class="fw-bold mb-2">{{ 'PROFILE.PROFILE.TITLE_ADDRESS' | translate }}</h6>
 
               <div class="col-md-6">
-                <label class="label-minimal">Country</label>
-                <input type="text" class="form-control form-control-custom" [(ngModel)]="user.country_name" placeholder="e.g. Hungary">
+                <label class="label-minimal">{{ 'PROFILE.PROFILE.COUNTRY' | translate }}</label>
+                <input type="text" class="form-control form-control-custom" [(ngModel)]="user.country_name" placeholder="{{'PROFILE.PTOFILE.PLACEHOLDERS.COUNTRY' | translate}}">
               </div>
               <div class="col-md-6">
-                <label class="label-minimal">City</label>
-                <input type="text" class="form-control form-control-custom" [(ngModel)]="user.city_name" placeholder="e.g. Budapest">
+                <label class="label-minimal">{{ 'PROFILE.PROFILE.CITY' | translate }}</label>
+                <input type="text" class="form-control form-control-custom" [(ngModel)]="user.city_name" placeholder="{{'PROFILE.PTOFILE.PLACEHOLDERS.CITY' | translate}}">
               </div>
 
               <div class="col-md-4">
-                <label class="label-minimal">Postal Code</label>
-                <input type="text" class="form-control form-control-custom" [(ngModel)]="user.postal_code" placeholder="e.g. 1021">
+                <label class="label-minimal">{{ 'PROFILE.PROFILE.POSTAL_CODE' | translate }}</label>
+                <input type="text" class="form-control form-control-custom" [(ngModel)]="user.postal_code" placeholder="{{'PROFILE.PTOFILE.PLACEHOLDERS.POSTAL_CODE' | translate}}">
               </div>
               <div class="col-md-8">
-                <label class="label-minimal">Street Address</label>
-                <input type="text" class="form-control form-control-custom" [(ngModel)]="user.address" placeholder="e.g. Main street 2.">
+                <label class="label-minimal">{{ 'PROFILE.PROFILE.STREET_ADDRESS' | translate }}</label>
+                <input type="text" class="form-control form-control-custom" [(ngModel)]="user.address" placeholder="{{'PROFILE.PTOFILE.PLACEHOLDERS.STREET_ADDRESS' | translate}}">
               </div>
 
               <div class="col-12 d-flex gap-2 mt-4">
                 <button class="btn btn-save" (click)="saveProfile()">
-                  <i class="bi bi-check2-circle me-1"></i> Update Profile
+                  <i class="bi bi-check2-circle me-1"></i> {{ 'PROFILE.PROFILE.SAVE' | translate }}
                 </button>
-                <button class="btn btn-cancel-text" (click)="toggleEdit()">Discard Changes</button>
+                <button class="btn btn-cancel-text" (click)="toggleEdit()">{{ 'PROFILE.PROFILE.DISCARD_CHANGES' | translate }}</button>
               </div>
             </div>
           </ng-template>
         </section>
 
+        <!-- Security Settings -->
+        <section *ngIf="activeTab === 'details'" class="content-card shadow-sm p-4 mt-4 animate-fade-in border-top border-warning">
+          <h4 class="fw-bold mb-4 text-dark"><i class="bi bi-shield-lock me-2"></i>{{ 'PROFILE.SECURITY.TITLE' | translate }}</h4>
+
+          <div class="row g-4">
+            <div class="col-md-6 border-end">
+              <label class="label-minimal">{{ 'PROFILE.SECURITY.EMAIL_TITLE' | translate }}</label>
+              <div class="input-group">
+                <input type="email" class="form-control form-control-custom" [(ngModel)]="newEmail" [placeholder]="user.email">
+                <button class="btn btn-save-sm" (click)="saveEmail()">{{ 'PROFILE.SECURITY.BTN_UPDATE_EMAIL' | translate }}</button>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="label-minimal">{{ 'PROFILE.SECURITY.PASSWORD_TITLE' | translate }}</label>
+              <p class="small text-muted">{{ 'PROFILE.SECURITY.PASSWORD_TEXT' | translate }}</p>
+              <button class="btn btn-outline-dark btn-sm" (click)="showPasswordFields = !showPasswordFields">
+                {{ showPasswordFields ? ('PROFILE.SECURITY.BTN_HIDE' | translate) : ('PROFILE.SECURITY.BTN_CHANGE' | translate) }}
+              </button>
+            </div>
+
+            <div class="col-12 mt-3 animate-fade-in" *ngIf="showPasswordFields">
+              <div class="p-3 bg-light rounded-3">
+                <div class="row g-3">
+                  <div class="col-md-4">
+                    <input type="password" class="form-control form-control-custom" placeholder="{{'PROFILE.SECURITY.PLACEHOLDERS.CURRENT' | translate}}" [(ngModel)]="passwordData.current_password">
+                  </div>
+                  <div class="col-md-4">
+                    <input type="password" class="form-control form-control-custom" placeholder="{{'PROFILE.SECURITY.PLACEHOLDERS.NEW' | translate}}" [(ngModel)]="passwordData.new_password">
+                  </div>
+                  <div class="col-md-4">
+                    <input type="password" class="form-control form-control-custom" placeholder="{{'PROFILE.SECURITY.PLACEHOLDERS.CONFIRM' | translate}}" [(ngModel)]="passwordData.new_password_confirmation">
+                  </div>
+                  <div class="col-12 text-end">
+                    <button class="btn btn-save" (click)="savePassword()">{{ 'PROFILE.SECURITY.BTN_UPDATE_PASSWORD' | translate }}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <!-- Bookings -->
         <section *ngIf="activeTab === 'bookings'" class="content-card shadow-sm p-4 animate-fade-in">
-          <h4 class="fw-bold mb-4">Recent Bookings</h4>
+          <h4 class="fw-bold mb-4">{{ 'PROFILE.BOOKINGS.TITLE' | translate }}</h4>
           
           <div *ngFor="let currentBooking of bookings" class="mb-4">
             <div *ngIf="editingBookingId !== currentBooking.id" 
@@ -128,9 +171,9 @@
             
             <div class="flex-grow-1">
               <div class="d-flex align-items-center gap-2 mb-2">
-                <h5 class="fw-bold m-0 text-dark">{{ currentBooking.room?.name || 'Standard Room' }}</h5>
+                <h5 class="fw-bold m-0 text-dark">{{ currentBooking.room?.name || ('PROFILE.BOOKINGS.ROOM' | translate) }}</h5>
                 <span class="status-badge" [ngClass]="currentBooking.status?.toLowerCase()">
-                  {{ currentBooking.status | titlecase }}
+                  {{ 'PROFILE.BOOKINGS.STATUS.' + currentBooking.status?.toUpperCase() | translate }}
                 </span>
               </div>
               <div class="text-muted small">
@@ -140,7 +183,7 @@
             </div>
 
             <div class="price-container px-4 border-start border-end">
-              <label class="text-muted small d-block text-uppercase letter-spacing-1">Total Price</label>
+              <label class="text-muted small d-block text-uppercase letter-spacing-1">{{ 'PROFILE.BOOKINGS.TOTAL_PRICE' | translate }}</label>
               <span class="fw-bold text-success fs-4">
                 {{ currentBooking.total_price | currency:'EUR':'symbol':'1.0-0' }}
               </span>
@@ -151,30 +194,30 @@
                 class="btn btn-manage-modern d-flex align-items-center" 
                 (click)="startEditBooking(currentBooking)"
                 [disabled]="currentBooking.status === 'cancelled'"
-                [title]="currentBooking.status === 'cancelled' ? 'Cancelled bookings cannot be modified' : 'Manage booking'">
+                [title]="currentBooking.status === 'cancelled' ? ('PROFILE.BOOKINGS.STATUS.LOCKED' | translate) : ('PROFILE.BOOKINGS.MANAGE' | translate)">
                 
                 <i class="bi me-2" [ngClass]="currentBooking.status === 'cancelled' ? 'bi-lock-fill' : 'bi-gear-fill'"></i>
-                <span>{{ currentBooking.status === 'cancelled' ? 'Locked' : 'Manage' }}</span>
+                <span>{{ currentBooking.status === 'cancelled' ? ('PROFILE.BOOKINGS.LOCKED' | translate) : ('PROFILE.BOOKINGS.MANAGE' | translate) }}</span>
               </button>
             </div>
           </div>
 
             <div *ngIf="editingBookingId === currentBooking.id" class="booking-dates-container border rounded-3 animate-fade-in shadow-sm">
               <div class="p-3 bg-light border-bottom d-flex justify-content-between align-items-center">
-                <h6 class="m-0 fw-bold">Modify Reservation</h6>
+                <h6 class="m-0 fw-bold">{{ 'PROFILE.BOOKINGS.MODIFY' | translate }}</h6>
                 <span class="badge bg-dark">ID: #{{currentBooking.id}}</span>
               </div>
 
               <div class="p-3 bg-light border-bottom d-flex justify-content-between align-items-center">
                 <button type="button" mat-button [matMenuTriggerFor]="calendarMenu" #checkInTrigger="matMenuTrigger" 
                   (click)="isChoosingCheckout = false" class="filter-btn flex-grow-1 text-start border-0 py-3 px-4">
-                  <label class="small text-muted d-block">Check-in Date</label>
+                  <label class="small text-muted d-block">{{ 'PROFILE.BOOKINGS.CHECK_IN' | translate }}</label>
                   <span class="fw-bold">{{ currentBooking.check_in | date:'MMM d, y' }}</span>
                 </button>
 
                 <button type="button" mat-button [matMenuTriggerFor]="calendarMenu" #checkOutTrigger="matMenuTrigger"
                   (click)="isChoosingCheckout = true" class="filter-btn flex-grow-1 text-start border-0 py-3 px-4">
-                  <label class="small text-muted d-block">Check-out Date</label>
+                  <label class="small text-muted d-block">{{ 'PROFILE.BOOKINGS.CHECK_OUT' | translate }}</label>
                   <span class="fw-bold">{{ currentBooking.check_out | date:'MMM d, y' }}</span>
                 </button>
               </div>
@@ -191,7 +234,7 @@
 
               <div class="p-3 d-flex justify-content-between align-items-center bg-white border-top">  
                 <div class="price-display">
-                  <span class="text-muted small d-block">New Estimated Total:</span>
+                  <span class="text-muted small d-block">{{ 'PROFILE.BOOKINGS.TOTAL_PRICE' | translate }}</span>
                   <span class="fw-bold text-success fs-5">
                     {{ currentBooking.total_price | currency:'EUR':'symbol':'1.0-0' }}
                   </span>
@@ -201,10 +244,10 @@
                     <button *ngIf="currentBooking.status !== 'cancelled'" 
                             class="btn btn-outline-danger btn-sm px-3" 
                             (click)="currentBooking.status = 'cancelled'; editBooking(currentBooking)">
-                      Cancel Booking
+                      {{ 'PROFILE.BOOKINGS.BTN_CANCEL' | translate }}
                     </button>
-                    <button class="btn btn-save-sm px-4" (click)="editBooking(currentBooking)">Save Changes</button>
-                    <button class="btn btn-cancel-sm" (click)="cancelEdit(currentBooking)">Back</button>
+                    <button class="btn btn-save-sm px-4" (click)="editBooking(currentBooking)">{{ 'PROFILE.BOOKINGS.BTN_SAVE' | translate }}</button>
+                    <button class="btn btn-cancel-sm" (click)="cancelEdit(currentBooking)">{{ 'PROFILE.BOOKINGS.BTN_BACK' | translate }}</button>
                 </div>
               </div>  
             </div>
@@ -212,49 +255,7 @@
 
           <div *ngIf="bookings.length === 0" class="text-center py-5">
             <i class="bi bi-calendar-x fs-1 text-muted opacity-25"></i>
-            <p class="text-muted mt-2">You don't have any bookings yet.</p>
-          </div>
-        </section>
-
-        <!-- Security Settings -->
-        <section *ngIf="activeTab === 'details'" class="content-card shadow-sm p-4 mt-4 animate-fade-in border-top border-warning">
-          <h4 class="fw-bold mb-4 text-dark"><i class="bi bi-shield-lock me-2"></i>Security Settings</h4>
-
-          <div class="row g-4">
-            <div class="col-md-6 border-end">
-              <label class="label-minimal">Update Email Address</label>
-              <div class="input-group">
-                <input type="email" class="form-control form-control-custom" [(ngModel)]="newEmail" [placeholder]="user.email">
-                <button class="btn btn-save-sm" (click)="saveEmail()">Update</button>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <label class="label-minimal">Password Management</label>
-              <p class="small text-muted">Keep your account secure by using a strong password.</p>
-              <button class="btn btn-outline-dark btn-sm" (click)="showPasswordFields = !showPasswordFields">
-                {{ showPasswordFields ? 'Hide Password Form' : 'Change Password' }}
-              </button>
-            </div>
-
-            <div class="col-12 mt-3 animate-fade-in" *ngIf="showPasswordFields">
-              <div class="p-3 bg-light rounded-3">
-                <div class="row g-3">
-                  <div class="col-md-4">
-                    <input type="password" class="form-control form-control-custom" placeholder="Current Password" [(ngModel)]="passwordData.current_password">
-                  </div>
-                  <div class="col-md-4">
-                    <input type="password" class="form-control form-control-custom" placeholder="New Password" [(ngModel)]="passwordData.new_password">
-                  </div>
-                  <div class="col-md-4">
-                    <input type="password" class="form-control form-control-custom" placeholder="Confirm New Password" [(ngModel)]="passwordData.new_password_confirmation">
-                  </div>
-                  <div class="col-12 text-end">
-                    <button class="btn btn-save" (click)="savePassword()">Update Password Now</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <p class="text-muted mt-2">{{ 'PROFILE.BOOKINGS.NO_BOOKINGS' | translate }}</p>
           </div>
         </section>
       </div>

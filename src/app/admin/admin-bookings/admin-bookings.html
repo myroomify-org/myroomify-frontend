@@ -1,104 +1,94 @@
 <div class="container py-5 animate-fade-in">
   <div class="d-flex justify-content-between align-items-center mb-5">
-    <!-- Section Title -->
     <div>
-      <h1 class="section-title m-0">Booking Management</h1>
-      <p class="text-muted">Overview and management of all guest reservations.</p>
+      <h1 class="section-title m-0">{{ 'ADMIN_BOOKINGS.TITLE' | translate }}</h1>
+      <p class="text-muted">{{ 'ADMIN_BOOKINGS.SUBTITLE' | translate }}</p>
     </div>
   </div>
 
-  <!-- Search and Filter Card -->
   <div class="card border-0 shadow-sm rounded-4 mb-4">
     <div class="card-body p-3">
       <div class="row g-3">
-        <!-- Search -->
         <div class="col-md-4">
           <div class="input-group">
             <span class="input-group-text bg-transparent border-end-0"><i class="bi bi-search"></i></span>
             <input type="text" class="form-control border-start-0 ps-0 form-control-custom" 
-              placeholder="Search by name, email or ID..." (input)="onSearch($event)">
+              [placeholder]="'ADMIN_BOOKINGS.SEARCH_PLACEHOLDER' | translate" (input)="onSearch($event)">
           </div>
         </div>
-        <!-- Status -->
         <div class="col-md-3">
           <div class="input-group">
             <span class="input-group-text bg-transparent border-end-0 text-muted small"><i class="bi bi-funnel"></i></span>
             <select class="form-select form-control-custom border-start-0 ps-0" (change)="filterByStatus($event)">
-              <option value="all">All Statuses</option>
-              <option value="pending">Pending</option>
-              <option value="confirmed">Confirmed</option>
-              <option value="cancelled">Cancelled</option>
+              <option value="all">{{ 'ADMIN_BOOKINGS.FILTERS.STATUS_ALL' | translate }}</option>
+              <option value="pending">{{ 'ADMIN_BOOKINGS.FILTERS.PENDING' | translate }}</option>
+              <option value="confirmed">{{ 'ADMIN_BOOKINGS.FILTERS.CONFIRMED' | translate }}</option>
+              <option value="completed">{{ 'ADMIN_BOOKINGS.FILTERS.COMPLETED' | translate }}</option>
+              <option value="cancelled">{{ 'ADMIN_BOOKINGS.FILTERS.CANCELLED' | translate }}</option>
             </select>
           </div>
         </div>
-        <!-- Sort -->
         <div class="col-md-3">
           <select class="form-select form-control-custom" (change)="onSort($event)">
-            <option value="id">Sort by ID</option>
-            <option value="guest_name">Sort by Username</option>
-            <option value="check_in">Sort by Arrival</option>
-            <option value="room">Sort by Room</option>
+            <option value="id">{{ 'ADMIN_BOOKINGS.FILTERS.SORT_ID' | translate }}</option>
+            <option value="guest_name">{{ 'ADMIN_BOOKINGS.FILTERS.SORT_NAME' | translate }}</option>
+            <option value="check_in">{{ 'ADMIN_BOOKINGS.FILTERS.SORT_ARRIVAL' | translate }}</option>
+            <option value="room">{{ 'ADMIN_BOOKINGS.FILTERS.SORT_ROOM' | translate }}</option>
           </select>
         </div>
-        <!-- New Booking Button -->
-         <div class="col-md-2">
-          <button class="btn btn-dark-green px-5 shadow-sm" (click)="setShowModal()">
-            <i class="bi bi-plus-lg me-2"></i>New Reservation
+        <div class="col-md-2">
+          <button class="btn btn-dark-green px-5 shadow-sm w-100" (click)="setShowModal()">
+            <i class="bi bi-plus-lg me-2"></i>{{ 'ADMIN_BOOKINGS.NEW_BOOKING' | translate }}
           </button>
          </div>          
       </div>
     </div>
   </div>
 
-  <!-- Bookings Table Card -->
   <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
     <div class="table-responsive">
       <table class="table table-hover align-middle mb-0 text-dark">
         <thead class="bg-light text-uppercase small fw-bold">
           <tr>
-            <th class="ps-4">ID</th>
-            <th>Guest Details</th>
-            <th>Room</th>
-            <th>Stay Period</th>
-            <th>Status</th>
-            <th class="text-end">Total Amount</th>
-            <th class="text-end pe-4">Actions</th>
+            <th class="ps-4">{{ 'ADMIN_BOOKINGS.TABLE.ID' | translate }}</th>
+            <th>{{ 'ADMIN_BOOKINGS.TABLE.GUEST' | translate }}</th>
+            <th>{{ 'ADMIN_BOOKINGS.TABLE.ROOM' | translate }}</th>
+            <th>{{ 'ADMIN_BOOKINGS.TABLE.STAY' | translate }}</th>
+            <th>{{ 'ADMIN_BOOKINGS.TABLE.STATUS' | translate }}</th>
+            <th class="text-end">{{ 'ADMIN_BOOKINGS.TABLE.TOTAL' | translate }}</th>
+            <th class="text-end pe-4">{{ 'ADMIN_BOOKINGS.TABLE.ACTIONS' | translate }}</th>
           </tr>
         </thead>
         <tbody>
           <ng-container *ngFor="let booking of filteredBookings">
             <tr>
-              <td class="ps-4 fw-bold">#{{ booking.id }}</td>
-              <td>
+              <td class="ps-4 fw-bold" data-label="ID">#{{ booking.id }}</td>
+              <td data-label="Guest">
                 <div class="d-flex flex-column">
                   <span class="fw-bold text-dark">
-                    {{ booking.guest_name || booking.user?.name || 'No Name Provided' }}
+                    {{ booking.guest_name || booking.user?.name || ('ADMIN_BOOKINGS.TABLE.NO_NAME' | translate) }}
                   </span>
                   <small class="text-muted">
-                    {{ booking.guest_email || booking.user?.email || 'No Email' }}
+                    {{ booking.guest_email || booking.user?.email || ('ADMIN_BOOKINGS.TABLE.NO_EMAIL' | translate) }}
                   </small>
                 </div>
               </td>
-              <td>
-                <span class="badge badge-info-light border text-dark">{{ booking.room?.name || 'Unassigned' }}</span>
+              <td data-label="Room">
+                <span class="badge badge-info-light border text-dark">{{ booking.room?.name || ('ADMIN_BOOKINGS.TABLE.UNASSIGNED' | translate) }}</span>
               </td>
-              <td>
+              <td data-label="Timeline">
                 <div class="small fw-bold text-dark">{{ booking.check_in | date:'yyyy. MM. dd.' }}</div>
                 <div class="small text-muted">{{ booking.check_out | date:'yyyy. MM. dd.' }}</div>
               </td>
-              <td>
-                <div class="status-pill" [ngClass]="{
-                    'pending': booking.status?.toLowerCase() === 'pending',
-                    'confirmed': booking.status?.toLowerCase() === 'confirmed',
-                    'cancelled': booking.status?.toLowerCase() === 'cancelled'
-                  }">
-                  {{ booking.status | titlecase }}
+              <td data-label="Status">
+                <div class="status-pill" [ngClass]="booking.status?.toLowerCase() || ''">
+                  {{ 'ADMIN_BOOKINGS.FILTERS.' + (booking.status | uppercase) | translate }}
                 </div>
               </td>
-              <td class="text-end fw-bold text-dark">
-                {{ calculateTotal(booking) | currency:'$':'symbol':'1.0-0' }}
+              <td class="text-end fw-bold text-dark" data-label="Total">
+                {{ booking.total_price | currency:'$':'symbol':'1.0-0' }}
               </td>
-              <td class="text-end pe-4">
+              <td class="text-end pe-4" data-label="Actions">
                 <button class="btn btn-action me-2" (click)="toggleRow(booking)">
                   <i class="bi" [ngClass]="booking.isExpanded ? 'bi-chevron-up' : 'bi-people'"></i>
                 </button>
@@ -117,7 +107,7 @@
             </tr>
 
             <tr *ngIf="booking.isExpanded" class="expanded-row">
-              <td colspan="6" class="p-0 border-0">
+              <td colspan="7" class="p-0 border-0">
                 <div class="guest-expansion-wrapper">
                   <app-admin-guests [guests]="booking.guests"></app-admin-guests>
                 </div>
@@ -130,7 +120,6 @@
   </div>
 </div>
 
-<!-- Booking Modal -->
 @if(showModal){
   <div class="modal fade show d-block" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -139,63 +128,60 @@
         <div class="modal-header" [class.bg-dark-green]="addMode" [class.bg-gold]="!addMode" [class.text-white]="addMode" [class.text-dark]="!addMode">
           <h5 class="modal-title fw-bold">
             <i class="bi me-2" [ngClass]="addMode ? 'bi-plus-circle' : 'bi-pencil-square'"></i>
-            {{ addMode ? 'Create New Booking' : 'Edit Booking #' + bookingForm.get('id')?.value }}
+            {{ (addMode ? 'ADMIN_BOOKINGS.BOOKING_MODAL.CREATE_TITLE' : 'ADMIN_BOOKINGS.BOOKING_MODAL.EDIT_TITLE') | translate:{id: bookingForm.get('id')?.value} }}
           </h5>
           <button type="button" class="btn-close" [class.btn-close-white]="addMode" (click)="cancel()"></button>
         </div>
 
         <div class="modal-body p-4 text-dark">
           <form [formGroup]="bookingForm" id="bookingForm">
-            
             <div class="row g-3">
               <div class="col-md-12 mb-2">
-                <label class="label-minimal text-dark">Customer / Registered User</label>
+                <label class="label-minimal text-dark">{{ 'ADMIN_BOOKINGS.BOOKING_MODAL.LABEL_USER' | translate }}</label>
                 <select formControlName="user_id" class="form-select form-control-custom">
-                  <option [value]="null">Select a user (Optional)</option>
-                  <option *ngFor="let user of users" [value]="user.id">
-                    {{ user.name }} ({{ user.email }})
-                  </option>
+                  <option [value]="null">{{ 'ADMIN_BOOKINGS.BOOKING_MODAL.SELECT_USER_OPTIONAL' | translate }}</option>
+                  <option *ngFor="let user of users" [value]="user.id">{{ user.name }} ({{ user.email }})</option>
                 </select>
               </div>
 
               <div class="col-md-6">
-                <label class="label-minimal text-dark">Guest Name</label>
+                <label class="label-minimal text-dark">{{ 'ADMIN_BOOKINGS.BOOKING_MODAL.LABEL_USERNAME' | translate }}</label>
                 <input type="text" formControlName="guest_name" class="form-control form-control-custom"
-                  [placeholder]="bookingForm.get('user_id')?.value ? 'Auto-filled from user' : 'Enter name'">
+                  [placeholder]="(bookingForm.get('user_id')?.value ? 'ADMIN_BOOKINGS.BOOKING_MODAL.AUTO_FILL_TEXT' : 'ADMIN_BOOKINGS.BOOKING_MODAL.PLACEHOLDER_NAME') | translate">
               </div>
               <div class="col-md-6">
-                <label class="label-minimal text-dark">Guest Email</label>
+                <label class="label-minimal text-dark">{{ 'ADMIN_BOOKINGS.BOOKING_MODAL.LABEL_USER_EMAIL' | translate }}</label>
                 <input type="email" formControlName="guest_email" class="form-control form-control-custom"
-                  [placeholder]="bookingForm.get('user_id')?.value ? 'Auto-filled from user' : 'Enter email'">
+                  [placeholder]="(bookingForm.get('user_id')?.value ? 'ADMIN_BOOKINGS.BOOKING_MODAL.AUTO_FILL_TEXT' : 'ADMIN_BOOKINGS.BOOKING_MODAL.PLACEHOLDER_EMAIL') | translate">
               </div>
 
               <div class="col-md-6 mt-3">
-                <label class="label-minimal text-dark">Check-in Date</label>
+                <label class="label-minimal text-dark">{{ 'ADMIN_BOOKINGS.BOOKING_MODAL.LABEL_CHECK_IN' | translate }}</label>
                 <input type="date" formControlName="check_in" class="form-control form-control-custom">
               </div>
-
               <div class="col-md-6 mt-3">
-                <label class="label-minimal text-dark">Check-out Date</label>
+                <label class="label-minimal text-dark">{{ 'ADMIN_BOOKINGS.BOOKING_MODAL.LABEL_CHECK_OUT' | translate }}</label>
                 <input type="date" formControlName="check_out" class="form-control form-control-custom">
               </div>
 
               <div class="col-md-6">
-                <label class="label-minimal text-dark">Room Selection</label>
+                <label class="label-minimal text-dark">{{ 'ADMIN_BOOKINGS.BOOKING_MODAL.LABEL_ROOM' | translate }}</label>
                 <select formControlName="room_id" class="form-select form-control-custom">
                   <option *ngFor="let room of rooms" [value]="room.id">{{ room.name }}</option>
                 </select>
               </div>    
               <div class="col-md-6">
-                <label class="label-minimal text-dark">Number of Guests</label>
+                <label class="label-minimal text-dark">{{ 'ADMIN_BOOKINGS.BOOKING_MODAL.LABEL_GUEST_COUNT' | translate }}</label>
                 <input type="number" formControlName="guest_count" class="form-control form-control-custom" min="1">
               </div>
 
               <div class="col-md-12">
-                <label class="label-minimal text-dark">Booking Status</label>
+                <label class="label-minimal text-dark">{{ 'ADMIN_BOOKINGS.BOOKING_MODAL.LABEL_STATUS' | translate }}</label>
                 <select formControlName="status" class="form-select form-control-custom">
-                  <option value="pending">Pending</option>
-                  <option value="confirmed">Confirmed</option>
-                  <option value="cancelled">Cancelled</option>
+                  <option value="pending">{{ 'ADMIN_BOOKINGS.FILTERS.PENDING' | translate }}</option>
+                  <option value="confirmed">{{ 'ADMIN_BOOKINGS.FILTERS.CONFIRMED' | translate }}</option>
+                  <option value="completed">{{ 'ADMIN_BOOKINGS.FILTERS.COMPLETED' | translate }}</option>
+                  <option value="cancelled">{{ 'ADMIN_BOOKINGS.FILTERS.CANCELLED' | translate }}</option>
                 </select>
               </div>
             </div>
@@ -203,14 +189,13 @@
         </div>
         <div class="modal-footer border-0 p-4 pt-0">
           <button type="button" class="btn btn-outline-secondary rounded-pill px-4" (click)="cancel()">
-            Cancel
+            {{ 'ADMIN_BOOKINGS.BOOKING_MODAL.BTN_CANCEL' | translate }}
           </button>
-          
           <button type="button" 
                   [class]="addMode ? 'btn btn-dark-green rounded-pill px-4 shadow-sm' : 'btn btn-gold rounded-pill px-4 shadow-sm'" 
                   (click)="save()">
             <i class="bi me-2" [ngClass]="addMode ? 'bi-plus-lg' : 'bi-save'"></i>
-            {{ addMode ? 'Create Reservation' : 'Update Reservation' }}
+            {{ (addMode ? 'ADMIN_BOOKINGS.BOOKING_MODAL.BTN_CREATE' : 'ADMIN_BOOKINGS.BOOKING_MODAL.BTN_UPDATE') | translate }}
           </button>
         </div>
       </div>
@@ -219,36 +204,39 @@
   <div class="modal-backdrop fade show"></div>
 }
 
-<!-- Guest Modal -->
 @if(showGuestModal) {
   <div class="modal fade show d-block" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-lg"> <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+    <div class="modal-dialog modal-dialog-centered modal-lg"> 
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
         
         <div class="modal-header bg-dark-green text-white border-bottom border-gold border-3 p-4">
           <h5 class="modal-title fw-bold">
             <i class="bi bi-passport-fill me-2 text-gold"></i>
-            Guest Details Management
-            <span class="badge bg-gold text-dark ms-2 fw-bold">Booking #{{selectedBookingForGuests?.id}}</span>
+            {{ 'ADMIN_BOOKINGS.GUEST_MODAL.TITLE' | translate }}
+            <span class="badge bg-gold text-dark ms-2 fw-bold">
+              {{ 'ADMIN_BOOKINGS.GUEST_MODAL.BOOKING_ID' | translate:{id: selectedBookingForGuests?.id} }}
+            </span>
           </h5>
           <button type="button" class="btn-close btn-close-white" (click)="showGuestModal = false"></button>
         </div>
 
         <div class="modal-body p-4 bg-light">
           <div class="alert bg-white border-start border-4 border-dark-green shadow-sm d-flex justify-content-between align-items-center mb-4">
-            <div class="small text-muted text-uppercase fw-bold">Required Capacity:</div>
-            <div class="fw-bold text-dark-green h5 m-0">{{selectedBookingForGuests?.guest_count}} Guests</div>
+            <div class="small text-muted text-uppercase fw-bold">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.REQUIRED_CAPACITY' | translate }}</div>
+            <div class="fw-bold text-dark-green h5 m-0">
+              {{ 'ADMIN_BOOKINGS.GUEST_MODAL.GUEST_COUNT_TEXT' | translate:{count: selectedBookingForGuests?.guest_count} }}
+            </div>
           </div>
           
           <form [formGroup]="bookingForm">
             <div formArrayName="guests">
-              
               <div *ngFor="let guestGroup of guestControls; let guestIndex = index" 
                    [formGroupName]="guestIndex" 
                    class="guest-card shadow-sm border-start border-4 border-gold animate-fade-in mb-4 bg-white p-3 rounded-3">
                 
                 <div class="guest-card-header d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
                   <span class="guest-number-badge px-3 py-1 rounded-pill bg-dark-green text-gold small fw-bold">
-                    Guest #{{ guestIndex + 1 }}
+                    {{ 'ADMIN_BOOKINGS.GUEST_MODAL.GUEST_SLOT_TITLE' | translate:{index: guestIndex + 1} }}
                   </span>
                   <button type="button" class="btn btn-sm btn-outline-danger border-0" (click)="deleteGuest(guestIndex)">
                     <i class="bi bi-trash3-fill"></i>
@@ -257,59 +245,59 @@
 
                 <div class="row g-3 text-start">
                   <div class="col-md-6">
-                    <label class="label-minimal text-dark-green fw-bold small">Last Name</label>
+                    <label class="label-minimal text-dark-green fw-bold small">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_LAST_NAME' | translate }}</label>
                     <input type="text" formControlName="last_name" class="form-control form-control-custom" placeholder="e.g. Smith">
                   </div>
                   <div class="col-md-6">
-                    <label class="label-minimal text-dark-green fw-bold small">First Name</label>
+                    <label class="label-minimal text-dark-green fw-bold small">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_FIRST_NAME' | translate }}</label>
                     <input type="text" formControlName="first_name" class="form-control form-control-custom" placeholder="e.g. John">
                   </div>
 
                   <div class="col-md-6">
-                    <label class="label-minimal text-dark-green fw-bold small">Date of Birth</label>
+                    <label class="label-minimal text-dark-green fw-bold small">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_BIRTH_DATE' | translate }}</label>
                     <input type="date" formControlName="birth_date" class="form-control form-control-custom">
                   </div>
                   <div class="col-md-6">
-                    <label class="label-minimal text-dark-green fw-bold small">Nationality</label>
+                    <label class="label-minimal text-dark-green fw-bold small">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_NATIONALITY' | translate }}</label>
                     <input type="text" formControlName="nationality" class="form-control form-control-custom" placeholder="e.g. Hungarian">
                   </div>
 
                   <div class="col-md-6">
-                    <label class="label-minimal text-dark-green fw-bold small">Document Type</label>
+                    <label class="label-minimal text-dark-green fw-bold small">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_DOC_TYPE' | translate }}</label>
                     <select formControlName="document_type" class="form-select form-control-custom">
-                      <option value="id_card">ID Card</option>
-                      <option value="passport">Passport</option>
-                      <option value="driver_license">Driver's License</option>
+                      <option value="id_card">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.DOC_TYPES.ID_CARD' | translate }}</option>
+                      <option value="passport">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.DOC_TYPES.PASSPORT' | translate }}</option>
+                      <option value="driver_license">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.DOC_TYPES.DRIVER_LICENSE' | translate }}</option>
                     </select>
                   </div>
                   <div class="col-md-6">
-                    <label class="label-minimal text-dark-green fw-bold small">Document Number</label>
+                    <label class="label-minimal text-dark-green fw-bold small">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_DOC_NUMBER' | translate }}</label>
                     <input type="text" formControlName="document_number" class="form-control form-control-custom" placeholder="e.g. 123456AB">
                   </div>
 
                   <div class="col-12 mt-4">
                     <div class="d-flex align-items-center mb-2">
                       <hr class="flex-grow-1 m-0">
-                      <span class="px-3 small fw-bold text-muted text-uppercase">Address Information</span>
+                      <span class="px-3 small fw-bold text-muted text-uppercase">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.SECTION_ADDRESS' | translate }}</span>
                       <hr class="flex-grow-1 m-0">
                     </div>
                   </div>
 
                   <div class="col-md-6">
-                    <label class="label-minimal text-dark-green fw-bold small">Country</label>
-                    <input type="text" formControlName="country_name" class="form-control form-control-custom" placeholder="Country">
+                    <label class="label-minimal text-dark-green fw-bold small">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_COUNTRY' | translate }}</label>
+                    <input type="text" formControlName="country_name" class="form-control form-control-custom" placeholder="{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_COUNTRY' | translate }}">
                   </div>
                   <div class="col-md-6">
-                    <label class="label-minimal text-dark-green fw-bold small">City</label>
-                    <input type="text" formControlName="city_name" class="form-control form-control-custom" placeholder="City">
+                    <label class="label-minimal text-dark-green fw-bold small">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_CITY' | translate }}</label>
+                    <input type="text" formControlName="city_name" class="form-control form-control-custom" placeholder="{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_CITY' | translate }}">
                   </div>
                   <div class="col-md-4">
-                    <label class="label-minimal text-dark-green fw-bold small">Zip Code</label>
-                    <input type="text" formControlName="postal_code" class="form-control form-control-custom" placeholder="Zip">
+                    <label class="label-minimal text-dark-green fw-bold small">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_ZIP' | translate }}</label>
+                    <input type="text" formControlName="postal_code" class="form-control form-control-custom" placeholder="{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_ZIP' | translate }}">
                   </div>
                   <div class="col-md-8">
-                    <label class="label-minimal text-dark-green fw-bold small">Street & Address</label>
-                    <input type="text" formControlName="address" class="form-control form-control-custom" placeholder="Street, house number, etc.">
+                    <label class="label-minimal text-dark-green fw-bold small">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_STREET' | translate }}</label>
+                    <input type="text" formControlName="address" class="form-control form-control-custom" placeholder="{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_STREET' | translate }}">
                   </div>
                 </div>
               </div>
@@ -318,8 +306,8 @@
 
           <button class="btn btn-outline-dark-green w-100 rounded-pill mb-3 fw-bold py-2 border-2" 
                   (click)="addGuest()" 
-                  [disabled]="guestControls.length >= selectedBookingForGuests?.guest_count">
-            <i class="bi bi-person-plus-fill me-2"></i>Add Guest Slot
+                  [disabled]="guestControls.length >= (selectedBookingForGuests?.guest_count || 0)">
+            <i class="bi bi-person-plus-fill me-2"></i>{{ 'ADMIN_BOOKINGS.GUEST_MODAL.BTN_ADD_SLOT' | translate }}
           </button>
         </div>
 
@@ -327,15 +315,16 @@
           <button class="btn btn-dark-green w-100 rounded-pill py-3 shadow-sm fw-bold text-gold fs-5 transition-all" 
                   [disabled]="guestControls.length !== selectedBookingForGuests?.guest_count || bookingForm.get('guests')?.invalid"
                   (click)="saveGuestsOnly()">
+            
             <i class="bi me-2" [ngClass]="hasExistingGuests() ? 'bi-arrow-repeat' : 'bi-check2-circle'"></i>
-            {{ hasExistingGuests() ? 'Update Guest Registration' : 'Finalize Guest Registration' }}
+            
             <ng-container *ngIf="selectedBookingForGuests?.status === 'confirmed'">
-                {{ hasExistingGuests() ? 'Update Guest Registration' : 'Finalize Guest Registration' }}
-              </ng-container>
-              
-              <ng-container *ngIf="selectedBookingForGuests?.status !== 'confirmed'">
-                Confirm Booking First to Register Guests
-              </ng-container>
+              {{ (hasExistingGuests() ? 'ADMIN_BOOKINGS.GUEST_MODAL.BTN_UPDATE' : 'ADMIN_BOOKINGS.GUEST_MODAL.BTN_FINALIZE') | translate }}
+            </ng-container>
+            
+            <ng-container *ngIf="selectedBookingForGuests?.status !== 'confirmed'">
+              {{ 'ADMIN_BOOKINGS.GUEST_MODAL.STATUS_LOCKED_MSG' | translate }}
+            </ng-container>
           </button>
         </div>
       </div>

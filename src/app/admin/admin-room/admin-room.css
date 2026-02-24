@@ -7,6 +7,17 @@
     box-shadow: 0 0 15px rgba(195, 174, 128, 0.4);
 }
 
+/* Breadcrumb */
+.breadcrumb-item a {
+    color: #c3ae80;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.breadcrumb-item.active {
+    color: #6c757d;
+}
+
 /* --- Buttons --- */
 .btn-dark-green {
     background-color: #2d4037;
@@ -192,6 +203,19 @@
     .room-preview-card {
         margin-bottom: 30px;
         position: static !important;
+    }
+
+    .col-12.d-flex.gap-3.mt-4 {
+        flex-direction: column; 
+    }
+
+    .btn-dark-green, .btn-light {
+        width: 100% !important;
+        height: auto !important;
+        padding: 12px !important;
+        justify-content: center;
+        display: flex;
+        align-items: center;
     }
 }
 

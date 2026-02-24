@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -22,23 +23,22 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    TranslateModule
   ],
   templateUrl: './register.html',
   styleUrl: './register.css'
 })
 
 export class Register implements OnInit {
-
-  // Variables
   registerForm!: FormGroup
   hidePassword = true
 
-  // Constructor
   constructor(
     private fb: FormBuilder, 
     private router: Router,
-    private authApi: AuthService
+    private authApi: AuthService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -77,35 +77,34 @@ export class Register implements OnInit {
   onSubmit(): void {
     if (this.registerForm.valid) {
       this.authApi.register$(this.registerForm.value).subscribe({
-        next: (result: any) => {
-          console.log('Registration successful!', result)
+        next: () => {
           this.router.navigate(['/login'])
-          this.success('Registration successful!')
+          this.success(this.translate.instant('REGISTER.ALERTS.SUCCESS'))
         },
-        error: (error: any) => {
-          console.error('Error registering user', error)
-          this.failed('Registration failed!')
+        error: () => {
+          this.failed(this.translate.instant('REGISTER.ALERTS.FAILED'))
         }
       });
     }
   }
 
   // Alerts
-  success(text: string){
+  success(title: string){
     Swal.fire({
       position: "center",
       icon: "success",
-      title: text,
+      iconColor: "#c3ae80",
+      title: title,
       showConfirmButton: false,
       timer: 2500
     })
   }
 
-  failed(text: string){
+  failed(title: string){
     Swal.fire({
       position: "center",
       icon: "error",
-      title: text,
+      title: title,
       showConfirmButton: false,
       timer: 2500
     })

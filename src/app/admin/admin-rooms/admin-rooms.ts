@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { AdminRoomsService } from '../../shared/admin/admin-rooms-service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 interface CardData {
   id: number,
@@ -17,7 +18,7 @@ interface CardData {
 
 @Component({
   selector: 'app-admin-rooms',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, TranslateModule],
   templateUrl: './admin-rooms.html',
   styleUrl: './admin-rooms.css',
 })
@@ -38,7 +39,8 @@ export class AdminRooms {
   constructor(
     private build: FormBuilder,
     private roomApi: AdminRoomsService,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(){
@@ -72,7 +74,7 @@ export class AdminRooms {
   // card
   addCard() {
     if (this.cardForm.invalid) {
-      this.failed("Please fill all required fields correctly.")
+      this.failed("TITLE_INVALID_FORM")
       return
     }
 
@@ -84,28 +86,27 @@ export class AdminRooms {
 
     this.roomApi.addRoom$(payload).subscribe({
       next: () => {
-        this.success("Room added successfully!")
+        this.success("TITLE_CREATE_ROOM")
         this.get()
         this.cancel()
       },
-      error: (error: any) => this.failed("Failed to add room.")
+      error: (error: any) => this.failed("TITLE_CREATE_ROOM")
     })
   }
 
   delete(id: number) {
     this.roomApi.deleteRoom$(id).subscribe({
       next: () => {
-        // this.cards = this.cards.filter(c => c.id !== id)
-        this.success("Room deleted successfully")
+        this.success("TITLE_DELETE_ROOM")
         this.get()
       },
-      error: () => this.failed("Delete failed")
+      error: () => this.failed("TITLE_DELETE_ROOM")
     })
   }
 
   restoreRoom(id: number) {
     if (this.activeCount >= 20) {
-      this.showLimitMessage();
+      this.success('TITLE_RESTORE_ROOM');
       return;
     }
 
@@ -114,7 +115,7 @@ export class AdminRooms {
         this.success('Room restored successfully')
         this.get()
       },
-      error: () => this.failed('Error restoring room')      
+      error: () => this.failed('TITLE_RESTORE_ROOM')    
     })
   }
 
@@ -189,47 +190,67 @@ export class AdminRooms {
   }
 
   // alerts
-  success(response: any) {
-    Swal.fire({
-      icon: 'success',
-      iconColor: '#c3ae80',
-      title: response,
-      showConfirmButton: false,
-      timer: 1500
-    })
+  success(key: string) {
+    this.translate.get(`ADMIN_ALERTS.SUCCESS.${key}`).subscribe((msg: string) => {
+      Swal.fire({
+        icon: 'success',
+        iconColor: '#c3ae80',
+        title: msg,
+        showConfirmButton: false,
+        timer: 1500
+      });
+    });
   }
-  
-  failed(response: any) {
-    Swal.fire({
-      icon: 'error',
-      title: response,
-      text: 'Your booking could not be completed.',
-      confirmButtonColor: '#2d4037'
-    })
+
+  failed(key: string) {
+    this.translate.get([
+      `ADMIN_ALERTS.FAILED.${key}`,
+      'ADMIN_ALERTS.FAILED.TEXT_BOOKING_ERROR'
+    ]).subscribe(t => {
+      Swal.fire({
+        icon: 'error',
+        title: t[`ADMIN_ALERTS.FAILED.${key}`],
+        text: t['ADMIN_ALERTS.FAILED.TEXT_BOOKING_ERROR'],
+        confirmButtonColor: '#2d4037'
+      });
+    });
   }
 
   confirmDelete(id: number) {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "This room will be permanently removed.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#2d4037",
-      cancelButtonColor: "#000",
-      confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
-      if (result.isConfirmed) this.delete(id)
-    })
+    this.translate.get([
+      'ADMIN_ALERTS.CONFIRM.TITLE_DELETE_ROOM',
+      'ADMIN_ALERTS.CONFIRM.TEXT_DELETE_ROOM',
+      'ADMIN_ALERTS.CONFIRM.CONFIRM_DELETE_ROOM',
+      'ADMIN_ALERTS.CONFIRM.CANCEL_GENERAL'
+    ]).subscribe(t => {
+      Swal.fire({
+        title: t['ADMIN_ALERTS.CONFIRM.TITLE_DELETE_ROOM'],
+        text: t['ADMIN_ALERTS.CONFIRM.TEXT_DELETE_ROOM'],
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#2d4037",
+        cancelButtonColor: "#000",
+        confirmButtonText: t['ADMIN_ALERTS.CONFIRM.CONFIRM_DELETE_ROOM'],
+        cancelButtonText: t['ADMIN_ALERTS.CONFIRM.CANCEL_GENERAL']
+      }).then((result) => {
+        if (result.isConfirmed) this.delete(id);
+      });
+    });
   }
 
   showLimitMessage() {
-    Swal.fire({
-      icon: 'info',
-      iconColor: '#c3ae80',
-      title: 'Limit reached',
-      text: 'You have reached the maximum of 20 rooms. Please restore a deleted room or edit an existing one.',
-      confirmButtonColor: '#2d4037'
-    })
+    this.translate.get([
+      'ADMIN_ALERTS.INFO.LIMIT_REACHED_TITLE',
+      'ADMIN_ALERTS.INFO.LIMIT_REACHED_TEXT'
+    ]).subscribe(t => {
+      Swal.fire({
+        icon: 'info',
+        iconColor: '#c3ae80',
+        title: t['ADMIN_ALERTS.INFO.LIMIT_REACHED_TITLE'],
+        text: t['ADMIN_ALERTS.INFO.LIMIT_REACHED_TEXT'],
+        confirmButtonColor: '#2d4037'
+      });
+    });
   }
 }
 

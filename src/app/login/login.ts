@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AuthService } from '../shared/auth/auth-service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 // Mat imports
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -23,7 +24,8 @@ import { HttpClient } from '@angular/common/http';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    TranslateModule
   ],
   templateUrl: './login.html',
   styleUrl: './login.css'
@@ -41,6 +43,7 @@ export class Login implements OnInit {
     private router: Router,
     private authApi: AuthService,
     private http: HttpClient,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -54,10 +57,8 @@ export class Login implements OnInit {
   onSubmit(): void {
     if (this.loginForm.valid) {
       this.authApi.login$(this.loginForm.value).subscribe({
-        next: (result: any) => {
-          console.log('Login successful!', result)
-          this.success("Login successful!")
-
+        next: () => {
+          this.success((this.translate.instant('LOGIN.ALERTS.SUCCESS')))
           const role = this.authApi.getRole()
           
           if (role === 'customer') {
@@ -67,11 +68,10 @@ export class Login implements OnInit {
           }
         },
         error: (error: any) => {
-          console.error('Login error', error)
           if (error.status === 403 && error.error?.message === "Email not verified") {
             this.verificationRequired()
           } else {
-            this.failed("Login failed!")
+            this.failed(this.translate.instant('LOGIN.ALERTS.TITLE_FAILED'))
           }
         }
       })
@@ -82,28 +82,29 @@ export class Login implements OnInit {
   verificationRequired() {
     Swal.fire({
       icon: 'warning',
-      title: 'Email verification needed',
-      text: 'Please check your inbox and confirm your email address before logging in.',
+      iconColor: '#c3ae80',
+      title: this.translate.instant('LOGIN.ALERTS.VERIFICATION_TITLE'),
+      text: this.translate.instant('LOGIN.ALERTS.VERIFICATION_TEXT'),
       confirmButtonColor: '#2d4037',
       confirmButtonText: 'I understand'
     })
   }
 
-  success(text: string) {
+  success(title: string) {
     Swal.fire({
       icon: 'success',
       iconColor: '#c3ae80',
-      title: text,
+      title: title,
       showConfirmButton: false,
       timer: 1500
     })
   }
 
-  failed(text: string) {
+  failed(title: string) {
     Swal.fire({
       icon: 'error',
-      title: text,
-      text: 'Invalid email or password.',
+      title: title,
+      text: this.translate.instant('LOGIN.ALERTS.TEXT_FAILED'),
       confirmButtonColor: '#2d4037'
     })
   }

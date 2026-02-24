@@ -1,0 +1,520 @@
+{
+  "NAV": {
+    "HOME": "Home",
+    "GALLERY": "Gallery",
+    "ROOMS": "Rooms",
+    "BOOKINGS": "Bookings",
+    "USERS": "Users",
+    "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "REGISTER": "Register",
+    "PROFILE": "Profile",
+    "ROLES": {
+      "ADMIN": "Admin",
+      "SUPERADMIN": "Superadmin",
+      "RECEPTIONIST": "Recepcionist"
+    }
+  },
+
+  "LOGIN": {
+    "TITLE": "Login",
+    "SUBTITLE": "Create your account for the full experience",
+    "USERNAME": "Username or Email",
+    "PASSWORD": "Password",
+    "BTN_LOGIN": "Login",
+    "ALERTS": {
+      "TITLE_FAILED": "Login failed!",
+      "TEXT_FAILED": "Invalid email or password.",
+      "TITLE_VERIFICATION": "Email verification needed",
+      "TEXT_VERIFICATION": "Please check your inbox and confirm your email address before logging in.",
+      "SUCCESS": "Logged in successfully!"
+    }
+  },
+
+  "REGISTER": {
+    "TITLE": "Register",
+    "SUBTITLE": "Create your account for the full experience",
+    "PERSONAL_DETAILS": {
+      "TITLE": "Personal Details",
+      "FIRST_NAME": "First Name",
+      "LAST_NAME": "Last Name",
+      "ADDRESS": "Address",
+      "COUNTRY": "Country",
+      "CITY": "City",
+      "POSTAL_CODE": "Postal Code",
+      "STREET_ADDRESS": "Street Address"
+    },
+    "CONTACT": {
+      "TITLE": "Contact Details",
+      "EMAIL": "Email Address",
+      "PHONE": "Phone Number"
+    },
+    "LOGIN_DETAILS": {
+      "TITLE": "Login Details",
+      "USERNAME":"Username",
+      "USERNAME_TEXT":"Username cannot be changed.",
+      "PASSWORD":"Password",
+      "CONFIRM_PASSWORD":"Confirm Password"
+    },
+    "BTN_REGISTER": "CREATE ACCOUNT",
+    "HAVE_ACCOUNT": "Already have an account?",
+    "ALERTS": {
+      "SUCCESS": "Registration successful!",
+      "FAILED": "Registration failed!"
+    }
+  },
+
+  "PROFILE": {
+    "HEADER": {
+      "TITLE": "My profile!",
+      "SUBTITLE": "You can edit your profile details and manage your bookings here."
+    },
+    "MINI_NAV": {
+      "PROFILE": "Profile Details",
+      "BOOKINGS": "My Bookings"
+    },
+    "PROFILE": {
+      "TITLE":"Personal Information",
+      "EDIT":"Edit Profile",
+      "USERNAME":"Username",
+      "USERNAME_TEXT":"Username cannot be changed.",
+      "EMAIL": "Email Address",
+      "FIRST_NAME": "First Name",
+      "LAST_NAME": "Last Name",
+      "PHONE": "Phone Number",
+      "ADDRESS": "Address",
+      "TITLE_ADDRESS": "Address Details",
+      "COUNTRY": "Country",
+      "CITY": "City",
+      "POSTAL_CODE": "Postal Code",
+      "STREET_ADDRESS": "Street Address",
+      "PLACEHOLDERS": {
+        "FIRST_NAME": "Enter your first name",
+        "LAST_NAME": "Enter your last name",
+        "COUNTRY": "e.g. Hungary",
+        "CITY": "e.g. Budapest",
+        "POSTAL_CODE": "e.g. 1021",
+        "STREET_ADDRESS": "e.g. Main street 2."
+      },
+      "SAVE":"Update Profile",
+      "DISCARD_CHANGES":"Discard Changes"
+    },  
+    "SECURITY": {
+      "TITLE": "Security Settings",
+      "EMAIL_TITLE": "Update Email Address",
+      "PASSWORD_TITLE": "Password Management",
+      "PASSWORD_TEXT": "Keep your account secure by using a strong password.",
+      "BTN_CHANGE": "Change Password",
+      "BTN_HIDE": "Hide Password Form",
+      "BTN_UPDATE_EMAIL": "Update",
+      "BTN_UPDATE_PASSWORD": "Update Password Now",
+      "PLACEHOLDERS": {
+        "CURRENT": "Current password",
+        "NEW": "New password",
+        "CONFIRM": "Confirm new password"
+      }
+    },
+    "BOOKINGS": {
+      "TITLE": "Recent Bookings",
+      "NO_BOOKINGS": "You don't have any bookings yet.",
+      "TOTAL_PRICE": "Total Price",
+      "ROOM": "Standard Room",
+      "MANAGE": "Manage",
+      "LOCKED": "Locked",
+      "MODIFY": "Modify Reservation",
+      "CHECK_IN": "Check-in Date",
+      "CHECK_OUT": "Check-out Date",
+      "BTN_CANCEL": "Cancel Booking",
+      "BTN_SAVE": "Save Changes",
+      "BTN_BACK": "Back",
+      "STATUS": {
+        "LOCKED": "Cancelled bookings cannot be modified",
+        "MANAGE": "Manage booking",
+        "PENDING": "Pending",
+        "CONFIRMED": "Confirmed",
+        "CANCELLED": "Cancelled",
+        "COMPLETED": "Completed"
+      }
+    },
+    "COMMON": {
+      "NOT_PROVIDED": "Not provided",
+      "NOT_SET": "Not set",
+      "UNKNOWN": "Unknown"
+    }
+  },
+
+  "HOME_PAGE": {
+    "MAIN": {
+      "TITLE": "Welcome to MyRoomify!",
+      "SUBTITLE": "Comfortable rooms, amazing service, unforgettable stay",
+      "BTN_EXPLORE": "Explore Rooms"
+    },
+    "ABOUT": {
+      "TITLE": "Welcome to the Island of Tranquility!",
+      "TEXT_1": "Myroomify is more than just a destination – it is a sanctuary from the rush of everyday life. Our grand lakeside lodge, nestled in the heart of the forest, awaits those who wish to escape the city noise and immerse themselves in the serenity of nature.",
+      "WHY_US": "Why choose us?",
+      "POINT_1_TITLE": "Boutique Experience: ",
+      "POINT_1_TEXT": "Our manor features 20 elegantly designed guest rooms, providing an intimate yet professional atmosphere for your stay.",
+      "POINT_2_TITLE": "Panoramic Views: ",
+      "POINT_2_TEXT": "Wake up in the comfort of our lodge to the sight of misty pine forests and the mirror-smooth lake right outside your window.",
+      "POINT_3_TITLE": "Heritage Meets Modernity: ",
+      "POINT_3_TEXT": "Enjoy the charm of traditional rustic architecture paired with high-end, modern interiors and premium amenities.",
+      "FOOTER": "Whether it’s a romantic weekend or a corporate retreat, our lodge offers the perfect environment for complete rejuvenation."
+    },
+    "ROOMS": {
+      "TITLE": "Our Signature Rooms",
+      "PER_NIGHT": "/night",
+      "BTN_DETAILS": "View Details"
+    },
+    "CONTACT": {
+      "TITLE": "Contact Us",
+      "EMAIL": "Email: ",
+      "PHONE": "Phone: "
+    }
+  },
+
+  "GALLERY": {
+    "HEADER": {
+      "TITLE": "Explore Our World",
+      "SUBTITLE": "Discover every detail of your future stay"
+    },
+    "WELCOME": {
+      "TITLE": "Cozy Comfort",
+      "TEXT": "Our reception is at your service 24/7. In a modern yet friendly atmosphere, we ensure a smooth check-in process and are ready to assist with any requests to make your stay truly seamless."
+    },
+    "ROOM": {
+      "TITLE": "A Warm Welcome",
+      "TEXT": "Our rooms are designed for ultimate relaxation. Featuring premium mattresses, blackout curtains, and a quiet environment, we guarantee a restful night's sleep after a long day of travel or work."
+    },
+    "BREAKFAST": {
+      "TITLE": "Gourmet Breakfast",
+      "TEXT": "Start your day with our rich buffet breakfast! Enjoy dishes prepared from local ingredients, fresh pastries, and steaming coffee in our bright and airy dining area."
+    },
+    "SECURITY": {
+      "TITLE": "Security & Location",
+      "TEXT": "Rest easy knowing your vehicle is safe in our private, camera-monitored parking lot. Our central location also offers easy access to local attractions and hidden gems in the neighborhood."
+    }
+  },
+
+  "GUEST_ROOMS": {
+    "HEADER": {
+      "TITLE": "Our Lochside Retreats",
+      "SUBTITLE": "Handpicked rooms with breathtaking views of the Highlands."
+    },
+    "SEARCH_FIELD": {
+      "START_DATE": "Check-in",
+      "END_DATE": "Check-out",
+      "ADD_DATE": "Add date",
+      "GUESTS": "Guests",
+      "SEARCH": "Search",
+      "PEOPLE": "People",
+      "PERSON": "Person"
+    },
+    "ROOMS": {
+      "NIGHT": "/night",
+      "BOOK": "Book Now",
+      "NO_ROOMS_TITLE": "No retreats available for these dates.",
+      "NO_ROOMS_TEXT": "Try adjusting your dates or guest count to find the perfect stay."
+    }
+  },
+
+  "GUEST_ROOM": {
+    "MINI_NAV": {
+      "ROOMS": "Rooms"
+    },
+    "ABOUT": {
+      "GUESTS": "Guests"
+    },
+    "BOOKING": {
+      "PRICE": "From ",
+      "PRICE_TEXT": "per night, including breakfast",
+      "START_DATE": "Check-in",
+      "END_DATE": "Check-out",
+      "ADD_DATE": "Add date",
+      "GUESTS": "GUESTS",
+      "PEOPLE": "People",
+      "PERSON": "Person",
+      "BOOK": "Book this room!",
+      "BOOK_TEXT": "No payment charged yet"
+    },
+    "LOADING": {
+      "TEXT":"Finding your highland retreat..."
+    }
+  },
+
+  "GUEST_ALERTS": {
+    "SUCCESS": {
+      "TITLE_BOOK": "Room has been successfully booked.",
+      "TITLE_PASSWORD_CHANGE": "Password updated successfully!",
+      "TEXT_PASSWORD_CHANGE": "You will be redirected to the login page in 2 seconds.",
+      "TITLE_EMAIL_UPDATE": "Email updated successfully!",
+      "TITLE_PROFILE_UPDATE": "Profile updated successfully!"
+    },
+    "WARNING": {
+      "BOOK_LOGIN": "You must be logged in to book a room.",
+      "BOOK_DATES": "Please select check-in and check-out dates."
+    },
+    "CONFIRM": {
+      "CONFIRM_BOOK":"Yes, confirm booking",
+      "CANCEL_BOOK":"Cancel",
+      "TEXT_BOOK":"Are you sure you want to book this room for ${count} guests?",
+      "TEXT_BOOK_CANCEL":"Are you sure you want to cancel this reservation?"
+    },
+    "FAILED": {
+      "TITLE_BOOK":"Failed to book room.",
+      "TEXT_BOOK":"Your booking could not be completed.",
+      "TITLE_BOOK_UPDATE":"Failed to update booking.",
+      "TITLE_BOOK_CANCEL":"Failed to cancel booking.",
+      "TITLE_PASSWORD_CHANGE":"Failed to change password.",
+      "TITLE_PASSWORD_CONFIRM":"The new passwords do not match!",
+      "TITLE_EMAIL_UPDATE":"Email update failed",
+      "TITLE_PROFILE_UPDATE":"Profile update failed"
+    }
+  },
+
+  "ADMIN_USERS": {
+    "TITLE": "User Management",
+    "SEARCH_LABEL": "Search Users",
+    "SEARCH_PLACEHOLDER": "Search by name, email or ID...",
+    "SORT_BY": "Sort by",
+    "NO_USERS":"There are no users to display.",
+    "BUTTONS": {
+      "NEW_USER": "New User",
+      "CANCEL": "Cancel",
+      "CREATE": "Create User",
+      "DELETE": "Delete"
+    },
+    "TABLE": {
+      "ID": "Id",
+      "NAME": "Name",
+      "EMAIL": "Email",
+      "ROLE": "Role",
+      "ACTIONS": "Actions",
+      "YOU": "YOU",
+      "PROTECTED": "Protected",
+      "EMPTY": "No users found matching your criteria.",
+      "DEACTIVATE": "Deactivate",
+      "ACTIVATE": "Activate"
+    },
+    "ROLES": {
+      "SUPERADMIN": "Superadmin",
+      "ADMIN": "Admin",
+      "RECEPTIONIST": "Receptionist",
+      "CUSTOMER": "Customer"
+    },
+    "MODAL": {
+      "TITLE": "Create New User",
+      "USERNAME": "Username",
+      "EMAIL": "Email",
+      "ROLE": "Role",
+      "PASSWORD": "Initial Password"
+    }
+  },
+
+  "ADMIN_BOOKINGS": {
+    "TITLE": "Booking Management",
+    "SUBTITLE": "Overview and management of all guest reservations.",
+    "SEARCH_PLACEHOLDER": "Search by name, email or ID...",
+    "NEW_BOOKING": "New Reservation",
+    "NO_RESULTA": "No bookings found.",
+    "FILTERS": {
+      "STATUS_ALL": "All Statuses",
+      "PENDING": "Pending",
+      "COMPLETED": "Completed",
+      "CONFIRMED": "Confirmed",
+      "CANCELLED": "Cancelled",
+      "SORT_ID": "Sort by ID",
+      "SORT_NAME": "Sort by Username",
+      "SORT_ARRIVAL": "Sort by Arrival",
+      "SORT_ROOM": "Sort by Room"
+    },
+    "TABLE": {
+      "ID": "ID",
+      "GUEST": "Guest Details",
+      "ROOM": "Room",
+      "STAY": "Stay Period",
+      "STATUS": "Status",
+      "TOTAL": "Total Amount",
+      "ACTIONS": "Actions",
+      "NO_NAME": "No Name Provided",
+      "NO_EMAIL": "No Email",
+      "UNASSIGNED": "Unassigned"
+    },
+    "BOOKING_MODAL": {
+      "CREATE_TITLE": "Create New Booking",
+      "EDIT_TITLE": "Edit Booking #{{id}}",
+      "LABEL_USER": "Customer / Registered User",
+      "SELECT_USER_OPTIONAL": "Select a user (Optional)",
+      "LABEL_USERNAME": "Username",
+      "PLACEHOLDER_NAME": "Enter name",
+      "LABEL_USER_EMAIL": "User Email",
+      "PLACEHOLDER_EMAIL": "Enter email",
+      "AUTO_FILL_TEXT": "Auto-filled from user",
+      "LABEL_CHECK_IN": "Check-in Date",
+      "LABEL_CHECK_OUT": "Check-out Date",
+      "LABEL_ROOM": "Room Selection",
+      "LABEL_GUEST_COUNT": "Number of Guests",
+      "LABEL_STATUS": "Booking Status",
+      "BTN_CANCEL": "Cancel",
+      "BTN_CREATE": "Create Reservation",
+      "BTN_UPDATE": "Update Reservation"
+    },
+    "GUEST_MODAL": {
+      "REGISTERED_GUESTS": "Registered Guests",
+      "NO_GUESTS": "No guest details have been recorded for this booking yet.",
+      "TITLE": "Guest Details Management",
+      "BOOKING_ID": "Booking #{{id}}",
+      "REQUIRED_CAPACITY": "Required Capacity:",
+      "GUEST_COUNT_TEXT": "{{count}} Guests",
+      "GUEST_SLOT_TITLE": "Guest #{{index}}",
+      "LABEL_LAST_NAME": "Last Name",
+      "LABEL_FIRST_NAME": "First Name",
+      "LABEL_BIRTH_DATE": "Date of Birth",
+      "LABEL_NATIONALITY": "Nationality",
+      "LABEL_DOC_TYPE": "Document Type",
+      "LABEL_DOC_NUMBER": "Document Number",
+      "SECTION_ADDRESS": "Address Information",
+      "LABEL_COUNTRY": "Country",
+      "LABEL_CITY": "City",
+      "LABEL_ZIP": "Zip Code",
+      "LABEL_STREET": "Street & Address",
+      "BTN_ADD_SLOT": "Add Guest Slot",
+      "BTN_FINALIZE": "Finalize Guest Registration",
+      "BTN_UPDATE": "Update Guest Registration",
+      "STATUS_LOCKED_MSG": "Confirm Booking First to Register Guests",
+      "DOC_TYPES": {
+        "ID_CARD": "ID Card",
+        "PASSPORT": "Passport",
+        "DRIVER_LICENSE": "Driver's License"
+      }
+    }
+  },
+
+  "ADMIN_ROOMS": {
+    "TITLE": "Room Management",
+    "SUBTITLE": "Manage your hotel inventory and pricing.",
+    "VIEWS": {
+      "ACTIVE": "Active Rooms",
+      "ARCHIVED": "Archived"
+    },
+    "ADD_CARD": {
+      "ADD_NEW": "Add New Room",
+      "LIMIT_REACHED": "Limit Reached",
+      "SLOTS_USED": "({{current}}/{{max}} slots used)"
+    },
+    "CARD": {
+      "PRICE_PER_NIGHT": "{{price}} $ / night",
+      "NO_DESCRIPTION": "No description available",
+      "PERSONS": "Pers.",
+      "ROOM_ID": "No.",
+      "BTN_EDIT": "Edit",
+      "BTN_RESTORE": "Restore Room"
+    },
+    "MODAL": {
+      "TITLE_ADD": "Add New Room",
+      "TITLE_EDIT": "Edit Room",
+      "LABEL_NAME": "Room Name / Number",
+      "PLACEHOLDER_NAME": "e.g. Deluxe Suite 101",
+      "LABEL_CAPACITY": "Capacity (Persons)",
+      "LABEL_PRICE": "Price ($ / night)",
+      "LABEL_DESCRIPTION": "Description",
+      "PLACEHOLDER_DESCRIPTION": "Tell something about the room...",
+      "BTN_CANCEL": "Cancel",
+      "BTN_SAVE": "Save Changes",
+      "BTN_CREATE": "Create Room"
+    }
+  },
+
+  "ADMIN_ROOM": {
+    "MINI_NAV": {
+      "MANAGEMENT": "Rooms"
+    },
+    "TITLE": "Edit Room Details",
+    "SUBTITLE": "ID: #{{id}} | Last updated: just now",
+    "SAVE_BTN": "Save All Changes",
+    "CANCEL_BTN": "Cancel",
+    "PREVIEW": {
+      "DEFAULT_NAME": "Room Name",
+      "PER_NIGHT": "night",
+      "GUESTS": "Guests"
+    },
+    "FORM": {
+      "LABEL_NAME": "Room Identity",
+      "PLACEHOLDER_NAME": "e.g. Royal Suite 505",
+      "LABEL_CAPACITY": "Capacity (Persons)",
+      "LABEL_PRICE": "Price per Night ($)",
+      "LABEL_DESC": "Detailed Description",
+      "PLACEHOLDER_DESC": "Describe the amenities...",
+      "LABEL_GALLERY": "Room Gallery"
+    },
+    "GALLERY": {
+      "UPLOAD_TITLE": "Add more photos to this room",
+      "UPLOAD_SUBTITLE": "Click to browse or drag and drop images here",
+      "PENDING": "Pending upload:",
+      "MAIN_BADGE": "Main",
+      "TOOLTIP_MAIN": "Set as Main",
+      "TOOLTIP_DELETE": "Delete Image"
+    }
+  },
+
+  "ADMIN_ALERTS":{
+    "SUCCESS":{
+      "TITLE_UPDATE_ROOM": "Room has been successfully updated.",
+      "TITLE_DELETE_USER":"User has been successfully deleted.",
+      "TITLE_CHANGE_ROLE":"User role has been successfully changed.",
+      "TITLE_CREATE_USER":"User has been successfully created.",
+      "ACTIVATED":"User has been successfully activated.",
+      "DEACTIVATED":"User has been successfully deactivated.",
+      "TITLE_DELETE_BOOKING": "Booking has been successfully deleted.",
+      "TITLE_CREATE_BOOKING": "Booking has been successfully created.",
+      "TITLE_UPDATE_BOOKING": "Booking has been successfully updated.",
+      "TITLE_UPDATE_GUESTS": "Guests have been successfully updated.",
+      "TITLE_CREATE_ROOM": "Room has been successfully created.",
+      "TITLE_DELETE_ROOM": "Room has been successfully deleted.",
+      "TITLE_RESTORE_ROOM": "Room has been successfully restored."
+    },
+    "CONFIRM":{
+      "TITLE_NAVIGATE": "Are you sure?",
+      "TEXT_NAVIGATE": "Unsaved changes will be lost!",
+      "CONFIRM_NAVIGATE": "Go back to rooms",
+      "TITLE_DELETE_IMAGE": "Are you sure?",
+      "TEXT_DELETE_IMAGE": "This will delete the image from the server immediately.",
+      "CONFIRM_DELETE_IMAGE": "Yes, delete it!",
+      "TITLE_DELETE_USER":"Are you sure you want to delete this user?",
+      "TEXT_DELETE_USER":"This action cannot be undone.",
+      "CONFIRM_DELETE_USER":"Yes, delete user",
+      "CANCEL_DELETE_USER":"Cancel",
+      "TITLE_DELETE_BOOKING": "Are you sure you want to delete this booking?",
+      "TEXT_DELETE_BOOKING": "This action cannot be undone.",
+      "CONFIRM_DELETE_BOOKING": "Yes, delete booking",
+      "CANCEL_DELETE_BOOKING": "Cancel",
+      "TITLE_DELETE_ROOM": "Are you sure?",
+      "TEXT_DELETE_ROOM": "This room will be moved to archives.",
+      "CONFIRM_DELETE_ROOM": "Yes, delete it!",
+      "CANCEL_GENERAL": "Cancel"
+    },
+    "FAILED":{
+      "TITLE_UPDATE_ROOM": "Failed to update room details.",
+      "TITLE_UPLOAD_IMAGES": "Room updated, but image upload failed.",
+      "TITLE_UNFILLED": "Please fill in all required fields!",
+      "TITLE_DELETE_USER":"Failed  to delete user.",
+      "TITLE_DEACTIVATE_USER":"Failed to deactivate user.",
+      "TITLE_CHANGE_ROLE":"Failed to change user role.",
+      "TITLE_CREATE_USER":"Failed to create user.",
+      "TITLE_INVALID_CREATEFORM":"Invalid create form.",
+      "TITLE_GENERIC": "Something went wrong.",
+      "TITLE_INVALID_FORM": "Please check the form for errors.",
+      "TITLE_DELETE_BOOKING": "Failed to delete booking.",
+      "TITLE_CREATE_BOOKING": "Failed to create booking.",
+      "TITLE_UPDATE_GUESTS": "Failed to update guests.",
+      "TITLE_CREATE_ROOM": "Failed to add room.",
+      "TITLE_DELETE_ROOM": "Delete failed.",
+      "TITLE_RESTORE_ROOM": "Error restoring room.",
+      "TEXT_BOOKING_ERROR": "The operation could not be completed."
+    },
+    "INFO": {
+      "LIMIT_REACHED_TITLE": "Limit reached",
+      "LIMIT_REACHED_TEXT": "You have reached the maximum of 20 rooms. Please restore a deleted room or edit an existing one."
+    }
+  }
+}

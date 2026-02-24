@@ -1,15 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AdminRoomsService } from '../../shared/admin/admin-rooms-service';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { AdminImageService } from '../../shared/admin/admin-image-service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'app-admin-room',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    TranslateModule,
+    RouterModule
+  ],
   templateUrl: './admin-room.html',
   styleUrl: './admin-room.css',
 })
@@ -27,7 +33,8 @@ export class AdminRoom implements OnInit{
     private roomApi: AdminRoomsService,
     private imageApi: AdminImageService,
     private activated: ActivatedRoute,
-    private router: Router  
+    private router: Router,
+    private translate: TranslateService
   ){}
 
   ngOnInit(): void {
@@ -174,15 +181,17 @@ export class AdminRoom implements OnInit{
   }
 
   // Alerts
-  success(){
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      iconColor: "#c3ae80",
-      title: "Your room has been updated",
-      showConfirmButton: false,
-      timer: 2500
-    })
+  success() {
+    this.translate.get('ADMIN_ALERTS.SUCCESS.TITLE_UPDATE_ROOM').subscribe(msg => {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        iconColor: "#c3ae80",
+        title: msg,
+        showConfirmButton: false,
+        timer: 2500
+      });
+    });
   }
 
   unfilledWarning(){
@@ -219,19 +228,31 @@ export class AdminRoom implements OnInit{
   }
 
   // Navigation
-  confirmNavigate(){
-    Swal.fire({
-      title: "Are you sure?",
-      text: "Unsaved changes will be lost!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#364e43",
-      cancelButtonColor: "rgba(0, 0, 0, 1)",
-      confirmButtonText: "Go back to rooms"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.router.navigate(['admin/rooms'])
-      }
-    })
+  confirmNavigate() {
+    if (this.roomForm.dirty || this.selectedFiles.length > 0) {
+      this.translate.get([
+        'ADMIN_ALERTS.CONFIRM.TITLE_NAVIGATE',
+        'ADMIN_ALERTS.CONFIRM.TEXT_NAVIGATE',
+        'ADMIN_ALERTS.CONFIRM.CONFIRM_NAVIGATE',
+        'ADMIN_ALERTS.CONFIRM.CANCEL_GENERAL'
+      ]).subscribe(t => {
+        Swal.fire({
+          title: t['ADMIN_ALERTS.CONFIRM.TITLE_NAVIGATE'],
+          text: t['ADMIN_ALERTS.CONFIRM.TEXT_NAVIGATE'],
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#364e43",
+          cancelButtonColor: "rgba(0, 0, 0, 1)",
+          confirmButtonText: t['ADMIN_ALERTS.CONFIRM.CONFIRM_NAVIGATE'],
+          cancelButtonText: t['ADMIN_ALERTS.CONFIRM.CANCEL_GENERAL']
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.router.navigate(['admin/rooms']);
+          }
+        });
+      });
+    } else {
+      this.router.navigate(['admin/rooms']);
+    }
   }
 }

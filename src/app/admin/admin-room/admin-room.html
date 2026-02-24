@@ -1,12 +1,16 @@
 <div class="container py-5 animate-fade-in">
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a (click)="confirmNavigate()" class="text-decoration-none">{{ 'ADMIN_ROOM.MINI_NAV.MANAGEMENT' | translate }}</a></li>
+      <li class="breadcrumb-item active text-muted">{{ roomForm.value.name || ('ADMIN_ROOM.PREVIEW.DEFAULT_NAME' | translate) }}</li>
+    </ol>
+  </nav>
+
   <div class="d-flex align-items-center justify-content-between mb-4">
     <div>
-      <h1 class="section-title h2 m-0">Edit Room Details</h1>
-      <p class="text-muted">ID: #{{ roomId }} | Last updated: just now</p>
+      <h1 class="section-title h2 m-0">{{ 'ADMIN_ROOM.TITLE' | translate }}</h1>
+      <p class="text-muted">{{ 'ADMIN_ROOM.SUBTITLE' | translate:{id: roomId} }}</p>
     </div>
-    <button class="btn btn-outline-dark rounded-pill px-4" (click)="confirmNavigate()">
-      <i class="bi bi-arrow-left me-2"></i>Back to List
-    </button>
   </div>
 
   <div class="row g-4">
@@ -22,11 +26,14 @@
           </div>
         </div>
         <div class="p-4">
-          <h3 class="fw-bold text-dark">{{ roomForm.value.name || 'Room Name' }}</h3>
-          <p class="text-gold h4 mb-0">{{ roomForm.value.price | number }} $ <small class="text-muted">/ night</small></p>
+          <h3 class="fw-bold text-dark">{{ roomForm.value.name || ('ADMIN_ROOM.PREVIEW.DEFAULT_NAME' | translate) }}</h3>
+          <p class="text-gold h4 mb-0">
+            {{ roomForm.value.price | number }} $ 
+            <small class="text-muted">/ {{ 'ADMIN_ROOM.PREVIEW.PER_NIGHT' | translate }}</small>
+          </p>
           <hr class="my-3">
           <div class="d-flex gap-3 text-muted">
-            <span><i class="bi bi-people me-2"></i>{{ roomForm.value.capacity }} Guests</span>
+            <span><i class="bi bi-people me-2"></i>{{ roomForm.value.capacity }} {{ 'ADMIN_ROOM.PREVIEW.GUESTS' | translate }}</span>
           </div>
         </div>
       </div>
@@ -37,12 +44,12 @@
         <form [formGroup]="roomForm" (ngSubmit)="edit()">
           <div class="row g-4">
             <div class="col-12">
-              <label class="label-minimal">Room Identity</label>
-              <input type="text" formControlName="name" class="form-control form-control-custom" placeholder="e.g. Royal Suite 505">
+              <label class="label-minimal">{{ 'ADMIN_ROOM.FORM.LABEL_NAME' | translate }}</label>
+              <input type="text" formControlName="name" class="form-control form-control-custom" [placeholder]="'ADMIN_ROOM.FORM.PLACEHOLDER_NAME' | translate">
             </div>
 
             <div class="col-md-6">
-              <label class="label-minimal">Capacity (Persons)</label>
+              <label class="label-minimal">{{ 'ADMIN_ROOM.FORM.LABEL_CAPACITY' | translate }}</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-0"><i class="bi bi-people"></i></span>
                 <input type="number" formControlName="capacity" class="form-control form-control-custom">
@@ -50,7 +57,7 @@
             </div>
 
             <div class="col-md-6">
-              <label class="label-minimal">Price per Night ($)</label>
+              <label class="label-minimal">{{ 'ADMIN_ROOM.FORM.LABEL_PRICE' | translate }}</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-0">$</span>
                 <input type="number" formControlName="price" class="form-control form-control-custom">
@@ -58,12 +65,12 @@
             </div>
 
             <div class="col-12">
-              <label class="label-minimal">Detailed Description</label>
-              <textarea formControlName="description" class="form-control form-control-custom" rows="5" placeholder="Describe the amenities..."></textarea>
+              <label class="label-minimal">{{ 'ADMIN_ROOM.FORM.LABEL_DESC' | translate }}</label>
+              <textarea formControlName="description" class="form-control form-control-custom" rows="5" [placeholder]="'ADMIN_ROOM.FORM.PLACEHOLDER_DESC' | translate"></textarea>
             </div>
 
             <div class="col-12 mt-4">
-              <label class="label-minimal">Room Gallery</label>
+              <label class="label-minimal">{{ 'ADMIN_ROOM.FORM.LABEL_GALLERY' | translate }}</label>
               
               <div class="upload-drop-zone border-dashed rounded-4 p-4 text-center mb-3" 
                    (click)="fileInput.click()"
@@ -71,12 +78,12 @@
                    (dragover)="$event.preventDefault()">
                 <input type="file" #fileInput (change)="onFilesSelected($event)" multiple accept="image/*" class="d-none">
                 <i class="bi bi-images fs-1 text-gold"></i>
-                <p class="mb-1 fw-bold">Add more photos to this room</p>
-                <p class="text-muted small">Click to browse or drag and drop images here</p>
+                <p class="mb-1 fw-bold">{{ 'ADMIN_ROOM.GALLERY.UPLOAD_TITLE' | translate }}</p>
+                <p class="text-muted small">{{ 'ADMIN_ROOM.GALLERY.UPLOAD_SUBTITLE' | translate }}</p>
               </div>
 
               <div class="row g-2 mb-3" *ngIf="previews.length > 0">
-                <div class="col-12"><small class="text-gold text-uppercase fw-bold">Pending upload:</small></div>
+                <div class="col-12"><small class="text-gold text-uppercase fw-bold">{{ 'ADMIN_ROOM.GALLERY.PENDING' | translate }}</small></div>
                 <div class="col-md-3 col-6" *ngFor="let url of previews; let i = index">
                   <div class="position-relative rounded-3 overflow-hidden shadow-sm border" style="height: 100px;">
                     <img [src]="url" class="w-100 h-100 object-fit-cover">
@@ -94,29 +101,31 @@
                      [class.border-gold]="image.is_primary">
                   
                   <img [src]="getImageUrl(image.path)" alt="Room image">
-                  <span class="main-badge" *ngIf="image.is_primary">Main</span>
+                  <span class="main-badge" *ngIf="image.is_primary">{{ 'ADMIN_ROOM.GALLERY.MAIN_BADGE' | translate }}</span>
 
                   <div class="delete-overlay">
                     <div class="d-flex flex-column gap-2 align-items-center">
                       <button type="button" class="star btn btn-sm rounded-circle shadow" 
-                              *ngIf="!image.is_primary" (click)="setAsMain(image.id)" title="Set as Main">
+                              *ngIf="!image.is_primary" (click)="setAsMain(image.id)" [title]="'ADMIN_ROOM.GALLERY.TOOLTIP_MAIN' | translate">
                         <i class="bi bi-star-fill"></i>
                       </button>
 
                       <button type="button" class="delete btn btn-sm rounded-circle shadow" 
-                              (click)="deleteExistingImage(image.id, i)" title="Delete Image">
+                              (click)="deleteExistingImage(image.id, i)" [title]="'ADMIN_ROOM.GALLERY.TOOLTIP_DELETE' | translate">
                         <i class="bi bi-x fs-5"></i>
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div> <div class="col-12 d-flex gap-3 mt-4">
+            </div> 
+
+            <div class="col-12 d-flex gap-3 mt-4">
               <button type="submit" class="btn btn-dark-green px-5 py-3 rounded-pill shadow-sm flex-grow-1">
-                <i class="bi bi-check2-circle me-2"></i>Save All Changes
+                <i class="bi bi-check2-circle me-2"></i>{{ 'ADMIN_ROOM.SAVE_BTN' | translate }}
               </button>
               <button type="button" class="btn btn-light px-4 py-3 rounded-pill border" (click)="confirmNavigate()">
-                Cancel
+                {{ 'ADMIN_ROOM.CANCEL_BTN' | translate }}
               </button>
             </div>
           </div>

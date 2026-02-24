@@ -1,24 +1,24 @@
 <div class="register-container">
   <div class="glass-card shadow mt-5">
     <div class="text-center mb-4">
-      <h2 class="fw-bold">Register</h2>
-      <p>Create your account for the full experience</p>
+      <h2 class="fw-bold">{{ 'REGISTER.TITLE' | translate }}</h2>
+      <p>{{ 'REGISTER.SUBTITLE' | translate }}</p>
     </div>
 
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       
-      <h5>Personal Details</h5>
+      <h5>{{ 'REGISTER.PERSONAL_DETAILS.TITLE' | translate }}</h5>
       <!-- Full name -->
       <div class="row">
         <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>First Name</mat-label>
+            <mat-label>{{ 'REGISTER.PERSONAL_DETAILS.FIRST_NAME' | translate }}</mat-label>
             <input matInput formControlName="first_name">
           </mat-form-field>
         </div>
         <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Last Name</mat-label>
+            <mat-label>{{ 'REGISTER.PERSONAL_DETAILS.LAST_NAME' | translate }}</mat-label>
             <input matInput formControlName="last_name">
           </mat-form-field>
         </div>
@@ -28,53 +28,53 @@
       <div class="row">
         <div class="col-md-3">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Country</mat-label>
+            <mat-label>{{ 'REGISTER.PERSONAL_DETAILS.COUNTRY' | translate }}</mat-label>
             <input matInput formControlName="country_name">
           </mat-form-field>
         </div>
         <div class="col-md-3">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>City</mat-label>
+            <mat-label>{{ 'REGISTER.PERSONAL_DETAILS.CITY' | translate }}</mat-label>
             <input matInput formControlName="city_name">
           </mat-form-field>
         </div>
         <div class="col-md-3">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Postal code</mat-label>
+            <mat-label>{{ 'REGISTER.PERSONAL_DETAILS.POSTAL_CODE' | translate }}</mat-label>
             <input matInput formControlName="postal_code">
           </mat-form-field>
         </div>
         <div class="col-md-3">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Address</mat-label>
+            <mat-label>{{ 'REGISTER.PERSONAL_DETAILS.ADDRESS' | translate }}</mat-label>
             <input matInput formControlName="address">
           </mat-form-field>
         </div>
       </div>
 
-      <h5>Contact Details</h5>
+      <h5>{{ 'REGISTER.CONTACT_DETAILS.TITLE' | translate }}</h5>
       <!-- Contact -->
       <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Phone</mat-label>
+        <mat-label>{{ 'REGISTER.CONTACT.PHONE' | translate }}</mat-label>
         <input matInput formControlName="phone">
       </mat-form-field>
       <mat-form-field appearance="outline" class="w-100 mb-2">
-        <mat-label>Email Address</mat-label>
+        <mat-label>{{ 'REGISTER.CONTACT.EMAIL' | translate }}</mat-label>
         <input matInput formControlName="email" type="email">
         <mat-icon matSuffix>email</mat-icon>
       </mat-form-field>
 
-      <h5>Login Details</h5>
+      <h5>{{ 'REGISTER.LOGIN_DETAILS.TITLE' | translate }}</h5>
       <!-- Login -->
       <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Username</mat-label>
+        <mat-label>{{ 'REGISTER.LOGIN_DETAILS.USERNAME' | translate }}</mat-label>
         <input matInput formControlName="name">
       </mat-form-field>
 
       <div class="row">
         <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100 mb-2">
-            <mat-label>Password</mat-label>
+            <mat-label>{{ 'REGISTER.LOGIN_DETAILS.PASSWORD' | translate }}</mat-label>
             <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
             <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword">
               <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -83,7 +83,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100 mb-4">
-            <mat-label>Confirm Password</mat-label>
+            <mat-label>{{ 'REGISTER.LOGIN_DETAILS.CONFIRM_PASSWORD' | translate }}</mat-label>
             <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password_confirmation">
             <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword">
               <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -94,11 +94,11 @@
 
       <!-- Register -->
       <button mat-flat-button class="btn-register w-100 rounded-pill" [disabled]="registerForm.invalid">
-        CREATE ACCOUNT
+        {{ 'REGISTER.BTN_REGISTER' | translate }}
       </button>
 
       <div class="text-center mt-4">
-        <span class="small">Already have an account? <a routerLink="/login" class="text-white fw-bold">Login</a></span>
+        <span class="small">{{ 'REGISTER.HAVE_ACCOUNT' | translate }} <a routerLink="/login" class="text-white fw-bold">{{ 'LOGIN.TITLE' | translate }}</a></span>
       </div>
     </form>
   </div>

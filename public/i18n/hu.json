@@ -1,0 +1,519 @@
+{
+  "NAV": {
+    "HOME": "Kezdőlap",
+    "GALLERY": "Galéria",
+    "ROOMS": "Szobák",
+    "BOOKINGS": "Foglalások",
+    "USERS": "Felhasználók",
+    "LOGIN": "Bejelentkezés",
+    "LOGOUT": "Kijelentkezés",
+    "REGISTER": "Regisztráció",
+    "PROFILE": "Profil",
+    "ROLES": {
+      "ADMIN": "Admin",
+      "SUPERADMIN": "Szuperadmin",
+      "RECEPTIONIST": "Recepciós"
+    }
+  },
+
+  "LOGIN": {
+    "TITLE": "Bejelentkezés",
+    "SUBTITLE": "Hozza létre fiókját a teljes élményért!",
+    "USERNAME": "Felhasználónév vagy Email",
+    "PASSWORD": "Jelszó",
+    "BTN_LOGIN": "Bejelentkezés",
+    "ALERTS": {
+      "TITLE_FAILED": "Bejelentkezés sikertelen!",
+      "TEXT_FAILED": "Helytelen email vagy jelszó.",
+      "TITLE_VERIFICATION": "Emailes megerősítés szükséges",
+      "TEXT_VERIFICATION": "Kérjük, ellenőrizze a postafiókját, és erősítse meg e-mail-címét a bejelentkezés előtt!",
+      "SUCCESS": "Bejelentkezés sikeres!"
+    }
+  },
+
+  "REGISTER": {
+    "TITLE": "Regisztráció",
+    "SUBTITLE": "Hozza létre fiókját a teljes élményért!",
+    "PERSONAL_DETAILS": {
+      "TITLE": "Személyes adatok",
+      "FIRST_NAME": "Keresztnév",
+      "LAST_NAME": "Vezetéknév",
+      "ADDRESS": "Cím",
+      "COUNTRY": "Ország",
+      "CITY": "Város",
+      "POSTAL_CODE": "Irányítószám",
+      "STREET_ADDRESS": "Street Address"
+    },
+    "CONTACT": {
+      "TITLE": "Elérhetőség",
+      "EMAIL": "E-mail cím",
+      "PHONE": "Telefonszám"
+    },
+    "LOGIN_DETAILS": {
+      "TITLE": "Bejelentkezés adatok",
+      "USERNAME":"Felhasználónév",
+      "USERNAME_TEXT":"A felhasználónév nem módosítható.",
+      "PASSWORD":"Jelszó",
+      "CONFIRM_PASSWORD":"Jelszó megerősítése"
+    },
+    "BTN_REGISTER": "FIÓK LÉTREHOZÁSA",
+    "HAVE_ACCOUNT": "Már van fiókja?",
+    "ALERTS": {
+      "SUCCESS": "Regisztráció sikeres!",
+      "FAILED": "Regisztráció sikertelen!"
+    }
+  },
+
+  "PROFILE": {
+    "HEADER": {
+      "TITLE": "Saját profilom!",
+      "SUBTITLE": "Itt szerkesztheti adatait és kezelheti korábbi vagy aktív foglalásait."
+    },
+    "MINI_NAV": {
+      "PROFILE": "Profil adatok",
+      "BOOKINGS": "Foglalásaim"
+    },
+    "PROFILE": {
+      "TITLE": "Személyes információk",
+      "EDIT": "Profil szerkesztése",
+      "USERNAME": "Felhasználónév",
+      "USERNAME_TEXT": "A felhasználónév nem módosítható.",
+      "EMAIL": "Email cím",
+      "FIRST_NAME": "Keresztnév",
+      "LAST_NAME": "Vezetéknév",
+      "PHONE": "Telefonszám",
+      "ADDRESS": "Cím",
+      "TITLE_ADDRESS": "Lakcím adatok",
+      "COUNTRY": "Ország",
+      "CITY": "Város",
+      "POSTAL_CODE": "Irányítószám",
+      "STREET_ADDRESS": "Utca, házszám",
+      "PLACEHOLDERS": {
+        "FIRST_NAME": "Adja meg a keresztnévet",
+        "LAST_NAME": "Adja meg a vezetéknévet",
+        "COUNTRY": "pl. Magyarország",
+        "CITY": "pl. Budapest",
+        "POSTAL_CODE": "pl. 1021",
+        "STREET_ADDRESS": "pl. Fő utca 2."
+      },
+      "NOT_PROVIDED": "Not provided",
+      "SAVE": "Profil frissítése",
+      "DISCARD_CHANGES": "Változtatások elvetése"
+    },  
+    "SECURITY": {
+      "TITLE": "Biztonsági beállítások",
+      "EMAIL_TITLE": "Email cím módosítása",
+      "PASSWORD_TITLE": "Jelszó kezelése",
+      "PASSWORD_TEXT": "Fiókja biztonsága érdekében használjon erős jelszót.",
+      "BTN_CHANGE": "Jelszó megváltoztatása",
+      "BTN_HIDE": "Űrlap elrejtése",
+      "BTN_UPDATE_EMAIL": "Frissítés",
+      "BTN_UPDATE_PASSWORD": "Jelszó frissítése",
+      "PLACEHOLDERS": {
+        "CURRENT": "Jelenlegi jelszó",
+        "NEW": "Új jelszó",
+        "CONFIRM": "Új elszó megerositése"
+      }
+    },
+    "BOOKINGS": {
+      "TITLE": "Legutóbbi foglalások",
+      "NO_BOOKINGS": "Önnek még nincs foglalása.",
+      "TOTAL_PRICE": "Végösszeg",
+      "ROOM": "Normál Szoba",
+      "MANAGE": "Kezelés",
+      "LOCKED": "Zárolva",
+      "MODIFY": "Foglalás módosítása",
+      "CHECK_IN": "Érkezés",
+      "CHECK_OUT": "Távozás",
+      "BTN_CANCEL": "Foglalás törlése",
+      "BTN_SAVE": "Módosítások mentése",
+      "BTN_BACK": "Vissza",
+      "STATUS": {
+        "LOCKED": "A törölt foglalások nem módosíthatók",
+        "MANAGE": "Foglalás kezelése",
+        "PENDING": "Feldolgozás alatt",
+        "CONFIRMED": "Visszaigazolva",
+        "CANCELLED": "Lemondva",
+        "COMPLETED": "Befejezve"
+      }
+    },
+    "COMMON": {
+      "NOT_PROVIDED": "Nincs megadva",
+      "NOT_SET": "Nincs beállítva",
+      "UNKNOWN": "Ismeretlen"
+    }
+  },
+
+  "HOME_PAGE": {
+    "MAIN": {
+      "TITLE": "Üdvözöljük a MyRoomify világában!",
+      "SUBTITLE": "Kényelmes szobák, kiváló szolgáltatás, felejthetetlen élmények",
+      "BTN_EXPLORE": "Szobák felfedezése"
+    },
+    "ABOUT": {
+      "TITLE": "Üdvözöljük a nyugalom szigetén!",
+      "TEXT_1": "A MyRoomify több, mint egy egyszerű úti cél – egy menedék a mindennapi rohanás elől. Hatalmas tóparti faházunk az erdő mélyén várja azokat, akik szeretnének kiszakadni a város zajából.",
+      "WHY_US": "Miért válasszon minket?",
+      "POINT_1_TITLE": "Egyedi élmény:",
+      "POINT_1_TEXT": "Vendégházunk 20 elegánsan berendezett vendégszobával rendelkezik, intim, mégis professzionális környezetet biztosítva.",
+      "POINT_2_TITLE": "Panorámás kilátás:",
+      "POINT_2_TEXT": "Ébredjen a ködös fenyőerdők és a tükörsima tó látványára közvetlenül az ablaka alatt.",
+      "POINT_3_TITLE": "Hagyomány és modernitás:",
+      "POINT_3_TEXT": "Élvezze a hagyományos rusztikus építészet báját modern belső terekkel és prémium felszereltséggel párosítva.",
+      "FOOTER": "Legyen szó romantikus hétvégéről vagy céges csapatépítőről, házunk tökéletes helyszín a teljes feltöltődéshez."
+    },
+    "ROOMS": {
+      "TITLE": "Kiemelt szobáink",
+      "PER_NIGHT": "/éj",
+      "BTN_DETAILS": "Részletek"
+    },
+    "CONTACT": {
+      "TITLE": "Kapcsolat",
+      "EMAIL": "Email: ",
+      "PHONE": "Telefon: "
+    }
+  },
+
+  "GALLERY": {
+    "HEADER": {
+      "TITLE": "Fedezze fel a világunkat",
+      "SUBTITLE": "Ismerje meg leendő pihenésének minden apró részletét"
+    },
+    "WELCOME": {
+      "TITLE": "Otthonos kényelem",
+      "TEXT": "Recepciónk a nap 24 órájában az Ön rendelkezésére áll. Modern, mégis barátságos környezetben biztosítjuk a zökkenőmentes bejelentkezést, és örömmel segítünk bármilyen kérésben, hogy tartózkodása valóban gondtalan legyen."
+    },
+    "ROOM": {
+      "TITLE": "Meleg fogadtatás",
+      "TEXT": "Szobáinkat a tökéletes kikapcsolódásra terveztük. Prémium matracokkal, sötétítő függönyökkel és csendes környezettel garantáljuk a pihentető alvást egy hosszú utazás vagy munkanap után."
+    },
+    "BREAKFAST": {
+      "TITLE": "Gourmet reggeli",
+      "TEXT": "Kezdje a napot bőséges svédasztalos reggelinkkel! Élvezze a helyi alapanyagokból készült ételeket, a friss pékárut és a gőzölgő kávét világos, tágas étkezőnkben."
+    },
+    "SECURITY": {
+      "TITLE": "Biztonság & elhelyezkedés",
+      "TEXT": "Pihenjen nyugodtan, tudva, hogy járműve biztonságban van zárt, kamerával megfigyelt parkolónkban. Központi elhelyezkedésünknek köszönhetően a helyi látnivalók és a környék rejtett kincsei is könnyen elérhetőek."
+    }
+  },
+
+  "GUEST_ROOMS": {
+    "HEADER": {
+      "TITLE": "Tóparti rejtekhelyeink",
+      "SUBTITLE": "Gondosan válogatott szobák, lélegzetelállító kilátással a víztükörre."
+    },
+    "SEARCH_FIELD": {
+      "START_DATE": "Érkezés",
+      "END_DATE": "Távozás",
+      "ADD_DATE": "Hozzáadás",
+      "GUESTS": "Vendégek",
+      "SEARCH": "Keresés",
+      "PEOPLE": "Fő",
+      "PERSON": "Fő"
+    },
+    "ROOMS": {
+      "NIGHT": "/éj",
+      "BOOK": "Foglalás",
+      "NO_ROOMS_TITLE": "Ezekre a dátumokra nincs elérhető szobánk.",
+      "NO_ROOMS_TEXT": "Próbáljon módosítani a dátumokon vagy a vendégek számán, hogy megtalálja a tökéletes szállást."
+    }
+  },
+
+  "GUEST_ROOM": {
+    "MINI_NAV": {
+      "ROOMS": "Szobák"
+    },
+    "ABOUT": {
+      "GUESTS": "Vendégek"
+    },
+    "BOOKING": {
+      "PRICE": "Kezdő ár ",
+      "PRICE_TEXT": "per éjszaka, a reggeli benne van az árban",
+      "START_DATE": "Érkezés",
+      "END_DATE": "Távozás",
+      "ADD_DATE": "Hozzáadás",
+      "GUESTS": "VENDÉGEK",
+      "PEOPLE": "Fő",
+      "PERSON": "Fő",
+      "BOOK": "Lefoglalom a szobát!",
+      "BOOK_TEXT": "Fizetésre még nem került sor"
+    },
+    "LOADING": {
+      "TEXT":"Találja meg a nyugalmat a hegyvidéki környezetben..."
+    }
+  },
+
+  "GUEST_ALERTS": {
+    "SUCCESS": {
+      "TITLE_BOOK": "Sikeres foglalás!",
+      "TITLE_PASSWORD_CHANGE": "Jelszó sikeresen módosítva!",
+      "TEXT_PASSWORD_CHANGE": "A jelszó frissítés utána 2mp-en belül a bejelentkezés oldalra kerül.",
+      "TITLE_EMAIL_UPDATE": "Email sikeresen módosítva!"
+    },
+    "WARNING": {
+      "BOOK_LOGIN": "A foglaláshoz be kell jelentkeznie.",
+      "BOOK_DATES": "Kérjük, válasszon érkezési és távozási dátumot."
+    },
+    "CONFIRM": {
+      "CONFIRM_BOOK":"Megerősítés!",
+      "CANCEL_BOOK":"Mégsem",
+      "TEXT_BOOK":"Biztosan lefoglalja ezt a szobát {{count}} főre?",
+      "TEXT_BOOK_CANCEL":"Biztosan lemondja ezt a foglalást?"
+    },
+    "FAILED": {
+      "TITLE_BOOK":"Hiba történt!",
+      "TEXT_BOOK":"A foglalást nem sikerült befejezni.",
+      "TITLE_BOOK_UPDATE":"Hiba történt a foglalás módosításakor.",
+      "TITLE_BOOK_CANCEL":"Hiba történt a foglalás lemondásakor.",
+      "TITLE_PASSWORD_CHANGE":"Hiba történt a jelszó módosításakor.",
+      "TITLE_PASSWORD_CONFIRM":"A jelszók nem egyeznek.",
+      "TITLE_EMAIL_UPDATE":"Hiba történt az email módosításakor.",
+      "TITLE_PROFILE_UPDATE":"Hiba történt a profil módosításakor."
+    }
+  },
+
+  "ADMIN_USERS": {
+    "TITLE": "Felhasználók kezelése",
+    "SEARCH_LABEL": "Keresés",
+    "SEARCH_PLACEHOLDER": "Keresés névvel, emaillel vagy azonosítóval...",
+    "SORT_BY": "Rendezés",
+    "NO_USERS":"Nem található felhasználó.",
+    "BUTTONS": {
+      "NEW_USER": "Új felhasználó",
+      "CANCEL": "Mégsem",
+      "CREATE": "Létrehozás",
+      "DELETE": "Törlés"
+    },
+    "TABLE": {
+      "ID": "Id",
+      "NAME": "Név",
+      "EMAIL": "Email",
+      "ROLE": "Jogosultság",
+      "ACTIONS": "Kezelés",
+      "YOU": "ÉN",
+      "PROTECTED": "Védett",
+      "EMPTY": "Nem található felhasználó a megadott keresésre.",
+      "DEACTIVATE": "Deaktiválás",
+      "ACTIVATE": "Aktiválás"
+    },
+    "ROLES": {
+      "SUPERADMIN": "Szuperadmin",
+      "ADMIN": "Admin",
+      "RECEPTIONIST": "Recepciós",
+      "CUSTOMER": "Vendég"
+    },
+    "MODAL": {
+      "TITLE": "Felhasználó szerkesztés",
+      "USERNAME": "Felhasználónév",
+      "EMAIL": "Email",
+      "ROLE": "Jogosultság",
+      "PASSWORD": "Kezdeti jelszó"
+    }
+  },
+
+  
+  "ADMIN_BOOKINGS": {
+    "TITLE": "Foglalások kezelése",
+    "SUBTITLE": "Az összes vendégfoglalás áttekintése és kezelése.",
+    "SEARCH_PLACEHOLDER": "Keresés név, email vagy azonosító alapján...",
+    "NEW_BOOKING": "Új foglalás",
+    "NO_RESULTS": "Nem található foglalás.",
+    "FILTERS": {
+      "STATUS_ALL": "Összes állapot",
+      "PENDING": "Függőben",
+      "COMPLETED": "Befejezve",
+      "CONFIRMED": "Megerősítve",
+      "CANCELLED": "Visszamondva",
+      "SORT_ID": "Rendezés: ID",
+      "SORT_NAME": "Rendezés: Felhasználónév",
+      "SORT_ARRIVAL": "Rendezés: Érkezés",
+      "SORT_ROOM": "Rendezés: Szoba"
+    },
+    "TABLE": {
+      "ID": "ID",
+      "GUEST": "Vendég adatai",
+      "ROOM": "Szoba",
+      "STAY": "Időtartam",
+      "STATUS": "Állapot",
+      "TOTAL": "Végösszeg",
+      "ACTIONS": "Műveletek",
+      "NO_NAME": "Nincs név megadva",
+      "NO_EMAIL": "Nincs email",
+      "UNASSIGNED": "Nincs szoba"
+    },
+    "BOOKING_MODAL": {
+      "CREATE_TITLE": "Új foglalás létrehozása",
+      "EDIT_TITLE": "Foglalás szerkesztése #{{id}}",
+      "LABEL_USER": "Ügyfél / Regisztrált felhasználó",
+      "SELECT_USER_OPTIONAL": "Válassz felhasználót (Opcionális)",
+      "LABEL_USERNAME": "Felhasználónév",
+      "PLACEHOLDER_NAME": "Név megadása",
+      "LABEL_USER_EMAIL": "Felhasználó e-mail címe",
+      "PLACEHOLDER_EMAIL": "E-mail megadása",
+      "AUTO_FILL_TEXT": "Felhasználó alapján kitöltve",
+      "LABEL_CHECK_IN": "Érkezés dátuma",
+      "LABEL_CHECK_OUT": "Távozás dátuma",
+      "LABEL_ROOM": "Szoba kiválasztása",
+      "LABEL_GUEST_COUNT": "Vendégek száma",
+      "LABEL_STATUS": "Foglalás állapota",
+      "BTN_CANCEL": "Mégse",
+      "BTN_CREATE": "Foglalás létrehozása",
+      "BTN_UPDATE": "Foglalás frissítése"
+    },
+    "GUEST_MODAL": {
+      "REGISTERED_GUESTS": "Regisztrált vendégek",
+      "NO_GUESTS": "Ehhez a foglaláshoz még nincsenek felvéve vendégek.",
+      "TITLE": "Vendégadatok kezelése",
+      "BOOKING_ID": "Foglalás #{{id}}",
+      "REQUIRED_CAPACITY": "Szükséges férőhely:",
+      "GUEST_COUNT_TEXT": "{{count}} vendég",
+      "GUEST_SLOT_TITLE": "Vendég #{{index}}",
+      "LABEL_LAST_NAME": "Vezetéknév",
+      "LABEL_FIRST_NAME": "Keresztnév",
+      "LABEL_BIRTH_DATE": "Születési idő",
+      "LABEL_NATIONALITY": "Állampolgárság",
+      "LABEL_DOC_TYPE": "Okmány típusa",
+      "LABEL_DOC_NUMBER": "Okmány száma",
+      "SECTION_ADDRESS": "Lakcím információk",
+      "LABEL_COUNTRY": "Ország",
+      "LABEL_CITY": "Város",
+      "LABEL_ZIP": "Irányítószám",
+      "LABEL_STREET": "Utca és házszám",
+      "BTN_ADD_SLOT": "Új vendég hely hozzáadása",
+      "BTN_FINALIZE": "Vendégregisztráció véglegesítése",
+      "BTN_UPDATE": "Vendégregisztráció frissítése",
+      "STATUS_LOCKED_MSG": "A vendégek regisztrálásához először igazolja vissza a foglalást!",
+      "DOC_TYPES": {
+        "ID_CARD": "Személyi igazolvány",
+        "PASSPORT": "Útlevél",
+        "DRIVER_LICENSE": "Vezetői engedély"
+      }
+    }
+  },
+
+  "ADMIN_ROOMS": {
+    "TITLE": "Szobakezelés",
+    "SUBTITLE": "Itt kezelheti a szálloda szobakészletét és az árazást.",
+    "VIEWS": {
+      "ACTIVE": "Aktív szobák",
+      "ARCHIVED": "Archivált"
+    },
+    "ADD_CARD": {
+      "ADD_NEW": "Új szoba hozzáadása",
+      "LIMIT_REACHED": "Limit elérve",
+      "SLOTS_USED": "({{current}}/{{max}} hely kihasználva)"
+    },
+    "CARD": {
+      "PRICE_PER_NIGHT": "{{price}} $ / éj",
+      "IMAGE_ALT": "Szoba fotó",
+      "NO_DESCRIPTION": "Nincs elérhető leírás",
+      "PERSONS": "Fő",
+      "ROOM_ID": "Szobaszám:",
+      "BTN_EDIT": "Szerkesztés",
+      "BTN_RESTORE": "Szoba visszaállítása"
+    },
+    "MODAL": {
+      "TITLE_ADD": "Új szoba hozzáadása",
+      "TITLE_EDIT": "Szoba szerkesztése",
+      "LABEL_NAME": "Szoba neve / száma",
+      "PLACEHOLDER_NAME": "pl. Deluxe lakosztály 101",
+      "LABEL_CAPACITY": "Kapacitás (fő)",
+      "LABEL_PRICE": "Ár ($ / éjszaka)",
+      "LABEL_DESCRIPTION": "Leírás",
+      "PLACEHOLDER_DESCRIPTION": "Írjon pár szót a szobáról...",
+      "BTN_CANCEL": "Mégse",
+      "BTN_SAVE": "Módosítások mentése",
+      "BTN_CREATE": "Szoba létrehozása"
+    }
+  },
+
+  "ADMIN_ROOM": {
+    "MINI_NAV": {
+      "MANAGEMENT": "Szobák"
+    },
+    "TITLE": "Szoba szerkesztése",
+    "SUBTITLE": "Azonosító: #{{id}} | Frissítve: az imént",
+    "SAVE_BTN": "Módosítások mentése",
+    "CANCEL_BTN": "Mégse",
+    "PREVIEW": {
+      "DEFAULT_NAME": "Szoba neve",
+      "PER_NIGHT": "éj",
+      "GUESTS": "Vendég"
+    },
+    "FORM": {
+      "LABEL_NAME": "Szoba azonosítója",
+      "PLACEHOLDER_NAME": "pl. Royal Suite 505",
+      "LABEL_CAPACITY": "Kapacitás (fő)",
+      "LABEL_PRICE": "Ár / éjszaka ($)",
+      "LABEL_DESC": "Részletes leírás",
+      "PLACEHOLDER_DESC": "Szolgáltatások, felszereltség...",
+      "LABEL_GALLERY": "Szoba galéria"
+    },
+    "GALLERY": {
+      "UPLOAD_TITLE": "További fotók hozzáadása",
+      "UPLOAD_SUBTITLE": "Kattintson a tallózáshoz vagy húzza ide a képeket",
+      "PENDING": "Feltöltésre vár:",
+      "MAIN_BADGE": "Fő kép",
+      "TOOLTIP_MAIN": "Beállítás fő képként",
+      "TOOLTIP_DELETE": "Kép törlése"
+    }
+  },
+
+  "ADMIN_ALERTS": {
+    "SUCCESS": {
+      "TITLE_UPDATE_ROOM": "Szoba sikeresen frissítve!",
+      "TITLE_DELETE_USER": "Felhasználó sikeresen törölve!",
+      "TITLE_CHANGE_ROLE": "Jogosultság sikeresen módosítva!",
+      "TITLE_CREATE_USER": "Felhasználó sikeresen felvéve!",
+      "ACTIVATED": "Felhasználó sikeresen aktiválva!",
+      "DEACTIVATED": "Felhasználó sikeresen deaktiválva!",
+      "TITLE_DELETE_BOOKING": "Foglalás sikeresen törölve!",
+      "TITLE_CREATE_BOOKING": "Foglalás sikeresen létrehozva!",
+      "TITLE_UPDATE_BOOKING": "Foglalás sikeresen frissítve!",
+      "TITLE_UPDATE_GUESTS": "Vendégek adatai sikeresen frissítve!",
+      "TITLE_CREATE_ROOM": "Szoba sikeresen létrehozva.",
+      "TITLE_DELETE_ROOM": "Szoba sikeresen törölve.",
+      "TITLE_RESTORE_ROOM": "Szoba sikeresen visszaállítva."
+    },
+    "CONFIRM": {
+      "TITLE_NAVIGATE": "Biztos benne?",
+      "TEXT_NAVIGATE": "A nem mentett módosítások törülve lesznek.",
+      "CONFIRM_NAVIGATE": "Vissza a szobákhoz",
+      "TITLE_DELETE_USER": "Biztosan törölni szeretné ezt a felhasználót?",
+      "TEXT_DELETE_USER": "Ezt a műveletet nem lehet visszavonni.",
+      "CONFIRM_DELETE_USER": "Igen, felhasználó törlése",
+      "CANCEL_DELETE_USER": "Mégse",
+      "TITLE_DELETE_BOOKING": "Biztosan törölni szeretné ezt a foglalást?",
+      "TEXT_DELETE_BOOKING": "Ezt a műveletet nem lehet visszavonni.",
+      "CONFIRM_DELETE_BOOKING": "Igen, foglalás törlése",
+      "CANCEL_DELETE_BOOKING": "Mégse",
+      "TITLE_DELETE_ROOM": "Biztos benne?",
+      "TEXT_DELETE_ROOM": "A szoba átkerül az archivált elemek közé.",
+      "CONFIRM_DELETE_ROOM": "Igen, törlöm!",
+      "CANCEL_GENERAL": "Mégse"
+    },
+    "FAILED": {
+      "TITLE_UPDATE_ROOM": "Hiba történt a szoba frissítésekor.",
+      "TITLE_UPLOAD_IMAGES": "Hiba történt a kép felvételekor.",
+      "TITLE_UNFILLED": "Kérjük, az összes mezőt töltsd ki!",
+      "TITLE_DELETE_USER": "Hiba történt a felhasználó törlésekor.",
+      "TITLE_DEACTIVATE_USER": "Hiba történt a felhasználó deaktiválásakor.",
+      "TITLE_CHANGE_ROLE": "Hiba történt a jogosultság módosításakor.",
+      "TITLE_CREATE_USER": "Hiba történt a felhasználó létrehozásakor.",
+      "TITLE_INVALID_CREATEFORM": "Érvénytelen adatok az űrlapon.",
+      "TITLE_GENERIC": "Valami hiba történt a művelet során.",
+      "TITLE_INVALID_FORM": "Kérjük, ellenőrizze az űrlapon megadott adatokat.",
+      "TITLE_DELETE_BOOKING": "Hiba történt a foglalás törlésekor.",
+      "TITLE_CREATE_BOOKING": "Hiba történt a foglalás létrehozásakor.",
+      "TITLE_UPDATE_GUESTS": "Hiba történt a vendégek adatainak mentésekor.",
+      "TITLE_CREATE_ROOM": "Nem sikerült hozzáadni a szobát.",
+      "TITLE_DELETE_ROOM": "A törlés sikertelen.",
+      "TITLE_RESTORE_ROOM": "Hiba történt a visszaállítás során.",
+      "TEXT_BOOKING_ERROR": "A műveletet nem sikerült befejezni."
+    },
+    "INFO": {
+      "LIMIT_REACHED_TITLE": "Limit elérve",
+      "LIMIT_REACHED_TEXT": "Elérte a maximum 20 szobát. Kérjük, állítson vissza egy töröltet, vagy szerkesszen egy meglévőt."
+    }
+  }
+}

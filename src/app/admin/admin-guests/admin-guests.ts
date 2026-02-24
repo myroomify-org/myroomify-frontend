@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin-guests',
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   template: `
     <div class="guest-list-minimal p-3">
       <div class="d-flex align-items-center mb-3 text-dark opacity-75">
         <i class="bi bi-people-fill me-2 text-gold"></i>
-        <span class="small fw-bold text-uppercase tracking-wider">Registered Guests</span>
+        <span class="small fw-bold text-uppercase tracking-wider">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.REGISTERED_GUESTS' | translate }}</span>
       </div>
 
       <div class="row g-2" *ngIf="guests && guests.length > 0; else emptyState">
@@ -33,7 +34,7 @@ import { Component, Input } from '@angular/core';
 
       <ng-template #emptyState>
         <div class="alert alert-light border-0 small py-2 font-italic">
-          <i class="bi bi-info-circle me-2"></i>No guest details have been recorded for this booking yet.
+          <i class="bi bi-info-circle me-2"></i>{{ 'ADMIN_BOOKINGS.GUEST_MODAL.NO_GUESTS' | translate }}
         </div>
       </ng-template>
     </div>

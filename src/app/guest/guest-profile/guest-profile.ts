@@ -4,6 +4,7 @@ import { MeProfileService  } from '../../shared/me/me-profile-service';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 // Mat imports
 import { MatButtonModule } from '@angular/material/button';
@@ -22,6 +23,7 @@ import { Router } from '@angular/router';
     MatMenuModule,
     MatButtonModule,
     MatNativeDateModule,
+    TranslateModule
   ],
   templateUrl: './guest-profile.html',
   styleUrl: './guest-profile.css',
@@ -46,6 +48,7 @@ export class GuestProfile implements OnInit {
     private bookingApi: MeBookingService,
     private profileApi: MeProfileService,
     private router: Router,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -101,10 +104,12 @@ export class GuestProfile implements OnInit {
     this.profileApi.editProfile$(this.user).subscribe({
       next: (result: any) => {
         this.user = this.mapUserData(result.data)
-        this.success("Profile updated successfully")
+        this.success(this.translate.instant("GUEST_ALERTS.SUCCESS.TITLE_PROFILE_UPDATE"))
         this.isEditing = false
       },
-      error: () => this.failed("Profile update failed")
+      error: () => {
+        this.failed(this.translate.instant("GUEST_ALERTS.FAILED.TITLE_PROFILE_UPDATE"))
+      }
     })
   }
 
@@ -112,15 +117,17 @@ export class GuestProfile implements OnInit {
     this.profileApi.editEmail$({ email: this.newEmail }).subscribe({
       next: () => {
         this.user.email = this.newEmail
-        this.success("Email updated successfully")
+        this.success(this.translate.instant("GUEST_ALERTS.SUCCESS.TITLE_EMAIL_UPDATE"))
       },
-      error: () => this.failed("Email update failed")
+      error: () => {
+        this.failed(this.translate.instant("GUEST_ALERTS.FAILED.TITLE_EMAIL_UPDATE"))
+      }
     })
   }
 
   savePassword() {
     if (this.passwordData.new_password !== this.passwordData.new_password_confirmation) {
-      this.failed("The new passwords do not match!")
+      this.failed(this.translate.instant("GUEST_ALERTS.FAILED.TITLE_PASSWORD_CONFIRM"))
       return
     }
 
@@ -136,9 +143,11 @@ export class GuestProfile implements OnInit {
           this.router.navigate(['/login'])
         }, 2000)
         
-        this.success("Password updated successfully!", "You will be redirected to the login page in 2 seconds.")
+        this.success(this.translate.instant("GUEST_ALERTS.SUCCESS.TITLE_PASSWORD_CHANGE"), this.translate.instant("GUEST_ALERTS.SUCCESS.TEXT_PASSWORD_CHANGE"))
       },
-      error: () => this.failed("Password update failed")
+      error: () => {
+        this.failed(this.translate.instant("GUEST_ALERTS.FAILED.TITLE_PASSWORD_CHANGE"))
+      }
     })
   }
 
@@ -182,7 +191,7 @@ export class GuestProfile implements OnInit {
     }
 
     if (updatedData.status === 'cancelled' && this.originalBookingData?.status !== 'cancelled') {
-      const confirmed = await this.confirm("Are you sure you want to cancel this reservation?")
+      const confirmed = await this.confirm(this.translate.instant('GUEST_ALERTS.CONFIRM.TEXT_CANCEL'))
       if (confirmed) {
         this.sendCancelRequest(booking.id)
       } else {
@@ -210,8 +219,8 @@ export class GuestProfile implements OnInit {
         this.originalBookingData = null
         this.isChoosingCheckout = false
       },
-      error: (error) => {
-        this.failed("Cancellation failed!")
+      error: () => {
+        this.failed(this.translate.instant("GUEST_ALERTS.FAILED.TITLE_BOOK_CANCEL"))
         this.getDatas()
       }
     })
@@ -234,8 +243,8 @@ export class GuestProfile implements OnInit {
         this.editingBookingId = null;
         this.originalBookingData = null
       },
-      error: (error) => {
-        this.failed("Update failed: " + (error.error?.message || "Server error"))
+      error: () => {
+        this.failed(this.translate.instant("GUEST_ALERTS.FAILED.TITLE_BOOK_UPDATE"))
         this.getDatas()
       }
     })
@@ -276,8 +285,8 @@ export class GuestProfile implements OnInit {
       showCancelButton: true,
       confirmButtonColor: '#2d4037',
       cancelButtonColor: '#f8f9fa',
-      confirmButtonText: 'Yes, confirm booking',
-      cancelButtonText: 'Cancel',
+      confirmButtonText: this.translate.instant('GUEST_ALERTS.CONFIRM.CONFIRM_BOOK'),
+      cancelButtonText: this.translate.instant('GUEST_ALERTS.CONFIRM.CANCEL_BOOK'),
       color: '#2d4037',
       background: '#fcfbf7',
       customClass: {

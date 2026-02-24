@@ -1,22 +1,39 @@
 <nav class="navbar" [ngClass]="{'navbar-solid': !isSpecialPage, 'navbar-transparent': isSpecialPage}">
     <div class="container-fluid">
-        <div class="nav-left"></div>
+        <!-- Language -->
+        <div class="nav-left">
+            <button [matMenuTriggerFor]="langMenu" class="user-profile-btn border-0 bg-transparent">
+                <mat-icon class="list-icon">language</mat-icon>
+                <span class="ms-1 uppercase">{{ translate.currentLang }}</span>
+            </button>
 
+            <mat-menu #langMenu="matMenu">
+                <button mat-menu-item (click)="changeLang('hu')">
+                    <span>Magyar (HU)</span>
+                </button>
+                <button mat-menu-item (click)="changeLang('en')">
+                    <span>English (EN)</span>
+                </button>
+            </mat-menu>
+        </div>
+
+        <!-- Navigation -->
         <div class="collapse navbar-collapse justify-content-center nav-center" [class.show]="!isMenuCollapsed" id="navbarNav">
             <ul class="nav">
                 <li class="nav-item">
                     <a class="nav-link" routerLink="home" routerLinkActive="active" 
-                       [routerLinkActiveOptions]="{exact: true}" (click)="isMenuCollapsed = true">Home</a>
+                       [routerLinkActiveOptions]="{exact: true}" (click)="isMenuCollapsed = true">{{ 'NAV.HOME' | translate }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="gallery" routerLinkActive="active" (click)="isMenuCollapsed = true">Gallery</a>
+                    <a class="nav-link" routerLink="gallery" routerLinkActive="active" (click)="isMenuCollapsed = true">{{ 'NAV.GALLERY' | translate }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="rooms" routerLinkActive="active" (click)="isMenuCollapsed = true">Rooms</a>
+                    <a class="nav-link" routerLink="rooms" routerLinkActive="active" (click)="isMenuCollapsed = true">{{ 'NAV.ROOMS' | translate }}</a>
                 </li>
             </ul>
         </div>
 
+        <!-- Auth -->
         <div class="desktop-auth nav-right">
             <ng-container *ngIf="authApi.currentUser$ | async as user; else noAuth">
                 <button [matMenuTriggerFor]="userMenu" class="user-profile-btn">
@@ -24,30 +41,43 @@
                     <span class="ms-1">{{ user.name }}</span>
                 </button>
                 <mat-menu #userMenu="matMenu">
-                    <button mat-menu-item (click)="profile()">Profile</button>
-                    <button mat-menu-item (click)="logout()">Logout</button>
+                    <button mat-menu-item (click)="profile()">
+                        <mat-icon class="list-icon">person</mat-icon>
+                        {{ 'NAV.PROFILE' | translate }}
+                    </button>
+                    <button mat-menu-item (click)="logout()">
+                        <mat-icon class="list-icon">logout</mat-icon>
+                        {{ 'NAV.LOGOUT' | translate }}
+                    </button>
                 </mat-menu>
             </ng-container>
             <ng-template #noAuth>
-                <button routerLink="/login" class="user-profile-btn">Login</button>
-                <button routerLink="/register" class="user-profile-btn">Register</button>
+                <button routerLink="/login" class="user-profile-btn">{{ 'NAV.LOGIN' | translate }}</button>
+                <button routerLink="/register" class="user-profile-btn">{{ 'NAV.REGISTER' | translate }}</button>
             </ng-template>
         </div>
 
+        <!-- Mobile Auth -->
         <div class="mobile-nav-wrapper nav-right">
             <ng-container *ngIf="authApi.currentUser$ | async as user; else noAuthMobile">
                 <button [matMenuTriggerFor]="userMenuMobile" class="user-profile-btn py-1 px-2">
                     <mat-icon>account_circle</mat-icon>
                 </button>
                 <mat-menu #userMenuMobile="matMenu">
-                    <button mat-menu-item (click)="profile()">Profile</button>
-                    <button mat-menu-item (click)="logout()">Logout</button>
+                    <button mat-menu-item (click)="profile()">
+                        <mat-icon class="list-icon">person</mat-icon>
+                        {{ 'NAV.PROFILE' | translate }}
+                    </button>
+                    <button mat-menu-item (click)="logout()">
+                        <mat-icon class="list-icon">logout</mat-icon>
+                        {{ 'GUEST_NAV.NAV.LOGOUT' | translate }}
+                    </button>
                 </mat-menu>
             </ng-container>
             <ng-template #noAuthMobile>
                 <div class="mobile-auth-group">
-                    <a routerLink="/login" class="login-link-simple">Login</a>
-                    <a routerLink="/register" class="login-link-simple">Register</a>
+                    <a routerLink="/login" class="login-link-simple">{{ 'NAV.LOGIN' | translate }}</a>
+                    <a routerLink="/register" class="login-link-simple">{{ 'NAV.REGISTER' | translate }}</a>
                 </div>                
             </ng-template>
 
@@ -58,6 +88,7 @@
         </div>
     </div>
 </nav>
+
 <main>
     <router-outlet></router-outlet> 
 </main>

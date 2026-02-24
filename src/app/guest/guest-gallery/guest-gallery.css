@@ -1,10 +1,10 @@
 .story-container {
   padding-top: 80px;
   background-color: #fcfbf7;
-  font-family: 'Quicksand', sans-serif;
   overflow-x: hidden;
 }
 
+/* Header */
 .story-header {
   height: 50vh;
   min-height: 400px;
@@ -28,6 +28,12 @@
   margin-bottom: 15px; 
 }
 
+.story-header p {
+  font-size: 1.5rem;
+  margin-bottom: 25px;
+}
+
+/* Content */
 .story-section {
   display: flex;
   align-items: center;
@@ -64,6 +70,7 @@
   background-color: #f6f3ed;
 }
 
+/* Image */
 .story-image {
   flex: 1;
   width: 100%;
@@ -85,28 +92,59 @@
   transform: scale(1.08);
 }
 
-/* Responsiveness */
+/* Responsive */
 @media (max-width: 992px) {
-  .story-container { padding-top: 70px; }
+  .story-container {
+    padding-top: 70px;
+  }
   
-  .story-header { height: 40vh; }
+  .story-header {
+    height: 40vh;
+  }
+
+  .story-header h1 {
+    font-size: 2rem;
+  }
+
+  .story-header p {
+    font-size: 0.8rem;
+  }
 
   .story-section, .story-section.reverse {
     flex-direction: column !important;
     padding: 60px 8%;
     text-align: center;
     gap: 40px;
+    align-items: center;
   }
 
   .story-image {
-    height: 300px;
+    width: 100%;
+    height: 300px !important;
+    flex: none !important;
     order: 1;
+    border-radius: 20px;
+    overflow: hidden; 
+  }
+
+  .story-image img {
+    transform: scale(1.05);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    overflow: hidden;
   }
 
   .story-content {
     order: 2;
   }
 
-  .section-number { font-size: 4rem; margin-bottom: -25px; }
-  .story-content h2 { font-size: 2.2rem; }
+  .section-number {
+    font-size: 4rem;
+    margin-bottom: -25px;
+  }
+  .story-content h2 {
+    font-size: 2.2rem;
+  }
 }

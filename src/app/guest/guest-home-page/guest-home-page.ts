@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { PublicRoomService } from '../../shared/public/public-room-service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-guest-home-page',
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './guest-home-page.html',
   styleUrl: './guest-home-page.css',
 })
@@ -27,8 +28,10 @@ export class GuestHomePage {
         this.rooms = result.data.slice(0, 3)
         console.log(result)
       },
-      error: (error:any) => console.error('Error getting rooms', error)
-    });
+      error: (error:any) => {
+        console.error('Error getting rooms', error)
+      }
+    })
   }
 
   navigateRooms(){

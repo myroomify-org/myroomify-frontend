@@ -97,9 +97,10 @@
   letter-spacing: 0.5px;
 }
 
-.status-badge.confirmed { background: #e8f5e9; color: #2e7d32; }
-.status-badge.pending { background: #fff3e0; color: #ef6c00; }
-.status-badge.cancelled { background: #ffebee; color: #c62828; }
+.status-badge.completed { background: #e8f5e9; color: #2e7d32; }
+.status-badge.confirmed { background: #e8f5e9; color: #2d4037; }
+.status-badge.pending { background: #fff3e0; color: #c3ae80; }
+.status-badge.cancelled { background: #ffebee; color: #ff5555; }
 
 /* Buttons */
 .btn-edit-minimal {
@@ -203,44 +204,46 @@
 }
 
 
-/*Mat menu*/
-.date-separator {
-    width: 1px;
-    height: 30px;
-    background-color: #dee2e6;
-    margin: 0 10px;
-}
-
-.filter-btn {
-    font-family: Quicksand;
-    font-size: 16px;
-    padding: 8px 15px !important;
-    border-radius: 12px !important;
-    line-height: 1.2 !important;
-}
-
-.filter-btn:hover {
-  background-color: #f8f9fa !important;
-}
-
-.mat-mdc-button {
-  --mdc-filled-button-container-color: transparent;
-}
-
-::ng-deep .calendar-popover {
-  min-width: 320px !important;
-  border-radius: 15px !important;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
-}
-
+/*Calendar*/
 ::ng-deep .cdk-overlay-container {
   z-index: 9999 !important;
 }
 
-::ng-deep .mat-calendar {
+::ng-deep .calendar-popover {
     background-color: #ffffff !important;
-    border-radius: 15px;
+    border: 1px solid rgba(195, 174, 128, 0.4) !important;
+    border-radius: 15px !important;
+    overflow: hidden;
 }
+
+::ng-deep .mat-calendar-body-selected {
+    background-color: #c3ae80 !important;
+    color: white !important;
+}
+
+::ng-deep .mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+    border-color: #2d4037 !important;
+}
+
+::ng-deep .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected) {
+    background-color: rgba(195, 174, 128, 0.15) !important;
+}
+
+::ng-deep .mat-calendar-arrow {
+    fill: #2d4037 !important;
+}
+
+::ng-deep .mat-calendar-next-button, 
+::ng-deep .mat-calendar-previous-button {
+    color: #2d4037 !important;
+}
+
+::ng-deep .mat-calendar-table-header th {
+    color: #333833 !important;
+    font-weight: 700 !important;
+    font-family: 'Quicksand', sans-serif;
+}
+
 
 /*Price*/
 

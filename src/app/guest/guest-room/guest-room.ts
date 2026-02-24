@@ -7,6 +7,7 @@ import { MeBookingService } from '../../shared/me/me-booking-service';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { PublicRoomService } from '../../shared/public/public-room-service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 
 // mat imports
@@ -26,6 +27,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
     MatMenuModule,
     MatButtonModule,
     MatNativeDateModule,
+    TranslateModule
   ],
   templateUrl: './guest-room.html',
   styleUrl: './guest-room.css',
@@ -54,7 +56,8 @@ export class GuestRoom implements OnInit{
     private router: Router,
     private roomApi: PublicRoomService,
     private bookingApi: MeBookingService,
-    private authApi: AuthService
+    private authApi: AuthService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -153,19 +156,19 @@ export class GuestRoom implements OnInit{
     const user = await firstValueFrom(this.authApi.currentUser$)
 
     if (!isLoggedIn) {
-      this.warning("You must be logged in to book a room.")
+      this.warning(this.translate.instant('GUEST_ALERTS.WARNING.BOOK_LOGIN'))
       localStorage.setItem('pending_booking_room_id', this.room.id)
       this.router.navigate(['/login'])
       return
     }
 
     if (!this.startDate || !this.endDate) {
-      this.warning("Please select check-in and check-out dates.")
+      this.warning(this.translate.instant('GUEST_ALERTS.WARNING.BOOK_DATES'))
       return
     }
 
     const confirmed = await this.confirm(
-      `Are you sure you want to book this room for ${this.guest_count} guests?`
+      this.translate.instant('GUEST_ALERTS.CONFIRM.TEXT_BOOK', { count: this.guest_count })
     )
 
     if (!confirmed) return
@@ -182,12 +185,12 @@ export class GuestRoom implements OnInit{
     }
 
     this.bookingApi.addBooking$(bookingData).subscribe({
-      next: (result:any) => {
-        this.success("Room has been successfully booked.")
+      next: () => {
+        this.success(this.translate.instant('GUEST_ALERTS.SUCCESS.TITLE_BOOK'))
         this.router.navigate(['/profile'])
       },
-      error: (error:any) => {
-        this.failed("Failed to book room.")
+      error: () => {
+        this.failed("this.translate.instant('GUEST_ALERTS.FAILED.TITLE_BOOK")
       }
       })
   }
@@ -236,8 +239,8 @@ export class GuestRoom implements OnInit{
       showCancelButton: true,
       confirmButtonColor: '#2d4037',
       cancelButtonColor: '#f8f9fa',
-      confirmButtonText: 'Yes, confirm booking',
-      cancelButtonText: 'Cancel',
+      confirmButtonText: this.translate.instant('GUEST_ALERTS.CONFIRM.CONFIRM_BOOK'),
+      cancelButtonText: this.translate.instant('GUEST_ALERTS.CONFIRM.CANCEL_BOOK'),
       color: '#2d4037',
       background: '#fcfbf7',
       customClass: {
@@ -253,7 +256,7 @@ export class GuestRoom implements OnInit{
     Swal.fire({
       icon: 'error',
       title: text,
-      text: 'Your booking could not be completed.',
+      text: this.translate.instant('GUEST_ALERTS.FAILED.TEXT_BOOK'),
       confirmButtonColor: '#2d4037',
       customClass: {
         popup: 'rounded-4 shadow-lg',

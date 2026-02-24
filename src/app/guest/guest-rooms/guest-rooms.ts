@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PublicRoomService} from '../../shared/public/public-room-service';
+import { TranslateModule } from '@ngx-translate/core';
 
 // Mat imports
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -10,7 +11,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { HttpParams } from '@angular/common/http';
 
 
 interface Room {
@@ -32,14 +32,14 @@ interface Room {
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    TranslateModule
   ],
   templateUrl: './guest-rooms.html',
   styleUrl: './guest-rooms.css',
 })
 
 export class GuestRooms {
-
-  @ViewChild('menuTrigger') menuTrigger!: MatMenuTrigger;
+  @ViewChild('menuTrigger') menuTrigger!: MatMenuTrigger
 
   rooms: Room[] = []
   filteredRooms: Room[] = []
@@ -47,10 +47,9 @@ export class GuestRooms {
   selectedGuests: number = 2
   startDate: Date | null = null
   endDate: Date | null = null
-  selectedRange: string = ''
+  // selectedRange: string = ''
 
   isChoosingCheckout: boolean = false
-
   readonly baseUrl = 'http://localhost:8000'
 
   constructor(
@@ -62,41 +61,32 @@ export class GuestRooms {
     this.getRooms()
   }
 
-  // read
-  getImageUrl(imageObject: any): string {
-    const defaultImage = 'rooms/room.jpg'
-    const baseUrl = 'http://localhost:8000'
-
-    if (!imageObject || !imageObject.path) {
-      return defaultImage
-    }
-
-    const path = imageObject.path
-
-    if (typeof path !== 'string') {
-      return defaultImage;
-    }
-
-    if (path.startsWith('http')) {
-      return path;
-    }
-
-    return `${baseUrl}/storage/${path}`
-  }
-
+  // Api / data
   getRooms(): void {
     this.roomApi.getRooms$().subscribe({
       next: (result: any) => {
         this.rooms = result.data
         this.filteredRooms = [...this.rooms]
-        console.log(result)
       },
-      error: (error: any) => console.error('Error getting rooms', error)
+      error: (error: any) => {
+        console.error('Error getting rooms', error)
+      }
     })
   }
 
+  getImageUrl(imageObject: any){
+    const defaultImage = 'rooms/room.jpg'
+
+    if (!imageObject?.path || typeof imageObject.path !== 'string') {
+      return defaultImage;
+    }
+
+    return imageObject.path.startsWith('http') 
+      ? imageObject.path 
+      : `${this.baseUrl}/storage/${imageObject.path}`;
+  }
+
   // Search Field
-  // Number of guests
   searchRooms(): void {
     if (!this.startDate || !this.endDate) {
       return
@@ -108,7 +98,6 @@ export class GuestRooms {
     })
 
     this.scrollToResults()
-
   }
 
   private scrollToResults(): void {

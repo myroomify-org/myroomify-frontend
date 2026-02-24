@@ -3,6 +3,8 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/auth/auth-service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+
 
 // Mat imports
 import { MatMenuModule } from '@angular/material/menu';
@@ -16,7 +18,8 @@ import { MatIconModule } from '@angular/material/icon';
     RouterModule,
     MatMenuModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    TranslateModule
   ],
   templateUrl: './admin-navbar.html',
   styleUrl: './admin-navbar.css',
@@ -26,8 +29,17 @@ export class AdminNavbar {
   
   constructor(
     public authApi: AuthService,
-    private router: Router
-  ) {}
+    private router: Router,
+    public translate: TranslateService
+  ) {
+    const savedLang = localStorage.getItem('lang') || 'hu'
+    this.translate.use(savedLang)
+  }
+
+  changeLang(lang: string) {
+    this.translate.use(lang)
+    localStorage.setItem('lang', lang)
+  }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
