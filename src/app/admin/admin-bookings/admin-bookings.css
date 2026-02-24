@@ -264,6 +264,17 @@
     border-radius: 20px;
 }
 
+.modal-footer .btn {
+    white-space: normal;
+    min-height: 60px;
+    line-height: 1.2;
+}
+
+.alert-warning {
+    background-color: #fff4e5;
+    color: #664d03;
+}
+
 /* --- Responsive --- */
 @media (max-width: 1024px) {
     .container {
@@ -360,6 +371,11 @@
       border-left: 5px solid #c3ae80 !important;
       background-color: #ffffff !important;
       margin-top: 0;
+    }
+
+    .modal-footer .btn {
+        font-size: 0.95rem !important;
+        padding: 12px 20px !important;
     }
 }
 

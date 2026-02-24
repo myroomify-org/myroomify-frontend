@@ -311,20 +311,23 @@
           </button>
         </div>
 
-        <div class="modal-footer border-0 p-4 bg-white shadow-lg">
-          <button class="btn btn-dark-green w-100 rounded-pill py-3 shadow-sm fw-bold text-gold fs-5 transition-all" 
+        <div class="modal-footer border-0 p-4 bg-white shadow-lg d-block">
+          <div *ngIf="selectedBookingForGuests?.status !== 'confirmed'" 
+              class="alert alert-warning border-0 rounded-4 mb-0 d-flex align-items-center p-3">
+            <i class="bi bi-exclamation-triangle-fill me-3 fs-4"></i>
+            <span class="small fw-medium">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.STATUS_LOCKED_MSG' | translate }}</span>
+          </div>
+
+          <button *ngIf="selectedBookingForGuests?.status === 'confirmed'"
+                  class="btn btn-dark-green w-100 rounded-pill py-3 shadow-sm fw-bold text-gold transition-all d-flex align-items-center justify-content-center" 
                   [disabled]="guestControls.length !== selectedBookingForGuests?.guest_count || bookingForm.get('guests')?.invalid"
                   (click)="saveGuestsOnly()">
             
-            <i class="bi me-2" [ngClass]="hasExistingGuests() ? 'bi-arrow-repeat' : 'bi-check2-circle'"></i>
+            <i class="bi me-2 fs-5" [ngClass]="hasExistingGuests() ? 'bi-arrow-repeat' : 'bi-check2-circle'"></i>
             
-            <ng-container *ngIf="selectedBookingForGuests?.status === 'confirmed'">
+            <span>
               {{ (hasExistingGuests() ? 'ADMIN_BOOKINGS.GUEST_MODAL.BTN_UPDATE' : 'ADMIN_BOOKINGS.GUEST_MODAL.BTN_FINALIZE') | translate }}
-            </ng-container>
-            
-            <ng-container *ngIf="selectedBookingForGuests?.status !== 'confirmed'">
-              {{ 'ADMIN_BOOKINGS.GUEST_MODAL.STATUS_LOCKED_MSG' | translate }}
-            </ng-container>
+            </span>
           </button>
         </div>
       </div>
