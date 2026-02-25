@@ -12,6 +12,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { Router } from '@angular/router';
+import { AuthService } from '../../shared/auth/auth-service';
 
 @Component({
   selector: 'app-guest-profile',
@@ -48,7 +49,8 @@ export class GuestProfile implements OnInit {
     private bookingApi: MeBookingService,
     private profileApi: MeProfileService,
     private router: Router,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private authApi: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -141,7 +143,10 @@ export class GuestProfile implements OnInit {
 
         setTimeout(() => {
           this.router.navigate(['/login'])
+          this.authApi.logout$()
         }, 2000)
+
+        
         
         this.success(this.translate.instant("GUEST_ALERTS.SUCCESS.TITLE_PASSWORD_CHANGE"), this.translate.instant("GUEST_ALERTS.SUCCESS.TEXT_PASSWORD_CHANGE"))
       },

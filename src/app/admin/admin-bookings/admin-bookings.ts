@@ -98,9 +98,10 @@ export class AdminBookings implements OnInit {
       next: (result: any) => {
         this.bookings = (result.data || []).map((b: any) => ({
           ...b,
-          isExpanded: false 
+          isExpanded: false
         }));
         this.applyFilters();
+        console.log(result.data)
       },
       error: (err) => console.error('Error loading bookings:', err)
     });

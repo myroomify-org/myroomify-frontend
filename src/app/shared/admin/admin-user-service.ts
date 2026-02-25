@@ -35,6 +35,18 @@ export class AdminUserService {
     return this.http.put(this.url + id, data)
   }
 
+  changeRole$(id:number, data: any){
+    return this.http.post(this.url + id + "/change-role", data)
+  }
+
+  activate$(id:number, data: any){
+    return this.http.post(this.url + id + "/activate", data)
+  }
+
+  deactivate$(id:number, data: any){
+    return this.http.post(this.url + id + "/deactivate", data)
+  }
+
   // Delete
   deleteUser$(id: number){
     return this.http.delete(this.url + id)

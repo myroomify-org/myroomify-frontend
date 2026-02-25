@@ -140,20 +140,19 @@ export class AdminUsers implements OnInit {
 
   // UPDATE ROLE
   changeRole(user: User, newRole: string): void {
-    if (!newRole) return
+    if (!newRole) return;
 
-    const updatedUser = { ...user, role: newRole as UserRole }
-    const payload = this.preparePayload(updatedUser)
+    const payload = { role: newRole as UserRole };
 
-    this.userApi.editUser$(+user.id, payload).subscribe({
+    this.userApi.changeRole$(+user.id, payload).subscribe({
       next: () => {
         user.role = newRole as UserRole;
-        this.success(this.translate.instant('ADMIN_ALERTS.SUCCESS.TITLE_CHANGE_ROLE'))
+        this.success(this.translate.instant('ADMIN_ALERTS.SUCCESS.TITLE_CHANGE_ROLE'));
       },
       error: () => {
-        this.failed(this.translate.instant('ADMIN_ALERTS.FAILED.TITLE_CHANGE_ROLE'))
+        this.failed(this.translate.instant('ADMIN_ALERTS.FAILED.TITLE_CHANGE_ROLE'));
       }
-    })
+    });
   }
 
   private preparePayload(user: User): any {
@@ -182,23 +181,26 @@ export class AdminUsers implements OnInit {
   }
 
   toggleUserStatus(user: User): void {
-    const updatedStatus = user.is_active ? 0 : 1
-    const updatedUser = { ...user, is_active: updatedStatus }
-    const payload = this.preparePayload(updatedUser)
+    const isCurrentlyActive = !!user.is_active;
+    
+    const statusRequest$ = isCurrentlyActive 
+      ? this.userApi.deactivate$(+user.id, {}) 
+      : this.userApi.activate$(+user.id, {});
 
-    this.userApi.editUser$(+user.id, payload).subscribe({
+    statusRequest$.subscribe({
       next: () => {
-        user.is_active = updatedStatus
+        user.is_active = isCurrentlyActive ? 0 : 1;
+        
         this.success(
-          updatedStatus
+          user.is_active
             ? this.translate.instant('ADMIN_ALERTS.SUCCESS.ACTIVATED')
             : this.translate.instant('ADMIN_ALERTS.SUCCESS.DEACTIVATED')
-        )
+        );
       },
       error: () => {
-        this.failed(this.translate.instant('ADMIN_ALERTS.FAILED.TITLE_DEACTIVATE_USER'))
+        this.failed(this.translate.instant('ADMIN_ALERTS.FAILED.TITLE_DEACTIVATE_USER'));
       }
-    })
+    });
   }
 
   // DELETE

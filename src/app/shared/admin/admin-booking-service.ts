@@ -32,10 +32,10 @@ export class AdminBookingService {
   }
 
   confirmBooking$(id: number){
-    return this.http.put(this.url + id + "/confirm", {})
+    return this.http.post(this.url + id + "/confirm", {})
   }
 
   cancelBooking$(id: number){
-    return this.http.put(this.url + id + "/cancel", {})
+    return this.http.post(this.url + id + "/cancel", {})
   }
 }
