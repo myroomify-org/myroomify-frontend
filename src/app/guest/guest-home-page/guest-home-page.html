@@ -53,9 +53,10 @@
                         </div>
                         <div class="card-body p-4">
                             <h5 class="card-title fw-bold">{{ room.name }}</h5>
-                            <p class="card-text text-muted small">{{ room.description }}</p>                            
+                            <p class="card-text text-muted small"><i class="bi bi-people me-2"></i>{{ room.capacity }} {{ 'HOME_PAGE.ROOMS.GUESTS' | translate }}</p>
+                            <p class="card-text text-muted small">{{ room.description }}</p>                          
                             <div class="d-flex justify-content-between align-items-center mt-3">
-                                <div class="room-price-tag">${{ room.price }}<span>{{ 'HOME_PAGE.ROOMS.PER_NIGHT' | translate }}</span></div>
+                                <div class="room-price-tag">{{ room.price }} Ft<span>{{ 'HOME_PAGE.ROOMS.PER_NIGHT' | translate }}</span></div>
                                 <button class="btn btn-sm btn-outline-dark rounded-pill px-3" (click)="navigateRoom(room.id)">{{ 'HOME_PAGE.ROOMS.BTN_DETAILS' | translate }}</button>
                             </div>
                         </div>
@@ -71,6 +72,9 @@
             <h2 class="mb-4">{{ 'HOME_PAGE.CONTACT.TITLE' | translate }}</h2>
             <p class="mb-2">12 Lázbérci-víztározó, Uppony-hegység, Magyarország</p>
             <p>{{ 'HOME_PAGE.CONTACT.EMAIL' | translate }} info@myroomify.com | {{ 'HOME_PAGE.CONTACT.PHONE' | translate }} +36 20 123 4567</p>
+            <div class="gdpr-container">
+                <a routerLink="/privacy-policy" target="_blank" class="gdpr-link">{{ 'REGISTER.GDPR.LINK_HOME' | translate }}</a>
+            </div>            
         </div>
     </section>
 

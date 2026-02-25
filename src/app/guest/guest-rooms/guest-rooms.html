@@ -72,9 +72,11 @@
             <div class="card-body p-4 d-flex flex-column">
               <div class="d-flex justify-content-between align-items-start mb-2">
                 <h5 class="card-title fw-bold mb-0" style="color: #2d4037;">{{ room.name }}</h5>
-                <span class="room-price">${{ room.price }}<small>{{ 'GUEST_ROOMS.ROOMS.NIGHT' | translate }}</small></span>
+                <span class="room-price">{{ room.price }} Ft<small>{{ 'GUEST_ROOMS.ROOMS.NIGHT' | translate }}</small></span>
               </div>
               
+              <p class="card-text text-muted small"><i class="bi bi-people me-2"></i>{{ room.capacity }} {{ 'HOME_PAGE.ROOMS.GUESTS' | translate }}</p>
+
               <p class="card-text text-muted small mb-4">
                 {{ room.description }}
               </p>

@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { PublicRoomService } from '../../shared/public/public-room-service';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-guest-home-page',
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule,
+    TranslateModule,
+    RouterLink
+  ],
   templateUrl: './guest-home-page.html',
   styleUrl: './guest-home-page.css',
 })

@@ -40,7 +40,7 @@ export class GuestNavbar {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
-      const specialRoutes = ['/', '/home', '/register', '/login']
+      const specialRoutes = ['/', '/home', '/register', '/login', '/privacy-policy']
       this.isSpecialPage = specialRoutes.includes(event.urlAfterRedirects)
       this.isMenuCollapsed = true
     })

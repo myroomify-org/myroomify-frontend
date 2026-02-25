@@ -1,6 +1,6 @@
 <div class="register-container">
   <div class="glass-card shadow mt-5">
-    <div class="text-center mb-4">
+    <div class="text-center mb-3">
       <h2 class="fw-bold">{{ 'REGISTER.TITLE' | translate }}</h2>
       <p>{{ 'REGISTER.SUBTITLE' | translate }}</p>
     </div>
@@ -8,83 +8,100 @@
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       
       <h5>{{ 'REGISTER.PERSONAL_DETAILS.TITLE' | translate }}</h5>
-      <!-- Full name -->
+      
       <div class="row">
         <div class="col-md-6">
+          <label class="input-label">{{ 'REGISTER.PERSONAL_DETAILS.FIRST_NAME' | translate }}</label>
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>{{ 'REGISTER.PERSONAL_DETAILS.FIRST_NAME' | translate }}</mat-label>
-            <input matInput formControlName="first_name">
+            <input matInput formControlName="first_name" 
+                   [placeholder]="(registerForm.get('first_name')?.invalid && registerForm.get('first_name')?.touched) ? ('REGISTER.ERRORS.REQUIRED' | translate) : ''">
           </mat-form-field>
         </div>
         <div class="col-md-6">
+          <label class="input-label">{{ 'REGISTER.PERSONAL_DETAILS.LAST_NAME' | translate }}</label>
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>{{ 'REGISTER.PERSONAL_DETAILS.LAST_NAME' | translate }}</mat-label>
-            <input matInput formControlName="last_name">
+            <input matInput formControlName="last_name"
+                   [placeholder]="(registerForm.get('last_name')?.invalid && registerForm.get('last_name')?.touched) ? ('REGISTER.ERRORS.REQUIRED' | translate) : ''">
           </mat-form-field>
         </div>
       </div>
 
-      <!-- Address -->
       <div class="row">
         <div class="col-md-3">
+          <label class="input-label">{{ 'REGISTER.PERSONAL_DETAILS.COUNTRY' | translate }}</label>
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>{{ 'REGISTER.PERSONAL_DETAILS.COUNTRY' | translate }}</mat-label>
-            <input matInput formControlName="country_name">
+            <input matInput formControlName="country_name"
+                   [placeholder]="(registerForm.get('country_name')?.invalid && registerForm.get('country_name')?.touched) ? ('REGISTER.ERRORS.REQUIRED' | translate) : ''">
           </mat-form-field>
         </div>
         <div class="col-md-3">
+          <label class="input-label">{{ 'REGISTER.PERSONAL_DETAILS.CITY' | translate }}</label>
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>{{ 'REGISTER.PERSONAL_DETAILS.CITY' | translate }}</mat-label>
-            <input matInput formControlName="city_name">
+            <input matInput formControlName="city_name"
+                   [placeholder]="(registerForm.get('city_name')?.invalid && registerForm.get('city_name')?.touched) ? ('REGISTER.ERRORS.REQUIRED' | translate) : ''">
           </mat-form-field>
         </div>
         <div class="col-md-3">
+          <label class="input-label">{{ 'REGISTER.PERSONAL_DETAILS.POSTAL_CODE' | translate }}</label>
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>{{ 'REGISTER.PERSONAL_DETAILS.POSTAL_CODE' | translate }}</mat-label>
-            <input matInput formControlName="postal_code">
+            <input matInput formControlName="postal_code"
+                   [placeholder]="(registerForm.get('postal_code')?.invalid && registerForm.get('postal_code')?.touched) ? ('REGISTER.ERRORS.REQUIRED' | translate) : ''">
           </mat-form-field>
         </div>
         <div class="col-md-3">
+          <label class="input-label">{{ 'REGISTER.PERSONAL_DETAILS.ADDRESS' | translate }}</label>
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>{{ 'REGISTER.PERSONAL_DETAILS.ADDRESS' | translate }}</mat-label>
-            <input matInput formControlName="address">
+            <input matInput formControlName="address"
+                   [placeholder]="(registerForm.get('address')?.invalid && registerForm.get('address')?.touched) ? ('REGISTER.ERRORS.REQUIRED' | translate) : ''">
           </mat-form-field>
         </div>
       </div>
 
-      <h5>{{ 'REGISTER.CONTACT_DETAILS.TITLE' | translate }}</h5>
-      <!-- Contact -->
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>{{ 'REGISTER.CONTACT.PHONE' | translate }}</mat-label>
-        <input matInput formControlName="phone">
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="w-100 mb-2">
-        <mat-label>{{ 'REGISTER.CONTACT.EMAIL' | translate }}</mat-label>
-        <input matInput formControlName="email" type="email">
-        <mat-icon matSuffix>email</mat-icon>
-      </mat-form-field>
+      <h5 class="mt-3">{{ 'REGISTER.CONTACT.TITLE' | translate }}</h5>
+      <div class="row">
+        <div class="col-md-12">
+          <label class="input-label">{{ 'REGISTER.CONTACT.PHONE' | translate }}</label>
+          <mat-form-field appearance="outline" class="w-100">
+            <input matInput formControlName="phone"
+                   [placeholder]="(registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched) ? ('REGISTER.ERRORS.REQUIRED' | translate) : ''">
+          </mat-form-field>
+        </div>
+      </div>
 
-      <h5>{{ 'REGISTER.LOGIN_DETAILS.TITLE' | translate }}</h5>
-      <!-- Login -->
+      <div class="row">
+        <div class="col-md-12">
+          <label class="input-label">{{ 'REGISTER.CONTACT.EMAIL' | translate }}</label>
+          <mat-form-field appearance="outline" class="w-100">
+            <input matInput formControlName="email" type="email"
+                   [placeholder]="(registerForm.get('email')?.invalid && registerForm.get('email')?.touched) ? ('REGISTER.ERRORS.EMAIL_INVALID' | translate) : ''">
+            <mat-icon matSuffix>email</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <h5 class="mt-3">{{ 'REGISTER.LOGIN_DETAILS.TITLE' | translate }}</h5>
+      <label class="input-label">{{ 'REGISTER.LOGIN_DETAILS.USERNAME' | translate }}</label>
       <mat-form-field appearance="outline" class="w-100">
-        <mat-label>{{ 'REGISTER.LOGIN_DETAILS.USERNAME' | translate }}</mat-label>
-        <input matInput formControlName="name">
+        <input matInput formControlName="name"
+               [placeholder]="(registerForm.get('name')?.invalid && registerForm.get('name')?.touched) ? ('REGISTER.ERRORS.REQUIRED' | translate) : ''">
       </mat-form-field>
 
       <div class="row">
         <div class="col-md-6">
-          <mat-form-field appearance="outline" class="w-100 mb-2">
-            <mat-label>{{ 'REGISTER.LOGIN_DETAILS.PASSWORD' | translate }}</mat-label>
-            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+          <label class="input-label">{{ 'REGISTER.LOGIN_DETAILS.PASSWORD' | translate }}</label>
+          <mat-form-field appearance="outline" class="w-100">
+            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password"
+                   [placeholder]="(registerForm.get('password')?.invalid && registerForm.get('password')?.touched) ? ('REGISTER.ERRORS.PASSWORD_LENGTH' | translate) : ''">
             <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword">
               <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
           </mat-form-field>
         </div>
         <div class="col-md-6">
-          <mat-form-field appearance="outline" class="w-100 mb-4">
-            <mat-label>{{ 'REGISTER.LOGIN_DETAILS.CONFIRM_PASSWORD' | translate }}</mat-label>
-            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password_confirmation">
+          <label class="input-label">{{ 'REGISTER.LOGIN_DETAILS.CONFIRM_PASSWORD' | translate }}</label>
+          <mat-form-field appearance="outline" class="w-100">
+            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password_confirmation"
+                   [placeholder]="(registerForm.get('password_confirmation')?.touched && (registerForm.get('password_confirmation')?.invalid || registerForm.hasError('mismatch'))) ? ('REGISTER.ERRORS.PASSWORD_MISMATCH' | translate) : ''">
             <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword">
               <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
@@ -92,12 +109,27 @@
         </div>
       </div>
 
-      <!-- Register -->
-      <button mat-flat-button class="btn-register w-100 rounded-pill" [disabled]="registerForm.invalid">
-        {{ 'REGISTER.BTN_REGISTER' | translate }}
+      <button mat-flat-button 
+        class="btn-register w-100 rounded-pill mt-3" 
+        [disabled]="registerForm.invalid || loading"
+        [ngClass]="{'btn-disabled': registerForm.invalid || loading, 'btn-active': registerForm.valid && !loading}">>
+        <mat-icon class="me-2">{{ registerForm.invalid ? 'lock' : 'how_to_reg' }}</mat-icon>
+        {{ registerForm.invalid ? ('REGISTER.BTN_REGISTER_INACTIVE' | translate) : ('REGISTER.BTN_REGISTER' | translate) }}
       </button>
 
-      <div class="text-center mt-4">
+      <div class="gdpr-container mt-3 mb-3">
+        <mat-checkbox formControlName="acceptTerms" color="primary">
+          <span class="gdpr-text">
+            {{ 'REGISTER.GDPR.ACCEPT' | translate }}
+            <a routerLink="/privacy-policy" target="_blank" class="gdpr-link">{{ 'REGISTER.GDPR.LINK' | translate }}</a>
+          </span>
+        </mat-checkbox>
+        <div class="gdpr-error" *ngIf="registerForm.get('acceptTerms')?.invalid && registerForm.get('acceptTerms')?.touched">
+          {{ 'REGISTER.ERRORS.GDPR_REQUIRED' | translate }}
+        </div>
+      </div>
+
+      <div class="text-center mt-3">
         <span class="small">{{ 'REGISTER.HAVE_ACCOUNT' | translate }} <a routerLink="/login" class="text-white fw-bold">{{ 'LOGIN.TITLE' | translate }}</a></span>
       </div>
     </form>

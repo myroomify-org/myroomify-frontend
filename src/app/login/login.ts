@@ -32,12 +32,11 @@ import { HttpClient } from '@angular/common/http';
 })
 
 export class Login implements OnInit {
-  
-  // Variables
+ 
   loginForm!: FormGroup;
   hidePassword = true;
+  loading: boolean = false
 
-  // Constructor
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -56,22 +55,42 @@ export class Login implements OnInit {
   // Login
   onSubmit(): void {
     if (this.loginForm.valid) {
+      this.loading = true
       this.authApi.login$(this.loginForm.value).subscribe({
-        next: () => {
-          this.success((this.translate.instant('LOGIN.ALERTS.SUCCESS')))
+        next: (response:any) => {
+          this.success(response.message || this.translate.instant('LOGIN.ALERTS.TITLE_SUCCESS'))
           const role = this.authApi.getRole()
+          this.loading = false
           
           if (role === 'customer') {
-            this.router.navigate(['/home'])
+            const pendingRoomId = localStorage.getItem('pending_booking_room_id');
+  
+            if (pendingRoomId) {
+              const start = localStorage.getItem('pending_start');
+              const end = localStorage.getItem('pending_end');
+              const guests = localStorage.getItem('pending_guests');
+
+              localStorage.removeItem('pending_booking_room_id');
+              localStorage.removeItem('pending_start');
+              localStorage.removeItem('pending_end');
+              localStorage.removeItem('pending_guests');
+
+              this.router.navigate(['/rooms/' + pendingRoomId], {
+                queryParams: { start, end, guests }
+              });
+            } else {
+              this.router.navigate(['/home']);
+            }
           } else {
             this.router.navigate(['/admin/profile'])
           }
         },
         error: (error: any) => {
+          this.loading = false
           if (error.status === 403 && error.error?.message === "Email not verified") {
             this.verificationRequired()
           } else {
-            this.failed(this.translate.instant('LOGIN.ALERTS.TITLE_FAILED'))
+            this.failed(error.error?.message || this.translate.instant('LOGIN.ALERTS.TITLE_FAILED'))
           }
         }
       })
@@ -100,11 +119,11 @@ export class Login implements OnInit {
     })
   }
 
-  failed(title: string) {
+  failed(text: string) {
     Swal.fire({
       icon: 'error',
-      title: title,
-      text: this.translate.instant('LOGIN.ALERTS.TEXT_FAILED'),
+      title: this.translate.instant('LOGIN.ALERTS.LOGIN.TITLE_FAILED'),
+      text: text,
       confirmButtonColor: '#2d4037'
     })
   }

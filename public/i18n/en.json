@@ -22,6 +22,8 @@
     "USERNAME": "Username or Email",
     "PASSWORD": "Password",
     "BTN_LOGIN": "Login",
+    "NO_ACCOUNT": "Don't have an account?",
+    "REQUIRED": "This field is required",
     "ALERTS": {
       "TITLE_FAILED": "Login failed!",
       "TEXT_FAILED": "Invalid email or password.",
@@ -57,11 +59,46 @@
       "CONFIRM_PASSWORD":"Confirm Password"
     },
     "BTN_REGISTER": "CREATE ACCOUNT",
+    "BTN_REGISTER_INACTIVE": "Please fill in all required fields.",
     "HAVE_ACCOUNT": "Already have an account?",
     "ALERTS": {
       "SUCCESS": "Registration successful!",
       "FAILED": "Registration failed!"
+    },
+    "GDPR": {
+      "ACCEPT": "I have read and accept the",
+      "LINK": "Privacy Policy.",
+      "LINK_HOME": "Privacy Policy"
+    },
+    "ERRORS": {
+      "REQUIRED": "This field is required.*",
+      "EMAIL_INVALID": "Please enter a valid email address.*",
+      "PASSWORD_LENGTH": "Password must be at least 8 characters.*",
+      "PASSWORD_MISMATCH": "Passwords do not match.*",
+      "GDPR_REQUIRED": "You must accept the terms to register."
     }
+  },
+
+  "PRIVACY": {
+    "TITLE": "Privacy Policy",
+    "LAST_UPDATED": "Last updated",
+    "SECTIONS": {
+      "COLLECTION": {
+        "TITLE": "Data Collection",
+        "TEXT": "While using MyRoomify, we collect the following data:",
+        "ITEM1": "Personal information (name, email address, phone number)",
+        "ITEM2": "Address details for booking verification"
+      },
+      "USAGE": {
+        "TITLE": "Data Usage",
+        "TEXT": "Your data is used exclusively for managing room bookings, communication, and improving the user experience."
+      },
+      "RIGHTS": {
+        "TITLE": "Your Rights",
+        "TEXT": "You may request the modification, deletion, or export of your data at any time via your profile settings or by contacting our customer service."
+      }
+    },
+    "BTN_GO_BACK": "Back"
   },
 
   "PROFILE": {
@@ -164,7 +201,8 @@
     "ROOMS": {
       "TITLE": "Our Signature Rooms",
       "PER_NIGHT": "/night",
-      "BTN_DETAILS": "View Details"
+      "BTN_DETAILS": "View Details",
+      "GUESTS": "Guests"
     },
     "CONTACT": {
       "TITLE": "Contact Us",
@@ -261,6 +299,7 @@
       "TEXT_BOOK_CANCEL":"Are you sure you want to cancel this reservation?"
     },
     "FAILED": {
+      "TITLE":"Something went wrong.",
       "TITLE_BOOK":"Failed to book room.",
       "TEXT_BOOK":"Your booking could not be completed.",
       "TITLE_BOOK_UPDATE":"Failed to update booking.",

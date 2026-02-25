@@ -2,9 +2,9 @@
     <div class="container-fluid">
         <!-- Language -->
         <div class="nav-left">
-            <button [matMenuTriggerFor]="langMenu" class="user-profile-btn border-0 bg-transparent">
+            <button [matMenuTriggerFor]="langMenu" class="user-profile-btn border-0 bg-transparent d-flex align-items-center">
                 <mat-icon class="list-icon">language</mat-icon>
-                <span class="ms-1 uppercase">{{ translate.currentLang }}</span>
+                <span class="ms-1 uppercase d-none d-md-inline">{{ translate.currentLang }}</span>
             </button>
 
             <mat-menu #langMenu="matMenu">

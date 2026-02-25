@@ -15,6 +15,7 @@ import { GuestRoom } from './guest/guest-room/guest-room';
 import { GuestProfile } from './guest/guest-profile/guest-profile';
 import { AdminProfile } from './admin/admin-profile/admin-profile';
 import { roleGuard } from './shared/auth/role-guard';
+import { PrivacyPolicy } from './privacy-policy/privacy-policy';
 
 export const routes: Routes = [
     { path: '', component: GuestNavbar,
@@ -27,6 +28,7 @@ export const routes: Routes = [
             { path: 'profile', component: GuestProfile },
             { path: 'login', component: Login },
             { path: 'register', component: Register },
+            { path: 'privacy-policy', component: PrivacyPolicy },
         ]
     },
     { path: 'admin', component: AdminNavbar,

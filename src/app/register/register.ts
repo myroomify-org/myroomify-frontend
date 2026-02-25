@@ -4,13 +4,14 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../shared/auth/auth-service';
 import Swal from 'sweetalert2';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
-// Mat imports
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 
 
 @Component({
@@ -24,7 +25,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    TranslateModule
+    MatCheckboxModule,
+    TranslateModule,
   ],
   templateUrl: './register.html',
   styleUrl: './register.css'
@@ -33,6 +35,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 export class Register implements OnInit {
   registerForm!: FormGroup
   hidePassword = true
+  loading = false
 
   constructor(
     private fb: FormBuilder, 
@@ -60,7 +63,8 @@ export class Register implements OnInit {
       country_name: ['', Validators.required],
       city_name: ['', Validators.required],
       postal_code: ['', Validators.required],
-      address: ['', Validators.required]
+      address: ['', Validators.required],
+      acceptTerms: [false, Validators.requiredTrue]
     }, {
       validators: this.passwordMatchValidator 
     })
@@ -76,15 +80,20 @@ export class Register implements OnInit {
   // Registration submit
   onSubmit(): void {
     if (this.registerForm.valid) {
+      this.loading = true
       this.authApi.register$(this.registerForm.value).subscribe({
-        next: () => {
+        next: (response: any) => {
+          this.loading = false
+          console.log(response)
           this.router.navigate(['/login'])
-          this.success(this.translate.instant('REGISTER.ALERTS.SUCCESS'))
+          this.success(response.message || this.translate.instant('REGISTER.ALERTS.TITLE_SUCCESS'))          
         },
-        error: () => {
-          this.failed(this.translate.instant('REGISTER.ALERTS.FAILED'))
+        error: (error: any) => {
+          this.loading = false
+          const errorMessage = error.error?.message || this.translate.instant('REGISTER.ALERTS.FAILED')
+          this.failed(errorMessage)          
         }
-      });
+      })
     }
   }
 

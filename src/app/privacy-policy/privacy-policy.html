@@ -1,0 +1,39 @@
+<div class="privacy-container d-flex align-items-center justify-content-center">
+  <div class="glass-card shadow-lg p-4 p-md-5 my-0 mt-4">
+    
+    <div class="text-center mb-5">
+      <mat-icon class="policy-icon">gavel</mat-icon>
+      <h1 class="policy-title mt-3">{{ 'PRIVACY.TITLE' | translate }}</h1>
+      <p class="last-updated">{{ 'PRIVACY.LAST_UPDATED' | translate }}: 2024.05.20</p>
+    </div>
+
+    <div class="privacy-content px-2">
+      <section class="policy-section">
+        <h4 class="section-title">1. {{ 'PRIVACY.SECTIONS.COLLECTION.TITLE' | translate }}</h4>
+        <p class="section-text">{{ 'PRIVACY.SECTIONS.COLLECTION.TEXT' | translate }}</p>
+        <ul class="section-list">
+          <li>{{ 'PRIVACY.SECTIONS.COLLECTION.ITEM1' | translate }}</li>
+          <li>{{ 'PRIVACY.SECTIONS.COLLECTION.ITEM2' | translate }}</li>
+        </ul>
+      </section>
+
+      <section class="policy-section">
+        <h4 class="section-title">2. {{ 'PRIVACY.SECTIONS.USAGE.TITLE' | translate }}</h4>
+        <p class="section-text">{{ 'PRIVACY.SECTIONS.USAGE.TEXT' | translate }}</p>
+      </section>
+
+      <section class="policy-section">
+        <h4 class="section-title">3. {{ 'PRIVACY.SECTIONS.RIGHTS.TITLE' | translate }}</h4>
+        <p class="section-text">{{ 'PRIVACY.SECTIONS.RIGHTS.TEXT' | translate }}</p>
+      </section>
+    </div>
+
+    <div class="back-button-wrapper">
+      <button class="btn-back" (click)="goBack()">
+        <mat-icon class="me-2">arrow_back</mat-icon>
+        {{ 'PRIVACY.BTN_GO_BACK' | translate }}
+      </button>
+    </div>
+    
+  </div>
+</div>

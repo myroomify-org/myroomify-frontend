@@ -92,6 +92,32 @@
     background-color: #f9f7f2;
 }
 
+/* --- GDPR --- */
+.gdpr-container {
+  padding: 0 5px;
+  align-items: center;
+  text-align: center;
+}
+
+.gdpr-link{
+  color: #c3ae80;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.gdpr-link:hover {
+  color: black !important;
+  text-decoration: underline;
+}
+
+.gdpr-error {
+  color: #ff5252;
+  font-size: 0.75rem;
+  margin-top: 5px;
+  margin-left: 32px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .main-section h1 {

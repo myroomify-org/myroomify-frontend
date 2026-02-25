@@ -19,9 +19,11 @@
   "LOGIN": {
     "TITLE": "Bejelentkezés",
     "SUBTITLE": "Hozza létre fiókját a teljes élményért!",
-    "USERNAME": "Felhasználónév vagy Email",
+    "USERNAME": "Felhasználónév vagy Email cím",
     "PASSWORD": "Jelszó",
     "BTN_LOGIN": "Bejelentkezés",
+    "NO_ACCOUNT": "Még nincs fiókja?",
+    "REQUIRED": "Ez a mező kötelező",
     "ALERTS": {
       "TITLE_FAILED": "Bejelentkezés sikertelen!",
       "TEXT_FAILED": "Helytelen email vagy jelszó.",
@@ -57,11 +59,46 @@
       "CONFIRM_PASSWORD":"Jelszó megerősítése"
     },
     "BTN_REGISTER": "FIÓK LÉTREHOZÁSA",
+    "BTN_REGISTER_INACTIVE": "Kérjük, töltsd ki a mezőket",
     "HAVE_ACCOUNT": "Már van fiókja?",
     "ALERTS": {
       "SUCCESS": "Regisztráció sikeres!",
       "FAILED": "Regisztráció sikertelen!"
+    },
+    "GDPR": {
+      "ACCEPT": "Elfogadom az",
+      "LINK": "Adatkezelési Tájékoztatót.",
+      "LINK_HOME": "Adatkezelési Tájékoztató"
+    },
+    "ERRORS": {
+      "REQUIRED": "Ez a mező kötelező*",
+      "EMAIL_INVALID": "Kérjük érvényes email címet adjon meg*",
+      "PASSWORD_LENGTH": "A jelszónak legalább 8 karakteresnek kell lennie*",
+      "PASSWORD_MISMATCH": "A jelszavak nem egyeznek*",
+      "GDPR_REQUIRED": "A regisztrációhoz el kell fogadnod az adatkezelési tájékoztatót."
     }
+  },
+
+  "PRIVACY": {
+    "TITLE": "Adatkezelési Tájékoztató",
+    "LAST_UPDATED": "Utoljára frissítve",
+    "SECTIONS": {
+      "COLLECTION": {
+        "TITLE": "Adatgyűjtés köre",
+        "TEXT": "A MyRoomify használata során az alábbi adatokat gyűjtjük:",
+        "ITEM1": "Személyes adatok (név, e-mail cím, telefonszám)",
+        "ITEM2": "Lakcím adatok a foglalások hitelesítéséhez"
+      },
+      "USAGE": {
+        "TITLE": "Adatfelhasználás",
+        "TEXT": "Az adataidat kizárólag a szobafoglalások kezelésére, kapcsolattartásra és a felhasználói élmény javítására használjuk fel."
+      },
+      "RIGHTS": {
+        "TITLE": "Az Ön jogai",
+        "TEXT": "Bármikor kérheti adatai módosítását, törlését vagy exportálását a profilbeállításoknál vagy ügyfélszolgálatunkon keresztül."
+      }
+    },
+    "BTN_GO_BACK": "Vissza"
   },
 
   "PROFILE": {
@@ -165,7 +202,8 @@
     "ROOMS": {
       "TITLE": "Kiemelt szobáink",
       "PER_NIGHT": "/éj",
-      "BTN_DETAILS": "Részletek"
+      "BTN_DETAILS": "Részletek",
+      "GUESTS": "Vendég"
     },
     "CONTACT": {
       "TITLE": "Kapcsolat",
@@ -261,6 +299,7 @@
       "TEXT_BOOK_CANCEL":"Biztosan lemondja ezt a foglalást?"
     },
     "FAILED": {
+      "TITLE":"Hiba törtánt!",
       "TITLE_BOOK":"Hiba történt!",
       "TEXT_BOOK":"A foglalást nem sikerült befejezni.",
       "TITLE_BOOK_UPDATE":"Hiba történt a foglalás módosításakor.",
