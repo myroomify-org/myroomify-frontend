@@ -85,37 +85,38 @@ export class AdminRooms {
     }
 
     this.roomApi.addRoom$(payload).subscribe({
-      next: () => {
-        this.success("TITLE_CREATE_ROOM")
+      next: (response: any) => {
+        this.success(response.message)
         this.get()
         this.cancel()
       },
-      error: (error: any) => this.failed("TITLE_CREATE_ROOM")
+      error: (error: any) => {
+        this.failed(error.message)
+      }
     })
   }
 
   delete(id: number) {
     this.roomApi.deleteRoom$(id).subscribe({
-      next: () => {
-        this.success("TITLE_DELETE_ROOM")
+      next: (response: any) => {
+        this.success(response.message)
         this.get()
       },
-      error: () => this.failed("TITLE_DELETE_ROOM")
+      error: (error: any) => {
+        this.failed(error.message)
+      }
     })
   }
 
   restoreRoom(id: number) {
-    if (this.activeCount >= 20) {
-      this.success('TITLE_RESTORE_ROOM');
-      return;
-    }
-
     this.roomApi.restoreRoom$(id).subscribe({
-      next: () => {
-        this.success('Room restored successfully')
+      next: (response: any) => {
+        this.success(response.message)
         this.get()
       },
-      error: () => this.failed('TITLE_RESTORE_ROOM')    
+      error: (error: any) => {
+        this.failed(error.message)
+      }
     })
   }
 
@@ -148,15 +149,15 @@ export class AdminRooms {
 
   filterCards() {
     if (this.currentView === 'active') {
-      this.cards = this.allRooms.filter(r => !r.deleted_at)
+      this.cards = this.allRooms.filter(room => !room.deleted_at)
     } else {
-      this.cards = this.allRooms.filter(r => r.deleted_at)
+      this.cards = this.allRooms.filter(room => room.deleted_at)
     }
   }
 
   updateCounts() {
-    this.activeCount = this.allRooms.filter(r => !r.deleted_at).length
-    this.deletedCount = this.allRooms.filter(r => r.deleted_at).length
+    this.activeCount = this.allRooms.filter(room => !room.deleted_at).length
+    this.deletedCount = this.allRooms.filter(room => room.deleted_at).length
   }
 
   // assistant
@@ -169,7 +170,7 @@ export class AdminRooms {
   }
 
   canAddRoom(): boolean {
-    return this.allRooms.length < 20
+    return true
   }
 
   edit(id: number) {
@@ -190,16 +191,18 @@ export class AdminRooms {
   }
 
   // alerts
-  success(key: string) {
-    this.translate.get(`ADMIN_ALERTS.SUCCESS.${key}`).subscribe((msg: string) => {
-      Swal.fire({
-        icon: 'success',
-        iconColor: '#c3ae80',
-        title: msg,
-        showConfirmButton: false,
-        timer: 1500
-      });
-    });
+  success(title: string) {
+    Swal.fire({
+      icon: 'success',
+      iconColor: '#c3ae80',
+      title: title,
+      showConfirmButton: false,
+      timer: 1500,
+      customClass: {
+        popup: 'rounded-4 shadow-lg',
+        confirmButton: 'rounded-pill px-4',
+      }
+    })
   }
 
   failed(key: string) {
@@ -217,25 +220,35 @@ export class AdminRooms {
   }
 
   confirmDelete(id: number) {
-    this.translate.get([
-      'ADMIN_ALERTS.CONFIRM.TITLE_DELETE_ROOM',
-      'ADMIN_ALERTS.CONFIRM.TEXT_DELETE_ROOM',
-      'ADMIN_ALERTS.CONFIRM.CONFIRM_DELETE_ROOM',
-      'ADMIN_ALERTS.CONFIRM.CANCEL_GENERAL'
-    ]).subscribe(t => {
-      Swal.fire({
-        title: t['ADMIN_ALERTS.CONFIRM.TITLE_DELETE_ROOM'],
-        text: t['ADMIN_ALERTS.CONFIRM.TEXT_DELETE_ROOM'],
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#2d4037",
-        cancelButtonColor: "#000",
-        confirmButtonText: t['ADMIN_ALERTS.CONFIRM.CONFIRM_DELETE_ROOM'],
-        cancelButtonText: t['ADMIN_ALERTS.CONFIRM.CANCEL_GENERAL']
-      }).then((result) => {
-        if (result.isConfirmed) this.delete(id);
-      });
+    Swal.fire({
+      title: this.translate.instant('ADMIN_ALERTS.CONFIRM.TITLE_DELETE_ROOM'),
+      text: this.translate.instant('ADMIN_ALERTS.CONFIRM.TEXT_DELETE_ROOM'),
+      icon: "warning",
+      iconColor:'#c3ae80',
+      showCancelButton: true,
+      confirmButtonColor: "#2d4037",
+      cancelButtonColor: "#000",
+      confirmButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CONFIRM_DELETE_ROOM'),
+      cancelButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CANCEL_GENERAL')
+    }).then((result) => {
+      if (result.isConfirmed) this.delete(id);
     });
+  }
+
+  confirmMaintenance(id: number) {
+    Swal.fire({
+      title: this.translate.instant('ADMIN_ALERTS.CONFIRM.TITLE_MAINTENANCE'),
+      text: this.translate.instant('ADMIN_ALERTS.CONFIRM.TEXT_MAINTENANCE'),
+      icon: "info",
+      iconColor: '#c3ae80',
+      showCancelButton: true,
+      confirmButtonColor: "#2d4037",
+      cancelButtonColor: "#000",
+      confirmButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CONFIRM_MAINTENANCE'),
+      cancelButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CANCEL_GENERAL')
+    }).then((result) => {
+      if (result.isConfirmed) this.delete(id)
+    })
   }
 
   showLimitMessage() {

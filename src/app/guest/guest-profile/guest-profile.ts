@@ -5,14 +5,17 @@ import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../../shared/auth/auth-service';
 
 // Mat imports
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
-import { Router } from '@angular/router';
-import { AuthService } from '../../shared/auth/auth-service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-guest-profile',
@@ -24,11 +27,15 @@ import { AuthService } from '../../shared/auth/auth-service';
     MatMenuModule,
     MatButtonModule,
     MatNativeDateModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
     TranslateModule
   ],
   templateUrl: './guest-profile.html',
   styleUrl: './guest-profile.css',
 })
+
 export class GuestProfile implements OnInit {
   user: any = {}
   bookings: any[] = []
@@ -45,15 +52,23 @@ export class GuestProfile implements OnInit {
   newEmail = ''
   showPasswordFields: boolean = false
 
+  hidePassword = false
+
   constructor(
     private bookingApi: MeBookingService,
     private profileApi: MeProfileService,
     private router: Router,
+    private route: ActivatedRoute,
     private translate: TranslateService,
     private authApi: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.activeTab = params['tab'] === 'bookings'
+        ? 'bookings'
+        : 'details'
+    })
     this.getDatas()
   }
 
@@ -106,23 +121,23 @@ export class GuestProfile implements OnInit {
     this.profileApi.editProfile$(this.user).subscribe({
       next: (result: any) => {
         this.user = this.mapUserData(result.data)
-        this.success(this.translate.instant("GUEST_ALERTS.SUCCESS.TITLE_PROFILE_UPDATE"))
+        this.success(result.message)
         this.isEditing = false
       },
-      error: () => {
-        this.failed(this.translate.instant("GUEST_ALERTS.FAILED.TITLE_PROFILE_UPDATE"))
+      error: (error: any) => {
+        this.failed(error.message)
       }
     })
   }
 
   saveEmail() {
     this.profileApi.editEmail$({ email: this.newEmail }).subscribe({
-      next: () => {
+      next: (response: any) => {
         this.user.email = this.newEmail
-        this.success(this.translate.instant("GUEST_ALERTS.SUCCESS.TITLE_EMAIL_UPDATE"))
+        this.success(response.message)
       },
-      error: () => {
-        this.failed(this.translate.instant("GUEST_ALERTS.FAILED.TITLE_EMAIL_UPDATE"))
+      error: (error: any) => {
+        this.failed(error.message)
       }
     })
   }
@@ -134,7 +149,7 @@ export class GuestProfile implements OnInit {
     }
 
     this.profileApi.editPassword$(this.passwordData).subscribe({
-      next: () => {
+      next: (response: any) => {
         this.showPasswordFields = false
         this.passwordData = { current_password: '', new_password: '', new_password_confirmation: '' }
 
@@ -148,10 +163,10 @@ export class GuestProfile implements OnInit {
 
         
         
-        this.success(this.translate.instant("GUEST_ALERTS.SUCCESS.TITLE_PASSWORD_CHANGE"), this.translate.instant("GUEST_ALERTS.SUCCESS.TEXT_PASSWORD_CHANGE"))
+        this.success(response.message)
       },
-      error: () => {
-        this.failed(this.translate.instant("GUEST_ALERTS.FAILED.TITLE_PASSWORD_CHANGE"))
+      error: (error: any) => {
+        this.failed(error.message)
       }
     })
   }
@@ -187,6 +202,27 @@ export class GuestProfile implements OnInit {
   }
 
   async editBooking(booking: any) {
+
+    const checkInChanged =
+    this.formatDate(booking.check_in) !== this.formatDate(this.originalBookingData.check_in)
+
+    const checkOutChanged =
+      this.formatDate(booking.check_out) !== this.formatDate(this.originalBookingData.check_out)
+
+    const statusChanged =
+      booking.status !== this.originalBookingData.status
+
+    if ((checkInChanged || checkOutChanged) && !statusChanged) {
+      const confirmed = await this.confirm(
+        this.translate.instant('GUEST_ALERTS.CONFIRM.TEXT_BOOK_UPDATE')
+      )
+
+      if (!confirmed) {
+        this.cancelEdit(booking)
+        return
+      }
+    }
+
     const updatedData = {
       check_in: this.formatDate(booking.check_in),
       check_out: this.formatDate(booking.check_out),
@@ -196,7 +232,7 @@ export class GuestProfile implements OnInit {
     }
 
     if (updatedData.status === 'cancelled' && this.originalBookingData?.status !== 'cancelled') {
-      const confirmed = await this.confirm(this.translate.instant('GUEST_ALERTS.CONFIRM.TEXT_CANCEL'))
+      const confirmed = await this.confirm(this.translate.instant('GUEST_ALERTS.CONFIRM.TEXT_BOOK_CANCEL'))
       if (confirmed) {
         this.sendCancelRequest(booking.id)
       } else {
@@ -224,8 +260,8 @@ export class GuestProfile implements OnInit {
         this.originalBookingData = null
         this.isChoosingCheckout = false
       },
-      error: () => {
-        this.failed(this.translate.instant("GUEST_ALERTS.FAILED.TITLE_BOOK_CANCEL"))
+      error: (error: any) => {
+        this.failed(error.message)
         this.getDatas()
       }
     })
@@ -245,11 +281,12 @@ export class GuestProfile implements OnInit {
           }
           this.bookings = [...this.bookings]
         }
+        this.success(result.message)
         this.editingBookingId = null;
         this.originalBookingData = null
       },
-      error: () => {
-        this.failed(this.translate.instant("GUEST_ALERTS.FAILED.TITLE_BOOK_UPDATE"))
+      error: (error: any) => {
+        this.failed(error.message)
         this.getDatas()
       }
     })

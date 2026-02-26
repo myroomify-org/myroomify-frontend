@@ -111,7 +111,7 @@
                       </button>
 
                       <button type="button" class="delete btn btn-sm rounded-circle shadow" 
-                              (click)="deleteExistingImage(image.id, i)" [title]="'ADMIN_ROOM.GALLERY.TOOLTIP_DELETE' | translate">
+                              (click)="deleteWarning(image.id, i)" [title]="'ADMIN_ROOM.GALLERY.TOOLTIP_DELETE' | translate">
                         <i class="bi bi-x fs-5"></i>
                       </button>
                     </div>
@@ -121,10 +121,20 @@
             </div> 
 
             <div class="col-12 d-flex gap-3 mt-4">
-              <button type="submit" class="btn btn-dark-green px-5 py-3 rounded-pill shadow-sm flex-grow-1">
-                <i class="bi bi-check2-circle me-2"></i>{{ 'ADMIN_ROOM.SAVE_BTN' | translate }}
+              <button type="submit" 
+                      [disabled]="isSaving" 
+                      class="btn btn-dark-green px-5 py-3 rounded-pill shadow-sm flex-grow-1">
+                
+                <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                <i *ngIf="!isSaving" class="bi bi-check2-circle me-2"></i>
+                
+                {{ (isSaving ? 'ADMIN_ROOM.SAVING' : 'ADMIN_ROOM.SAVE_BTN') | translate }}
               </button>
-              <button type="button" class="btn btn-light px-4 py-3 rounded-pill border" (click)="confirmNavigate()">
+
+              <button type="button" 
+                      [disabled]="isSaving"
+                      class="btn btn-light px-4 py-3 rounded-pill border" 
+                      (click)="confirmNavigate()">
                 {{ 'ADMIN_ROOM.CANCEL_BTN' | translate }}
               </button>
             </div>

@@ -71,10 +71,10 @@
       "LINK_HOME": "Adatkezelési Tájékoztató"
     },
     "ERRORS": {
-      "REQUIRED": "Ez a mező kötelező*",
-      "EMAIL_INVALID": "Kérjük érvényes email címet adjon meg*",
-      "PASSWORD_LENGTH": "A jelszónak legalább 8 karakteresnek kell lennie*",
-      "PASSWORD_MISMATCH": "A jelszavak nem egyeznek*",
+      "REQUIRED": "Ez a mező kötelező!*",
+      "EMAIL_INVALID": "Kérjük érvényes email címet adjon meg!",
+      "PASSWORD_LENGTH": "A jelszónak legalább 8 karakteresnek kell lennie!",
+      "PASSWORD_MISMATCH": "A jelszavak nem egyeznek!",
       "GDPR_REQUIRED": "A regisztrációhoz el kell fogadnod az adatkezelési tájékoztatót."
     }
   },
@@ -295,7 +295,8 @@
     "CONFIRM": {
       "CONFIRM_BOOK":"Megerősítés!",
       "CANCEL_BOOK":"Mégsem",
-      "TEXT_BOOK":"Biztosan lefoglalja ezt a szobát {{count}} főre?",
+      "TEXT_BOOK":"Biztosan lefoglalja ezt a szobát?",
+      "TEXT_BOOK_UPDATE": "Bizotsan módosítani szeretnéd a foglalásodat?",
       "TEXT_BOOK_CANCEL":"Biztosan lemondja ezt a foglalást?"
     },
     "FAILED": {
@@ -443,7 +444,7 @@
       "SLOTS_USED": "({{current}}/{{max}} hely kihasználva)"
     },
     "CARD": {
-      "PRICE_PER_NIGHT": "{{price}} $ / éj",
+      "PRICE_PER_NIGHT": "{{price}} Ft / éj",
       "IMAGE_ALT": "Szoba fotó",
       "NO_DESCRIPTION": "Nincs elérhető leírás",
       "PERSONS": "Fő",
@@ -457,7 +458,7 @@
       "LABEL_NAME": "Szoba neve / száma",
       "PLACEHOLDER_NAME": "pl. Deluxe lakosztály 101",
       "LABEL_CAPACITY": "Kapacitás (fő)",
-      "LABEL_PRICE": "Ár ($ / éjszaka)",
+      "LABEL_PRICE": "Ár (Ft / éjszaka)",
       "LABEL_DESCRIPTION": "Leírás",
       "PLACEHOLDER_DESCRIPTION": "Írjon pár szót a szobáról...",
       "BTN_CANCEL": "Mégse",
@@ -495,6 +496,11 @@
       "MAIN_BADGE": "Fő kép",
       "TOOLTIP_MAIN": "Beállítás fő képként",
       "TOOLTIP_DELETE": "Kép törlése"
+    },
+    "WARNING": {
+      "UNFILLED": "Kérjük, minden mezőt tölts ki.",
+      "DELETE_TITLE": "Biztos vagy benne?",
+      "DELETE_TEXT": "Ez a művelet azonnal törli a képet a szerverről."
     }
   },
 
@@ -516,7 +522,7 @@
     },
     "CONFIRM": {
       "TITLE_NAVIGATE": "Biztos benne?",
-      "TEXT_NAVIGATE": "A nem mentett módosítások törülve lesznek.",
+      "TEXT_NAVIGATE": "A nem mentett módosítások törölve lesznek.",
       "CONFIRM_NAVIGATE": "Vissza a szobákhoz",
       "TITLE_DELETE_USER": "Biztosan törölni szeretné ezt a felhasználót?",
       "TEXT_DELETE_USER": "Ezt a műveletet nem lehet visszavonni.",
@@ -526,10 +532,15 @@
       "TEXT_DELETE_BOOKING": "Ezt a műveletet nem lehet visszavonni.",
       "CONFIRM_DELETE_BOOKING": "Igen, foglalás törlése",
       "CANCEL_DELETE_BOOKING": "Mégse",
+      "CANCEL_DELETE_IMAGE": "Mégse",
       "TITLE_DELETE_ROOM": "Biztos benne?",
       "TEXT_DELETE_ROOM": "A szoba átkerül az archivált elemek közé.",
       "CONFIRM_DELETE_ROOM": "Igen, törlöm!",
-      "CANCEL_GENERAL": "Mégse"
+      "CANCEL_GENERAL": "Mégse",
+      "TITLE_MAINTENANCE": "Szoba archiválása",
+      "TEXT_MAINTENANCE": "Ez a szoba átkerül az archivált nézetbe és nem lesz foglalható a vendégek számára.",
+      "CONFIRM_MAINTENANCE": "Igen, archiválás",
+      "CONFIRM_DELETE_IMAGE": "Igen, archiválás"
     },
     "FAILED": {
       "TITLE_UPDATE_ROOM": "Hiba történt a szoba frissítésekor.",

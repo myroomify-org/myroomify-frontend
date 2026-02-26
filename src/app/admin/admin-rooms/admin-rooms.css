@@ -84,8 +84,8 @@
     color: #c3ae80;
 }
 
-.btn-delete-danger {
-    background-color: #881c27;
+.btn-maintenance {
+    background-color: #6D4C41;
     color: white;
     border: none;
     border-radius: 8px;
@@ -93,8 +93,8 @@
     transition: all 0.2s ease-in-out;
 }
 
-.btn-delete-danger:hover {
-    background-color: #eb172c;
+.btn-maintenance:hover {
+    background-color: #c3ae80;
     color: white;
     transform: scale(1.05);
 }

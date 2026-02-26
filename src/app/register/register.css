@@ -1,6 +1,6 @@
 /* --- Full page background --- */
 .register-container {
-  min-height: 100vh;
+  min-height: 120vh;
   background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.4)), url('/home/home.jpg');
   background-size: cover;
   background-position: center;
@@ -105,6 +105,46 @@ mat-form-field {
   background-color: #2d4037 !important;
   color: white !important;
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+::v-deep .mat-form-field-invalid.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #ff6b6b !important;
+}
+
+/* Kényszerített piros label/szöveg */
+::v-deep .mat-form-field-invalid.mat-form-field-appearance-outline.mat-focused .mat-form-field-label {
+  color: #ff6b6b !important;
+}
+
+/* Biztosítsuk, hogy az input kurzora is piros legyen hiba esetén */
+::v-deep .mat-form-field-invalid .mat-input-element {
+  caret-color: #ff6b6b !important;
+}
+
+.custom-error-text {
+  color: #ff9f9f;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-top: 4px;
+  display: block;
+  padding: 2px 8px;
+  background: rgba(255, 107, 107, 0.15);
+  border-left: 3px solid #ff6b6b;
+  border-radius: 4px;
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+::v-deep .mat-form-field-invalid .mat-form-field-outline {
+  color: #ff6b6b !important;
+}
+::v-deep .mat-form-field-invalid .mat-form-field-label {
+  color: #ff6b6b !important;
 }
 
 /* --- GDPR --- */

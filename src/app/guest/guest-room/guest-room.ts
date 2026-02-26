@@ -63,10 +63,7 @@ export class GuestRoom implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // 1. Szoba ID kinyerése
     const roomId = Number(this.route.snapshot.paramMap.get('id'));
-
-    // 2. Query paraméterek figyelése (dátumok és vendégszám átvétele)
     this.route.queryParams.subscribe(params => {
       if (params['start']) {
         this.startDate = new Date(params['start']);
@@ -187,7 +184,7 @@ export class GuestRoom implements OnInit {
     }
 
     const confirmed = await this.confirm(
-      this.translate.instant('GUEST_ALERTS.CONFIRM.TEXT_BOOK', { count: this.guest_count })
+      this.translate.instant('GUEST_ALERTS.CONFIRM.TEXT_BOOK')
     );
 
     if (!confirmed) return;
@@ -207,7 +204,10 @@ export class GuestRoom implements OnInit {
     this.bookingApi.addBooking$(bookingData).subscribe({
       next: () => {
         this.success(this.translate.instant('GUEST_ALERTS.SUCCESS.TITLE_BOOK'));
-        this.router.navigate(['/profile']);
+        this.router.navigate(['/profile'], {
+          queryParams: { tab: 'bookings' },
+          replaceUrl: true
+        });
       },
       error: (error: any) => {
         this.failed(error.message || this.translate.instant('GUEST_ALERTS.FAILED.TITLE_BOOK'));

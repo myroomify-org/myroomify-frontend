@@ -99,7 +99,7 @@
 
 .status-badge.completed { background: #e8f5e9; color: #2e7d32; }
 .status-badge.confirmed { background: #e8f5e9; color: #2d4037; }
-.status-badge.pending { background: #fff3e0; color: #c3ae80; }
+.status-badge.pending { background: #fff3e0; color: #836d3e; }
 .status-badge.cancelled { background: #ffebee; color: #ff5555; }
 
 /* Buttons */
@@ -129,6 +129,7 @@
 .btn-cancel-icon:hover {
     transform: scale(1.1);
 }
+
 
 /* Inputs */
 .form-control-custom {
@@ -163,7 +164,7 @@
   background-color: #f8f9fa !important;
   border-color: #dee2e6 !important;
   color: #adb5bd !important;
-  cursor: not-allowed; /* Tiltó jelzés az egérkurzornak */
+  cursor: not-allowed;
   opacity: 0.6;
 }
 

@@ -11,26 +11,22 @@
             {{ 'ADMIN_ROOMS.VIEWS.ACTIVE' | translate }} ({{ activeCount }})
         </button>
         <button class="btn rounded-pill px-4" 
-                [class.btn-danger]="currentView === 'deleted'"
+                [class.btn-maintenance]="currentView === 'deleted'"
                 (click)="switchView('deleted')">
-            <i class="bi bi-trash me-1"></i> {{ 'ADMIN_ROOMS.VIEWS.ARCHIVED' | translate }} ({{ deletedCount }})
+            <i class="bi bi-gear-fill me-1"></i> {{ 'ADMIN_ROOMS.VIEWS.ARCHIVED' | translate }} ({{ deletedCount }})
         </button>
     </div>
 
     <div class="row g-4">
         <div class="col-lg-3 col-md-6 col-12" *ngIf="currentView === 'active'">
             <div class="add-room-card h-100 shadow-sm d-flex align-items-center justify-content-center" 
-                [class.disabled-card]="!canAddRoom()"
-                (click)="canAddRoom() ? setShowModal() : showLimitMessage()">
+                (click)="setShowModal()">
                 <div class="text-center">
-                    <div class="plus-circle mb-2">{{ canAddRoom() ? '+' : '!' }}</div>
+                    <div class="plus-circle mb-2">+</div>
                     <span class="fw-bold">
-                        {{ (canAddRoom() ? 'ADMIN_ROOMS.ADD_CARD.ADD_NEW' : 'ADMIN_ROOMS.ADD_CARD.LIMIT_REACHED') | translate }}
+                        {{ 'ADMIN_ROOMS.ADD_CARD.ADD_NEW' | translate }}
                     </span>
-                    <small class="d-block text-muted" *ngIf="!canAddRoom()">
-                        {{ 'ADMIN_ROOMS.ADD_CARD.SLOTS_USED' | translate:{current: activeCount, max: 20} }}
-                    </small>
-                </div>
+                    </div>
             </div>
         </div>
 
@@ -66,8 +62,8 @@
                             <button class="btn btn-edit-minimal flex-grow-1" (click)="edit(card.id)">
                                 {{ 'ADMIN_ROOMS.CARD.BTN_EDIT' | translate }}
                             </button>
-                            <button class="btn btn-delete-danger" (click)="confirmDelete(card.id)">
-                                <i class="bi bi-trash"></i>
+                            <button class="btn btn-maintenance" (click)="confirmMaintenance(card.id)">
+                                <i class="bi bi-gear-fill"></i>
                             </button>
                         </ng-container>
 

@@ -71,10 +71,10 @@
       "LINK_HOME": "Privacy Policy"
     },
     "ERRORS": {
-      "REQUIRED": "This field is required.*",
-      "EMAIL_INVALID": "Please enter a valid email address.*",
-      "PASSWORD_LENGTH": "Password must be at least 8 characters.*",
-      "PASSWORD_MISMATCH": "Passwords do not match.*",
+      "REQUIRED": "This field is required!*",
+      "EMAIL_INVALID": "Please enter a valid email address!",
+      "PASSWORD_LENGTH": "Password must be at least 8 characters!",
+      "PASSWORD_MISMATCH": "Passwords do not match!",
       "GDPR_REQUIRED": "You must accept the terms to register."
     }
   },
@@ -295,7 +295,8 @@
     "CONFIRM": {
       "CONFIRM_BOOK":"Yes, confirm booking",
       "CANCEL_BOOK":"Cancel",
-      "TEXT_BOOK":"Are you sure you want to book this room for ${count} guests?",
+      "TEXT_BOOK":"Are you sure you want to book this room?",
+      "TEXT_BOOK_UPDATE": "Are you sure you want to edit your booking?",
       "TEXT_BOOK_CANCEL":"Are you sure you want to cancel this reservation?"
     },
     "FAILED": {
@@ -442,7 +443,7 @@
       "SLOTS_USED": "({{current}}/{{max}} slots used)"
     },
     "CARD": {
-      "PRICE_PER_NIGHT": "{{price}} $ / night",
+      "PRICE_PER_NIGHT": "{{price}} Ft / night",
       "NO_DESCRIPTION": "No description available",
       "PERSONS": "Pers.",
       "ROOM_ID": "No.",
@@ -455,7 +456,7 @@
       "LABEL_NAME": "Room Name / Number",
       "PLACEHOLDER_NAME": "e.g. Deluxe Suite 101",
       "LABEL_CAPACITY": "Capacity (Persons)",
-      "LABEL_PRICE": "Price ($ / night)",
+      "LABEL_PRICE": "Price (Ft / night)",
       "LABEL_DESCRIPTION": "Description",
       "PLACEHOLDER_DESCRIPTION": "Tell something about the room...",
       "BTN_CANCEL": "Cancel",
@@ -493,6 +494,11 @@
       "MAIN_BADGE": "Main",
       "TOOLTIP_MAIN": "Set as Main",
       "TOOLTIP_DELETE": "Delete Image"
+    },
+    "WARNING": {
+      "UNFILLED": "Please fill in all required fields!",
+      "DELETE_TITLE": "Biztos vagy benne?",
+      "DELETE_TEXT": "This will delete the image from the server immediately."
     }
   },
 
@@ -530,7 +536,10 @@
       "TITLE_DELETE_ROOM": "Are you sure?",
       "TEXT_DELETE_ROOM": "This room will be moved to archives.",
       "CONFIRM_DELETE_ROOM": "Yes, delete it!",
-      "CANCEL_GENERAL": "Cancel"
+      "CANCEL_GENERAL": "Cancel",
+      "TITLE_MAINTENANCE": "Archive Room",
+      "TEXT_MAINTENANCE": "This room will be moved to the archived view and will no longer be bookable for guests.",
+      "CONFIRM_MAINTENANCE": "Yes, archive it"
     },
     "FAILED":{
       "TITLE_UPDATE_ROOM": "Failed to update room details.",

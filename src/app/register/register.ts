@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../shared/auth/auth-service';
 import Swal from 'sweetalert2';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ErrorStateMatcher } from '@angular/material/core';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -13,6 +14,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
+export class ConfirmPasswordMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = !!(form && form.submitted);
+    const controlInvalid = !!(control && control.invalid);
+    const formInvalid = !!(form && form.hasError('mismatch'));
+    const controlTouched = !!(control && control.touched);
+    return (controlInvalid || formInvalid) && (controlTouched || isSubmitted);
+  }
+}
 
 @Component({
   selector: 'app-register',
@@ -36,6 +46,8 @@ export class Register implements OnInit {
   registerForm!: FormGroup
   hidePassword = true
   loading = false
+
+  confirmMatcher = new ConfirmPasswordMatcher()
 
   constructor(
     private fb: FormBuilder, 

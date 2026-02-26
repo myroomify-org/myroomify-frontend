@@ -28,6 +28,8 @@ export class AdminRoom implements OnInit{
   previews: string[] = []
   existingImages: any[] = []
 
+  isSaving = false
+
   constructor(
     private builder: FormBuilder,
     private roomApi: AdminRoomsService,
@@ -90,7 +92,9 @@ export class AdminRoom implements OnInit{
       next: () => {
         this.existingImages.forEach(img => img.is_primary = (img.id === imageId))
       },
-      error: () => this.failed()
+      error: (error: any) => {
+        this.failed(error.message)
+      }
     })
   }
 
@@ -101,7 +105,9 @@ export class AdminRoom implements OnInit{
         this.existingImages.splice(index, 1)
         this.get(this.roomId)
       },
-      error: () => this.failed()
+      error: (error: any) => {
+        this.failed(error.message)
+      }
     })
   }
  
@@ -150,7 +156,10 @@ export class AdminRoom implements OnInit{
   edit() {
     if (this.roomForm.invalid) {
       this.unfilledWarning()
+      return
     }
+
+    this.isSaving = true
 
     const formData = new FormData()
     formData.append('_method', 'PUT')
@@ -160,37 +169,43 @@ export class AdminRoom implements OnInit{
     formData.append('price', this.roomForm.value.price.toString())
 
     this.roomApi.editRoom$(this.roomId, formData).subscribe({
-      next: () => {
+      next: (response: any) => {
         if (this.selectedFiles.length > 0) {
           this.imageApi.addImages$(this.roomId, this.selectedFiles).subscribe({
-            next: () => {
+            next: (response: any) => {
               this.selectedFiles = []
               this.previews = []
               this.get(this.roomId)
-              this.success()
+              this.success(response.message)
+              this.isSaving = false
             },
-            error: () => this.failed()
+            error: (error: any) => {
+              this.failed(error.message)
+              this.isSaving = false
+            }
           })
         } else {
-          this.success()
+          this.success(response.message)
           this.get(this.roomId)
+          this.isSaving = false
         }
       },
-      error: () => this.failed()
+      error: (error: any) => {
+        this.failed(error.message)
+        this.isSaving = false
+      }
     })
   }
 
   // Alerts
-  success() {
-    this.translate.get('ADMIN_ALERTS.SUCCESS.TITLE_UPDATE_ROOM').subscribe(msg => {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        iconColor: "#c3ae80",
-        title: msg,
-        showConfirmButton: false,
-        timer: 2500
-      });
+  success(title:any) {
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      iconColor: "#c3ae80",
+      title: title,
+      showConfirmButton: false,
+      timer: 2500
     });
   }
 
@@ -198,7 +213,7 @@ export class AdminRoom implements OnInit{
     Swal.fire({
       position: "center",
       icon: "warning",
-      title: "Please fill in all required fields!",
+      title: this.translate.instant("ADMIN_ROOM.WARNING.UNFILLED"),
       showConfirmButton: false,
       timer: 2500
     })
@@ -206,22 +221,40 @@ export class AdminRoom implements OnInit{
 
   deleteWarning(imageId: number, index: number) {
     Swal.fire({
-      title: "Are you sure?",
-      text: "This will delete the image from the server immediately.",
+      title: this.translate.instant("ADMIN_ROOM.WARNING.DELETE_TITLE"),
+      text: this.translate.instant("ADMIN_ROOM.WARNING.DELETE_TEXT"),
       icon: "warning",
+      iconColor: "#c3ae80",
       showCancelButton: true,
       confirmButtonColor: "#364e43",
-      confirmButtonText: "Yes, delete it!"
-    }).then (() => {
-      this.deleteExistingImage(imageId, index)
-    })
+      cancelButtonText: this.translate.instant("ADMIN_ALERTS.CONFIRM.CANCEL_DELETE_IMAGE"),
+      confirmButtonText: this.translate.instant("ADMIN_ALERTS.CONFIRM.CONFIRM_DELETE_IMAGE"),
+      preConfirm: () => {
+        return new Promise((resolve, reject) => {
+          this.imageApi.deleteImage$(this.roomId, imageId).subscribe({
+            next: () => resolve(true),
+            error: (error) => {
+              this.failed(error.message);
+              reject(error);
+            }
+          });
+        });
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.existingImages.splice(index, 1);
+        this.get(this.roomId);
+        this.success("");
+      }
+    });
   }
 
-  failed(){
+  failed(title: string){
     Swal.fire({
       position: "center",
       icon: "error",
-      title: "Oops, something went wrong",
+      title: title,
       showConfirmButton: false,
       timer: 2500
     })
