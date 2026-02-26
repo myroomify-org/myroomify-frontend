@@ -116,3 +116,54 @@
     height: 100%;
     object-fit: cover;
 }
+
+/* --- Modal Kiegészítések --- */
+
+.bg-dark-green {
+    background-color: #2d4037 !important;
+}
+
+.gold-text {
+    color: #c3ae80 !important;
+}
+
+.modal-content {
+    border-radius: 20px !important;
+    overflow: hidden; /* Ez biztosítja, hogy a fejléc sarka ne lógjon ki */
+}
+
+.btn-close-white {
+    filter: invert(1) grayscale(1) brightness(2);
+}
+
+.btn-dark-green {
+    background-color: #2d4037;
+    color: white;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.btn-dark-green:hover {
+    background-color: #364e43;
+    color: white;
+}
+
+.form-control-custom {
+    border-radius: 12px;
+    border: 1px solid #eee;
+    padding: 10px 15px;
+}
+
+.form-control-custom:focus {
+    border-color: #c3ae80;
+    box-shadow: 0 0 0 0.2rem rgba(195, 174, 128, 0.25);
+}
+
+.label-minimal {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #777;
+    margin-bottom: 5px;
+    display: block;
+}

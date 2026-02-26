@@ -474,6 +474,7 @@
     "TITLE": "Szoba szerkesztése",
     "SUBTITLE": "Azonosító: #{{id}} | Frissítve: az imént",
     "SAVE_BTN": "Módosítások mentése",
+    "SAVING_BTN": "Mentés...",
     "CANCEL_BTN": "Mégse",
     "PREVIEW": {
       "DEFAULT_NAME": "Szoba neve",

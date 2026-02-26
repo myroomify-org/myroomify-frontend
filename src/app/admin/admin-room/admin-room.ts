@@ -93,7 +93,7 @@ export class AdminRoom implements OnInit{
         this.existingImages.forEach(img => img.is_primary = (img.id === imageId))
       },
       error: (error: any) => {
-        this.failed(error.message)
+        this.failed(error)
       }
     })
   }
@@ -106,7 +106,7 @@ export class AdminRoom implements OnInit{
         this.get(this.roomId)
       },
       error: (error: any) => {
-        this.failed(error.message)
+        this.failed(error)
       }
     })
   }
@@ -180,7 +180,7 @@ export class AdminRoom implements OnInit{
               this.isSaving = false
             },
             error: (error: any) => {
-              this.failed(error.message)
+              this.failed(error)
               this.isSaving = false
             }
           })
@@ -191,7 +191,7 @@ export class AdminRoom implements OnInit{
         }
       },
       error: (error: any) => {
-        this.failed(error.message)
+        this.failed(error)
         this.isSaving = false
       }
     })
@@ -250,11 +250,25 @@ export class AdminRoom implements OnInit{
     });
   }
 
-  failed(title: string){
+  failed(error: any){
+    let displayMessage = 'Ismeretlen hiba történt';
+
+    if (error?.error?.data) {
+      const validationErrors = error.error.data;
+      displayMessage = Object.values(validationErrors)
+        .flat()
+        .join(' ');
+    } 
+    else if (error?.error?.message) {
+      displayMessage = error.error.message;
+    } 
+    else if (error?.message) {
+      displayMessage = error.message;
+    }
     Swal.fire({
       position: "center",
       icon: "error",
-      title: title,
+      title: displayMessage,
       showConfirmButton: false,
       timer: 2500
     })
@@ -273,6 +287,7 @@ export class AdminRoom implements OnInit{
           title: t['ADMIN_ALERTS.CONFIRM.TITLE_NAVIGATE'],
           text: t['ADMIN_ALERTS.CONFIRM.TEXT_NAVIGATE'],
           icon: "warning",
+          iconColor: "#c3ae80",
           showCancelButton: true,
           confirmButtonColor: "#364e43",
           cancelButtonColor: "rgba(0, 0, 0, 1)",

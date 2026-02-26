@@ -36,6 +36,8 @@ export class AdminRooms {
   activeCount: number = 0
   deletedCount: number = 0
 
+  isSaving = false
+
   constructor(
     private build: FormBuilder,
     private roomApi: AdminRoomsService,
@@ -78,6 +80,8 @@ export class AdminRooms {
       return
     }
 
+    this.isSaving = true
+
     const payload = {
       ...this.cardForm.value,
       capacity: Number(this.cardForm.value.capacity),
@@ -89,9 +93,11 @@ export class AdminRooms {
         this.success(response.message)
         this.get()
         this.cancel()
+        this.isSaving = false
       },
       error: (error: any) => {
         this.failed(error.message)
+        this.isSaving = false
       }
     })
   }

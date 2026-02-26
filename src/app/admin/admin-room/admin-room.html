@@ -28,7 +28,7 @@
         <div class="p-4">
           <h3 class="fw-bold text-dark">{{ roomForm.value.name || ('ADMIN_ROOM.PREVIEW.DEFAULT_NAME' | translate) }}</h3>
           <p class="text-gold h4 mb-0">
-            {{ roomForm.value.price | number }} $ 
+            {{ roomForm.value.price | number }} Ft
             <small class="text-muted">/ {{ 'ADMIN_ROOM.PREVIEW.PER_NIGHT' | translate }}</small>
           </p>
           <hr class="my-3">
@@ -59,7 +59,7 @@
             <div class="col-md-6">
               <label class="label-minimal">{{ 'ADMIN_ROOM.FORM.LABEL_PRICE' | translate }}</label>
               <div class="input-group">
-                <span class="input-group-text bg-light border-0">$</span>
+                <span class="input-group-text bg-light border-0">Ft</span>
                 <input type="number" formControlName="price" class="form-control form-control-custom">
               </div>
             </div>
@@ -128,7 +128,7 @@
                 <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
                 <i *ngIf="!isSaving" class="bi bi-check2-circle me-2"></i>
                 
-                {{ (isSaving ? 'ADMIN_ROOM.SAVING' : 'ADMIN_ROOM.SAVE_BTN') | translate }}
+                {{ (isSaving ? 'ADMIN_ROOM.SAVING_BTN' : 'ADMIN_ROOM.SAVE_BTN') | translate }}
               </button>
 
               <button type="button" 

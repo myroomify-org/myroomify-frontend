@@ -80,19 +80,22 @@
 
     <div *ngIf="showModal" class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg rounded-4">
-                <div class="modal-header bg-dark-green text-white p-4">
-                    <h5 class="modal-title gold-text">
-                        {{ (isEditing ? 'ADMIN_ROOMS.MODAL.TITLE_EDIT' : 'ADMIN_ROOMS.MODAL.TITLE_ADD') | translate }}
+            <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                
+                <div class="modal-header bg-dark-green p-4 border-0">
+                    <h5 class="modal-title fw-bold gold-text">
+                        <i class="bi bi-plus-circle-fill me-2"></i>
+                        {{ 'ADMIN_ROOMS.MODAL.TITLE_ADD' | translate }}
                     </h5>
                     <button type="button" class="btn-close btn-close-white" (click)="cancel()"></button>
                 </div>
-                <div class="modal-body p-4">
+
+                <div class="modal-body p-4 bg-white">
                     <form [formGroup]="cardForm" (ngSubmit)="addCard()" id="cardForm">
                         <div class="mb-3">
                             <label class="label-minimal">{{ 'ADMIN_ROOMS.MODAL.LABEL_NAME' | translate }}</label>
                             <input type="text" formControlName="name" class="form-control form-control-custom" 
-                                   [placeholder]="'ADMIN_ROOMS.MODAL.PLACEHOLDER_NAME' | translate">
+                                [placeholder]="'ADMIN_ROOMS.MODAL.PLACEHOLDER_NAME' | translate">
                         </div>
                         <div class="row mb-3">
                             <div class="col-6">
@@ -107,16 +110,18 @@
                         <div class="mb-3">
                             <label class="label-minimal">{{ 'ADMIN_ROOMS.MODAL.LABEL_DESCRIPTION' | translate }}</label>
                             <textarea formControlName="description" class="form-control form-control-custom" rows="3" 
-                                      [placeholder]="'ADMIN_ROOMS.MODAL.PLACEHOLDER_DESCRIPTION' | translate"></textarea>
+                                    [placeholder]="'ADMIN_ROOMS.MODAL.PLACEHOLDER_DESCRIPTION' | translate"></textarea>
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer border-0 p-4 pt-0">
+
+                <div class="modal-footer border-0 p-4 pt-0 bg-white">
                     <button type="button" class="btn btn-light rounded-pill px-4" (click)="cancel()">
                         {{ 'ADMIN_ROOMS.MODAL.BTN_CANCEL' | translate }}
                     </button>
-                    <button type="submit" class="btn btn-dark-green px-4 shadow-sm" form="cardForm">
-                        {{ (isEditing ? 'ADMIN_ROOMS.MODAL.BTN_SAVE' : 'ADMIN_ROOMS.MODAL.BTN_CREATE') | translate }}
+                    <button type="submit" class="btn btn-dark-green px-4 shadow-sm rounded-pill" form="cardForm" [disabled]="isSaving">
+                        <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2"></span>
+                        {{ 'ADMIN_ROOMS.MODAL.BTN_CREATE' | translate }}
                     </button>
                 </div>
             </div>

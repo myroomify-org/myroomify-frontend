@@ -472,6 +472,7 @@
     "TITLE": "Edit Room Details",
     "SUBTITLE": "ID: #{{id}} | Last updated: just now",
     "SAVE_BTN": "Save All Changes",
+    "SAVING_BTN": "Saving...",
     "CANCEL_BTN": "Cancel",
     "PREVIEW": {
       "DEFAULT_NAME": "Room Name",
