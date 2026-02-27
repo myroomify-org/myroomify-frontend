@@ -381,6 +381,14 @@
       "NO_EMAIL": "Nincs email",
       "UNASSIGNED": "Nincs szoba"
     },
+    "ACTIONS": {
+      "VIEW_GUESTS": "Vendégek megtekintése",
+      "MANAGE_GUESTS": "Vendégek szerkesztése",
+      "EDIT": "Foglalás módosítása",
+      "CONFIRM": "Visszaigazolás (Érkezik)",
+      "COMPLETE": "Lezárás (Távozott)",
+      "CANCEL": "Sztornózás"
+    },
     "BOOKING_MODAL": {
       "CREATE_TITLE": "Új foglalás létrehozása",
       "EDIT_TITLE": "Foglalás szerkesztése #{{id}}",
@@ -398,7 +406,8 @@
       "LABEL_STATUS": "Foglalás állapota",
       "BTN_CANCEL": "Mégse",
       "BTN_CREATE": "Foglalás létrehozása",
-      "BTN_UPDATE": "Foglalás frissítése"
+      "BTN_UPDATE": "Foglalás frissítése",
+      "SAVING": "Mentés..."
     },
     "GUEST_MODAL": {
       "REGISTERED_GUESTS": "Regisztrált vendégek",
@@ -423,6 +432,7 @@
       "BTN_FINALIZE": "Vendégregisztráció véglegesítése",
       "BTN_UPDATE": "Vendégregisztráció frissítése",
       "STATUS_LOCKED_MSG": "A vendégek regisztrálásához először igazolja vissza a foglalást!",
+      "SAVING": "Mentés...",
       "DOC_TYPES": {
         "ID_CARD": "Személyi igazolvány",
         "PASSPORT": "Útlevél",
@@ -516,6 +526,7 @@
       "TITLE_DELETE_BOOKING": "Foglalás sikeresen törölve!",
       "TITLE_CREATE_BOOKING": "Foglalás sikeresen létrehozva!",
       "TITLE_UPDATE_BOOKING": "Foglalás sikeresen frissítve!",
+      "TITLE_STATUS_CHANGE": "A foglalás állapota sikeresen módosítva!",
       "TITLE_UPDATE_GUESTS": "Vendégek adatai sikeresen frissítve!",
       "TITLE_CREATE_ROOM": "Szoba sikeresen létrehozva.",
       "TITLE_DELETE_ROOM": "Szoba sikeresen törölve.",
@@ -533,6 +544,12 @@
       "TEXT_DELETE_BOOKING": "Ezt a műveletet nem lehet visszavonni.",
       "CONFIRM_DELETE_BOOKING": "Igen, foglalás törlése",
       "CANCEL_DELETE_BOOKING": "Mégse",
+      "TITLE_STATUS_CHANGE": "Állapot módosítása",
+      "TEXT_STATUS_CHANGE": "Biztosan módosítani szeretné a foglalás állapotát a következőre: {{status}}?",
+      "CONFIRM_STATUS_CHANGE": "Igen, módosítom",
+      "STATUS_CONFIRM": "Megerősítve",
+      "STATUS_COMPLETE": "Befejezve",
+      "YES": "Igen",
       "CANCEL_DELETE_IMAGE": "Mégse",
       "TITLE_DELETE_ROOM": "Biztos benne?",
       "TEXT_DELETE_ROOM": "A szoba átkerül az archivált elemek közé.",
@@ -557,6 +574,8 @@
       "TITLE_DELETE_BOOKING": "Hiba történt a foglalás törlésekor.",
       "TITLE_CREATE_BOOKING": "Hiba történt a foglalás létrehozásakor.",
       "TITLE_UPDATE_GUESTS": "Hiba történt a vendégek adatainak mentésekor.",
+      "TITLE_STATUS_CHANGE": "Hiba történt az állapot módosítása során.",
+      "LOCKED_BOOKING": "Ez a foglalás már lezárt vagy visszamondott állapotban van, ezért nem módosítható!",
       "TITLE_CREATE_ROOM": "Nem sikerült hozzáadni a szobát.",
       "TITLE_DELETE_ROOM": "A törlés sikertelen.",
       "TITLE_RESTORE_ROOM": "Hiba történt a visszaállítás során.",

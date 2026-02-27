@@ -81,26 +81,43 @@
                 <div class="small text-muted">{{ booking.check_out | date:'yyyy. MM. dd.' }}</div>
               </td>
               <td data-label="Status">
-                <div class="status-pill" [ngClass]="booking.status?.toLowerCase() || ''">
+                <div class="status-pill d-inline-flex align-items-center" [ngClass]="booking.status?.toLowerCase() || ''">
+                  <i *ngIf="booking.status === 'completed'" class="bi bi-check2-all me-1"></i>
+                  <i *ngIf="booking.status === 'cancelled'" class="bi bi-x-circle me-1"></i>
                   {{ 'ADMIN_BOOKINGS.FILTERS.' + (booking.status | uppercase) | translate }}
                 </div>
               </td>
               <td class="text-end fw-bold text-dark" data-label="Total">
-                {{ booking.total_price | currency:'$':'symbol':'1.0-0' }}
+                {{ booking.total_price | number:'1.0-0' }} Ft
               </td>
               <td class="text-end pe-4" data-label="Actions">
-                <button class="btn btn-action me-2" (click)="toggleRow(booking)">
+                <button class="btn btn-action me-1" (click)="toggleRow(booking)" [title]="'ADMIN_BOOKINGS.ACTIONS.VIEW_GUESTS' | translate">
                   <i class="bi" [ngClass]="booking.isExpanded ? 'bi-chevron-up' : 'bi-people'"></i>
                 </button>
-                <button class="btn btn-action me-2" 
+
+                <button *ngIf="booking.status !== 'cancelled'" class="btn btn-action me-1" 
                   [ngClass]="(booking.guests?.length || 0) < booking.guest_count ? 'text-danger' : 'text-success'"
-                  (click)="openGuestManager(booking)">
+                  (click)="openGuestManager(booking)" [title]="'ADMIN_BOOKINGS.ACTIONS.MANAGE_GUESTS' | translate">
                   <i class="bi" [ngClass]="(booking.guests?.length || 0) < booking.guest_count ? 'bi-person-exclamation' : 'bi-person-check-fill'"></i>
                 </button>
-                <button class="btn btn-action me-2" (click)="getForEdit(booking)">
+
+                <button *ngIf="booking.status === 'pending' || booking.status === 'confirmed'" 
+                  class="btn btn-action me-1" (click)="getForEdit(booking)" [title]="'ADMIN_BOOKINGS.ACTIONS.EDIT' | translate">
                   <i class="bi bi-pencil-square"></i>
                 </button>
-                <button class="btn btn-action text-danger" (click)="confirmCancel(booking.id)">
+
+                <button *ngIf="booking.status === 'pending'" class="btn btn-action text-primary me-1" 
+                  (click)="changeBookingStatus(booking.id, 'confirmed')" [title]="'ADMIN_BOOKINGS.ACTIONS.CONFIRM' | translate">
+                  <i class="bi bi-check-circle"></i>
+                </button>
+
+                <button *ngIf="booking.status === 'confirmed'" class="btn btn-action text-success me-1" 
+                  (click)="changeBookingStatus(booking.id, 'completed')" [title]="'ADMIN_BOOKINGS.ACTIONS.COMPLETE' | translate">
+                  <i class="bi bi-box-arrow-in-down"></i>
+                </button>
+
+                <button *ngIf="booking.status !== 'completed' && booking.status !== 'cancelled'" 
+                  class="btn btn-action text-danger" (click)="confirmCancel(booking.id)" [title]="'ADMIN_BOOKINGS.ACTIONS.CANCEL' | translate">
                   <i class="bi bi-trash"></i>
                 </button>
               </td>
@@ -166,25 +183,21 @@
 
               <div class="col-md-6">
                 <label class="label-minimal text-dark">{{ 'ADMIN_BOOKINGS.BOOKING_MODAL.LABEL_ROOM' | translate }}</label>
-                <select formControlName="room_id" class="form-select form-control-custom">
-                  <option *ngFor="let room of rooms" [value]="room.id">{{ room.name }}</option>
+                <select formControlName="room_id" class="form-select form-control-custom" [class.is-invalid]="bookingForm.get('guest_count')?.errors?.['maxCapacity']">
+                  <option [value]="null">{{ 'ADMIN_BOOKINGS.BOOKING_MODAL.LABEL_ROOM' | translate }}</option>
+                  <option *ngFor="let room of rooms" [value]="room.id">
+                    {{ room.name }} (Max: {{ room.capacity }})
+                  </option>
                 </select>
               </div>    
               <div class="col-md-6">
                 <label class="label-minimal text-dark">{{ 'ADMIN_BOOKINGS.BOOKING_MODAL.LABEL_GUEST_COUNT' | translate }}</label>
-                <input type="number" formControlName="guest_count" class="form-control form-control-custom" min="1">
+                <input type="number" formControlName="guest_count" class="form-control form-control-custom" 
+                       min="1" [max]="getSelectedRoomCapacity()"
+                       [class.is-invalid]="bookingForm.get('guest_count')?.invalid">
               </div>
-
-              <div class="col-md-12">
-                <label class="label-minimal text-dark">{{ 'ADMIN_BOOKINGS.BOOKING_MODAL.LABEL_STATUS' | translate }}</label>
-                <select formControlName="status" class="form-select form-control-custom">
-                  <option value="pending">{{ 'ADMIN_BOOKINGS.FILTERS.PENDING' | translate }}</option>
-                  <option value="confirmed">{{ 'ADMIN_BOOKINGS.FILTERS.CONFIRMED' | translate }}</option>
-                  <option value="completed">{{ 'ADMIN_BOOKINGS.FILTERS.COMPLETED' | translate }}</option>
-                  <option value="cancelled">{{ 'ADMIN_BOOKINGS.FILTERS.CANCELLED' | translate }}</option>
-                </select>
+              
               </div>
-            </div>
           </form>
         </div>
         <div class="modal-footer border-0 p-4 pt-0">
@@ -193,9 +206,14 @@
           </button>
           <button type="button" 
                   [class]="addMode ? 'btn btn-dark-green rounded-pill px-4 shadow-sm' : 'btn btn-gold rounded-pill px-4 shadow-sm'" 
+                  [disabled]="bookingForm.invalid || isSaving"
                   (click)="save()">
-            <i class="bi me-2" [ngClass]="addMode ? 'bi-plus-lg' : 'bi-save'"></i>
-            {{ (addMode ? 'ADMIN_BOOKINGS.BOOKING_MODAL.BTN_CREATE' : 'ADMIN_BOOKINGS.BOOKING_MODAL.BTN_UPDATE') | translate }}
+            
+            <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            
+            <i *ngIf="!isSaving" class="bi me-2" [ngClass]="addMode ? 'bi-plus-lg' : 'bi-save'"></i>
+            
+            {{ (isSaving ? 'ADMIN_BOOKINGS.BOOKING_MODAL.SAVING' : (addMode ? 'ADMIN_BOOKINGS.BOOKING_MODAL.BTN_CREATE' : 'ADMIN_BOOKINGS.BOOKING_MODAL.BTN_UPDATE')) | translate }}
           </button>
         </div>
       </div>
@@ -238,9 +256,6 @@
                   <span class="guest-number-badge px-3 py-1 rounded-pill bg-dark-green text-gold small fw-bold">
                     {{ 'ADMIN_BOOKINGS.GUEST_MODAL.GUEST_SLOT_TITLE' | translate:{index: guestIndex + 1} }}
                   </span>
-                  <button type="button" class="btn btn-sm btn-outline-danger border-0" (click)="deleteGuest(guestIndex)">
-                    <i class="bi bi-trash3-fill"></i>
-                  </button>
                 </div>
 
                 <div class="row g-3 text-start">
@@ -274,59 +289,30 @@
                     <label class="label-minimal text-dark-green fw-bold small">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_DOC_NUMBER' | translate }}</label>
                     <input type="text" formControlName="document_number" class="form-control form-control-custom" placeholder="e.g. 123456AB">
                   </div>
-
-                  <div class="col-12 mt-4">
-                    <div class="d-flex align-items-center mb-2">
-                      <hr class="flex-grow-1 m-0">
-                      <span class="px-3 small fw-bold text-muted text-uppercase">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.SECTION_ADDRESS' | translate }}</span>
-                      <hr class="flex-grow-1 m-0">
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label class="label-minimal text-dark-green fw-bold small">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_COUNTRY' | translate }}</label>
-                    <input type="text" formControlName="country_name" class="form-control form-control-custom" placeholder="{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_COUNTRY' | translate }}">
-                  </div>
-                  <div class="col-md-6">
-                    <label class="label-minimal text-dark-green fw-bold small">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_CITY' | translate }}</label>
-                    <input type="text" formControlName="city_name" class="form-control form-control-custom" placeholder="{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_CITY' | translate }}">
-                  </div>
-                  <div class="col-md-4">
-                    <label class="label-minimal text-dark-green fw-bold small">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_ZIP' | translate }}</label>
-                    <input type="text" formControlName="postal_code" class="form-control form-control-custom" placeholder="{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_ZIP' | translate }}">
-                  </div>
-                  <div class="col-md-8">
-                    <label class="label-minimal text-dark-green fw-bold small">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_STREET' | translate }}</label>
-                    <input type="text" formControlName="address" class="form-control form-control-custom" placeholder="{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_STREET' | translate }}">
-                  </div>
                 </div>
               </div>
             </div>
           </form>
-
-          <button class="btn btn-outline-dark-green w-100 rounded-pill mb-3 fw-bold py-2 border-2" 
-                  (click)="addGuest()" 
-                  [disabled]="guestControls.length >= (selectedBookingForGuests?.guest_count || 0)">
-            <i class="bi bi-person-plus-fill me-2"></i>{{ 'ADMIN_BOOKINGS.GUEST_MODAL.BTN_ADD_SLOT' | translate }}
-          </button>
         </div>
 
         <div class="modal-footer border-0 p-4 bg-white shadow-lg d-block">
           <div *ngIf="selectedBookingForGuests?.status !== 'confirmed'" 
-              class="alert alert-warning border-0 rounded-4 mb-0 d-flex align-items-center p-3">
+               class="alert alert-warning border-0 rounded-4 mb-0 d-flex align-items-center p-3">
             <i class="bi bi-exclamation-triangle-fill me-3 fs-4"></i>
             <span class="small fw-medium">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.STATUS_LOCKED_MSG' | translate }}</span>
           </div>
 
           <button *ngIf="selectedBookingForGuests?.status === 'confirmed'"
                   class="btn btn-dark-green w-100 rounded-pill py-3 shadow-sm fw-bold text-gold transition-all d-flex align-items-center justify-content-center" 
-                  [disabled]="guestControls.length !== selectedBookingForGuests?.guest_count || bookingForm.get('guests')?.invalid"
+                  [disabled]="guestControls.length !== selectedBookingForGuests?.guest_count || bookingForm.get('guests')?.invalid || isSaving"
                   (click)="saveGuestsOnly()">
             
-            <i class="bi me-2 fs-5" [ngClass]="hasExistingGuests() ? 'bi-arrow-repeat' : 'bi-check2-circle'"></i>
+            <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+
+            <i *ngIf="!isSaving" class="bi me-2 fs-5" [ngClass]="hasExistingGuests() ? 'bi-arrow-repeat' : 'bi-check2-circle'"></i>
             
             <span>
-              {{ (hasExistingGuests() ? 'ADMIN_BOOKINGS.GUEST_MODAL.BTN_UPDATE' : 'ADMIN_BOOKINGS.GUEST_MODAL.BTN_FINALIZE') | translate }}
+              {{ (isSaving ? 'ADMIN_BOOKINGS.GUEST_MODAL.SAVING' : (hasExistingGuests() ? 'ADMIN_BOOKINGS.GUEST_MODAL.BTN_UPDATE' : 'ADMIN_BOOKINGS.GUEST_MODAL.BTN_FINALIZE')) | translate }}
             </span>
           </button>
         </div>

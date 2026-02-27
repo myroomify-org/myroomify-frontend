@@ -90,7 +90,7 @@ export class Login implements OnInit {
           if (error.status === 403 && error.error?.message === "Email not verified") {
             this.verificationRequired()
           } else {
-            this.failed(error.error?.message || this.translate.instant('LOGIN.ALERTS.TITLE_FAILED'))
+            this.failed(error.error?.message)
           }
         }
       })
@@ -122,7 +122,7 @@ export class Login implements OnInit {
   failed(text: string) {
     Swal.fire({
       icon: 'error',
-      title: this.translate.instant('LOGIN.ALERTS.LOGIN.TITLE_FAILED'),
+      title: this.translate.instant('LOGIN.ALERTS.TITLE_FAILED'),
       text: text,
       confirmButtonColor: '#2d4037'
     })
