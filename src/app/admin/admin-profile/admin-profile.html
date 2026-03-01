@@ -122,7 +122,9 @@
 
         <!-- Security -->
         <section *ngIf="activeTab === 'details'" class="content-card shadow-sm p-4 mt-4 animate-fade-in border-top border-warning">
-          <h4 class="fw-bold mb-4 text-dark"><i class="bi bi-shield-lock me-2"></i>{{ 'PROFILE.SECURITY.TITLE' | translate }}</h4>
+          <h4 class="fw-bold mb-4 text-dark">
+            <i class="bi bi-shield-lock me-2"></i>{{ 'PROFILE.SECURITY.TITLE' | translate }}
+          </h4>
 
           <div class="row g-4">
             <div class="col-md-6 border-end">
@@ -137,29 +139,61 @@
               <label class="label-minimal">{{ 'PROFILE.SECURITY.PASSWORD_TITLE' | translate }}</label>
               <p class="small text-muted">{{ 'PROFILE.SECURITY.PASSWORD_TEXT' | translate }}</p>
               <button class="btn btn-outline-dark btn-sm" (click)="showPasswordFields = !showPasswordFields">
-                {{ showPasswordFields ? ( 'PROFILE.SECURITY.BTN_HIDE' | translate ) : ( 'PROFILE.SECURITY.BTN_CHANGE' | translate ) }}
+                {{ showPasswordFields ? ('PROFILE.SECURITY.BTN_HIDE' | translate) : ('PROFILE.SECURITY.BTN_CHANGE' | translate) }}
               </button>
             </div>
 
             <div class="col-12 mt-3 animate-fade-in" *ngIf="showPasswordFields">
-              <div class="p-3 bg-light rounded-3">
+              <div class="p-4 bg-light rounded-3 border">
                 <div class="row g-3">
+                  
                   <div class="col-md-4">
-                    <input type="password" class="form-control form-control-custom" placeholder="{{ 'PROFILE.SECURITY.PLACEHOLDERS.CURRENT' | translate }}" [(ngModel)]="passwordData.current_password">
+                    <mat-form-field appearance="outline" class="w-100">
+                      <mat-label>{{ 'PROFILE.SECURITY.PLACEHOLDERS.CURRENT' | translate }}</mat-label>
+                      <input matInput
+                            [type]="hidePassword ? 'password' : 'text'"
+                            [(ngModel)]="passwordData.current_password" />
+                      <button mat-icon-button matSuffix type="button" tabindex="-1" (click)="hidePassword = !hidePassword">
+                        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                      </button>
+                    </mat-form-field>
                   </div>
+
                   <div class="col-md-4">
-                    <input type="password" class="form-control form-control-custom" placeholder="{{ 'PROFILE.SECURITY.PLACEHOLDERS.NEW' | translate }}" [(ngModel)]="passwordData.new_password">
+                    <mat-form-field appearance="outline" class="w-100">
+                      <mat-label>{{ 'PROFILE.SECURITY.PLACEHOLDERS.NEW' | translate }}</mat-label>
+                      <input matInput
+                            [type]="hidePassword ? 'password' : 'text'"
+                            [(ngModel)]="passwordData.new_password" />
+                      <button mat-icon-button matSuffix type="button" tabindex="-1" (click)="hidePassword = !hidePassword">
+                        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                      </button>
+                    </mat-form-field>
                   </div>
+
                   <div class="col-md-4">
-                    <input type="password" class="form-control form-control-custom" placeholder="{{ 'PROFILE.SECURITY.PLACEHOLDERS.CONFIRM' | translate }}" [(ngModel)]="passwordData.new_password_confirmation">
+                    <mat-form-field appearance="outline" class="w-100">
+                      <mat-label>{{ 'PROFILE.SECURITY.PLACEHOLDERS.CONFIRM' | translate }}</mat-label>
+                      <input matInput
+                            [type]="hidePassword ? 'password' : 'text'"
+                            [(ngModel)]="passwordData.new_password_confirmation" />
+                      <button mat-icon-button matSuffix type="button" tabindex="-1" (click)="hidePassword = !hidePassword">
+                        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                      </button>
+                    </mat-form-field>
                   </div>
-                  <div class="col-12 text-end">
-                    <button class="btn btn-save" (click)="savePassword()">{{ 'PROFILE.SECURITY.BTN_UPDATE_PASSWORD' | translate }}</button>
+
+                  <div class="col-12 text-end mt-2">
+                    <button class="btn btn-save px-4" (click)="savePassword()" [disabled]="isSubmitting">
+                      <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2"></span>
+                      {{ 'PROFILE.SECURITY.BTN_UPDATE_PASSWORD' | translate }}
+                    </button>
                   </div>
+
                 </div>
               </div>
             </div>
-          </div>
+          </div>          
         </section>
       </div>
     </div>

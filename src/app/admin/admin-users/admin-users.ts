@@ -14,21 +14,21 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 type UserRole = 'superadmin' | 'admin' | 'receptionist' | 'customer';
 
 interface User {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  password: string;
-  password_confirmation: string;
-  role: UserRole;
-  first_name?: string;
-  last_name?: string;
-  address?: string;
-  city_name?: string;
-  country_name?: string;
-  postal_code?: string;
-  is_active: number;
-  deleted_at?: string | null;
+  id: string
+  name: string
+  email: string
+  phone: string
+  password: string
+  password_confirmation: string
+  role: UserRole
+  first_name?: string
+  last_name?: string
+  address?: string
+  city_name?: string
+  country_name?: string
+  postal_code?: string
+  is_active: number
+  deleted_at?: string | null
 }
 
 const ROLE_PRIORITY: Record<UserRole, number> = {
@@ -36,7 +36,7 @@ const ROLE_PRIORITY: Record<UserRole, number> = {
   admin: 1,
   receptionist: 2,
   customer: 3,
-};
+}
 
 @Component({
   selector: 'app-admin-users',
@@ -53,6 +53,7 @@ const ROLE_PRIORITY: Record<UserRole, number> = {
   templateUrl: './admin-users.html',
   styleUrls: ['./admin-users.css']
 })
+
 export class AdminUsers implements OnInit {
   private readonly builder = new FormBuilder()
 
@@ -61,6 +62,11 @@ export class AdminUsers implements OnInit {
   filteredUsers: User[] = []
   currentAdminId: number | null = null
   private staffRoles: UserRole[] = ['superadmin', 'admin', 'receptionist']
+  
+  // Filters
+  currentFilter: 'active' | 'inactive' | 'deleted' = 'active'
+  searchTerm: string = ''
+  isSubmitting = false
 
   userForm = this.builder.nonNullable.group({
     id: [''],
@@ -90,9 +96,9 @@ export class AdminUsers implements OnInit {
   }
 
   private loadCurrentUser(): void {
-    const rawUser = localStorage.getItem('user');
+    const rawUser = localStorage.getItem('user')
     if (rawUser) {
-      const parsed = JSON.parse(rawUser);
+      const parsed = JSON.parse(rawUser)
       this.currentAdminId = parsed.id ? Number(parsed.id) : null
     }
   }
@@ -101,14 +107,10 @@ export class AdminUsers implements OnInit {
   getUsers(): void {
     this.userApi.getUsers$().subscribe({
       next: (result: any) => {
-        const activeUsers: User[] = result.data
-          .filter((user: User) => !user.deleted_at)
-          .sort((a: User, b: User) =>
-            (ROLE_PRIORITY[a.role] ?? 4) - (ROLE_PRIORITY[b.role] ?? 4)
-          )
-
-        this.users = activeUsers
-        this.filteredUsers = [...activeUsers]
+        this.users = result.data.sort((a: User, b: User) =>
+          (ROLE_PRIORITY[a.role] ?? 4) - (ROLE_PRIORITY[b.role] ?? 4)
+        )
+        this.applyFilters()
       },
       error: (error:any) => {
         console.log(error)
@@ -116,9 +118,11 @@ export class AdminUsers implements OnInit {
     })
   }
 
-  // CREATE
+  // Create
   addUser(): void {
     const formValue = this.userForm.getRawValue()
+
+    this.isSubmitting = true
 
     const payload: User = {
       ...formValue,
@@ -126,33 +130,35 @@ export class AdminUsers implements OnInit {
     }
 
     this.userApi.addUser$(payload).subscribe({
-      next: () => {
-        this.success(this.translate.instant('ADMIN_ALERTS.SUCCESS.TITLE_CREATE_USER'))
+      next: (result: any) => {
+        this.success(result.message)
         this.getUsers()
         this.cancel()
+        this.isSubmitting = false
       },
       error: (error:any) => {
         console.log(error)
-        this.failed(this.translate.instant('ADMIN_ALERTS.FAILED.TITLE_CREATE_USER'))
+        this.failed(error.message)
+        this.isSubmitting = false
       }
     })
   }
 
-  // UPDATE ROLE
+  // Update role
   changeRole(user: User, newRole: string): void {
-    if (!newRole) return;
+    if (!newRole) return
 
-    const payload = { role: newRole as UserRole };
+    const payload = { role: newRole as UserRole }
 
     this.userApi.changeRole$(+user.id, payload).subscribe({
-      next: () => {
-        user.role = newRole as UserRole;
-        this.success(this.translate.instant('ADMIN_ALERTS.SUCCESS.TITLE_CHANGE_ROLE'));
+      next: (result: any) => {
+        user.role = newRole as UserRole
+        this.success(result.message)
       },
-      error: () => {
-        this.failed(this.translate.instant('ADMIN_ALERTS.FAILED.TITLE_CHANGE_ROLE'));
+      error: (error: any) => {
+        this.failed(error.message)
       }
-    });
+    })
   }
 
   private preparePayload(user: User): any {
@@ -173,7 +179,7 @@ export class AdminUsers implements OnInit {
       postal_code: user.postal_code || '0000',
       password: '',
       password_confirmation: ''
-    };
+    }
   }
 
   isStaff(role: UserRole | undefined): boolean {
@@ -181,50 +187,54 @@ export class AdminUsers implements OnInit {
   }
 
   toggleUserStatus(user: User): void {
-    const isCurrentlyActive = !!user.is_active;
+    const isCurrentlyActive = !!user.is_active
     
     const statusRequest$ = isCurrentlyActive 
       ? this.userApi.deactivate$(+user.id, {}) 
-      : this.userApi.activate$(+user.id, {});
+      : this.userApi.activate$(+user.id, {})
 
     statusRequest$.subscribe({
-      next: () => {
+      next: (result: any) => {      
+        this.success(result.message)
         user.is_active = isCurrentlyActive ? 0 : 1;
-        
-        this.success(
-          user.is_active
-            ? this.translate.instant('ADMIN_ALERTS.SUCCESS.ACTIVATED')
-            : this.translate.instant('ADMIN_ALERTS.SUCCESS.DEACTIVATED')
-        );
+        this.applyFilters();
       },
-      error: () => {
-        this.failed(this.translate.instant('ADMIN_ALERTS.FAILED.TITLE_DEACTIVATE_USER'));
+      error: (error: any) => {
+        this.failed(error.message)
       }
-    });
+    })
   }
 
-  // DELETE
+  // delete
   private deleteUser(id: number): void {
     this.userApi.deleteUser$(id).subscribe({
-      next: () => {
+      next: (result: any) => {
         this.getUsers()
-        this.success(this.translate.instant('ADMIN_ALERTS.SUCCESS.TITLE_DELETE_USER'))
+        this.success(result.message)
       },
-      error: () => {
-        this.failed(this.translate.instant('ADMIN_ALERTS.FAILED.TITLE_DELETE_USER'))
+      error: (error: any) => {
+        this.failed(error.message)
+      }
+    })
+  }
+
+  // Restore
+  restoreUser(id: number): void {
+    this.userApi.restoreUser$(id).subscribe({
+      next: (result: any) => {
+        this.getUsers()
+        this.success(result.message)
+      },
+      error: (error: any) => {
+        this.failed(error.message)
       }
     })
   }
 
   // Search
   onSearch(event: Event): void {
-    const term = (event.target as HTMLInputElement).value.toLowerCase()
-
-    this.filteredUsers = this.users.filter(user =>
-      user.name.toLowerCase().includes(term) ||
-      user.email.toLowerCase().includes(term) ||
-      user.id.toString().includes(term)
-    )
+    this.searchTerm = (event.target as HTMLInputElement).value.toLowerCase()
+    this.applyFilters()
   }
 
   onSort(event: Event): void {
@@ -244,13 +254,36 @@ export class AdminUsers implements OnInit {
     })
   }
 
- 
+  filterByStatus(status: 'active' | 'inactive' | 'deleted') {
+    this.currentFilter = status;
+    this.applyFilters()
+  }
+
+  applyFilters(): void {
+    const term = this.searchTerm || ''
+
+    this.filteredUsers = this.users.filter(user => {
+      const matchesStatus = 
+        this.currentFilter === 'active' ? (user.is_active && !user.deleted_at) :
+        this.currentFilter === 'inactive' ? (!user.is_active && !user.deleted_at) :
+        this.currentFilter === 'deleted' ? !!user.deleted_at : false
+
+      const matchesSearch = 
+        user.name.toLowerCase().includes(term) ||
+        user.email.toLowerCase().includes(term) ||
+        user.id.toString().includes(term)
+
+      return matchesStatus && matchesSearch
+    });
+  }
+  
   // Modal
   setShowModal(): void {
     this.showModal = true
   }
 
   cancel(): void {
+    this.isSubmitting = false
     this.showModal = false
     this.userForm.reset({
       id: '',
@@ -270,7 +303,6 @@ export class AdminUsers implements OnInit {
     })
   }
 
-
   // Alerts
   success(title: string){
     Swal.fire({
@@ -282,7 +314,7 @@ export class AdminUsers implements OnInit {
     })
   }
 
-  confirm(id: number): void {
+  confirmDelete(id: number): void {
     Swal.fire({
       title: this.translate.instant('ADMIN_ALERTS.CONFIRM.TITLE_DELETE_USER'),
       text: this.translate.instant('ADMIN_ALERTS.CONFIRM.TEXT_DELETE_USER'),
@@ -293,6 +325,57 @@ export class AdminUsers implements OnInit {
     }).then(result => {
       if (result.isConfirmed) {
         this.deleteUser(id)
+      }
+    })
+  }
+
+  confirmChangeRole(user: User, newRole: string): void {
+    Swal.fire({
+      title: this.translate.instant('ADMIN_ALERTS.CONFIRM.TITLE_CHANGE_ROLE'),
+      text: `${this.translate.instant('ADMIN_ALERTS.CONFIRM.TEXT_CHANGE_ROLE')}`,
+      icon: 'question',
+      iconColor: '#c3ae80',
+      showCancelButton: true,
+      confirmButtonColor: '#2d4037',
+      cancelButtonText: this.translate.instant('ADMIN_USERS.BUTTONS.CANCEL')
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.changeRole(user, newRole)
+      } else {
+        this.getUsers()
+      }
+    })
+  }
+
+  confirmToggleStatus(user: User): void {
+    const titleKey = user.is_active ? 'ADMIN_ALERTS.CONFIRM.TITLE_DEACTIVATE_USER' : 'ADMIN_ALERTS.CONFIRM.TITLE_ACTIVATE_USER';
+    
+    Swal.fire({
+      title: this.translate.instant(titleKey),
+      icon: 'warning',
+      iconColor: '#c3ae80',
+      showCancelButton: true,
+      confirmButtonColor: '#2d4037',
+      cancelButtonText: this.translate.instant('ADMIN_USERS.BUTTONS.CANCEL')
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.toggleUserStatus(user)
+      }
+    })
+  }
+
+  confirmRestore(id: number): void {
+    Swal.fire({
+      title: this.translate.instant('ADMIN_ALERTS.CONFIRM.TITLE_RESTORE_USER'),
+      text: this.translate.instant('ADMIN_ALERTS.CONFIRM.TEXT_RESTORE_USER'),
+      icon: 'info',
+      iconColor: '#c3ae80',
+      showCancelButton: true,
+      confirmButtonColor: '#2d4037',
+      cancelButtonText: this.translate.instant('ADMIN_USERS.BUTTONS.CANCEL')
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.restoreUser(id)
       }
     })
   }

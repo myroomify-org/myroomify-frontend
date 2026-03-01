@@ -322,7 +322,14 @@
       "NEW_USER": "Új felhasználó",
       "CANCEL": "Mégsem",
       "CREATE": "Létrehozás",
-      "DELETE": "Törlés"
+      "DELETE": "Törlés",
+      "RESTORE": "Visszaállítás",
+      "SAVING": "Mentés..."
+    },
+    "MINI_NAV": {
+      "ACTIVE": "Aktív",
+      "INACTIVE": "Inaktív",
+      "DELETED": "Törölt"
     },
     "TABLE": {
       "ID": "Id",
@@ -536,10 +543,19 @@
       "TITLE_NAVIGATE": "Biztos benne?",
       "TEXT_NAVIGATE": "A nem mentett módosítások törölve lesznek.",
       "CONFIRM_NAVIGATE": "Vissza a szobákhoz",
-      "TITLE_DELETE_USER": "Biztosan törölni szeretné ezt a felhasználót?",
-      "TEXT_DELETE_USER": "Ezt a műveletet nem lehet visszavonni.",
+      "TITLE_DELETE_USER": "Biztosan benne?",
+      "TEXT_DELETE_USER": "A művelet után a felhasználó törölve lesz.",
       "CONFIRM_DELETE_USER": "Igen, felhasználó törlése",
       "CANCEL_DELETE_USER": "Mégse",
+      "TITLE_RESTORE_USER": "Biztos benne?",
+      "TEXT_RESTORE_USER": "A felhasználó vissza lesz állítva.",
+      "CONFIRM_RESTORE_USER": "Igen, visszaállítás",
+      "TITLE_ACTIVATE_USER": "Biztos aktiválja a felhasználót?",
+      "TEXT_ACTIVATE_USER": "A felhasználó aktiválva lesz.",
+      "TITLE_DEACTIVATE_USER": "Biztos deaktiválja a felhasználót?",
+      "TEXT_DEACTIVATE_USER": "A felhasználó deaktiválva lesz.",
+      "TITLE_CHANGE_ROLE": "Biztosan módosítani szeretné?",
+      "TEXT_CHANGE_ROLE": "A felhasználó hozzáférési jogosultsága változni fog.",
       "TITLE_DELETE_BOOKING": "Biztosan törölni szeretné ezt a foglalást?",
       "TEXT_DELETE_BOOKING": "Ezt a műveletet nem lehet visszavonni.",
       "CONFIRM_DELETE_BOOKING": "Igen, foglalás törlése",

@@ -1,5 +1,30 @@
 <div class="container mb-5 animate-fade-in">
   <h2 class="mt-5 mb-5 section-title">{{ 'ADMIN_USERS.TITLE' | translate }}</h2>
+  
+  <!-- Mini Nav -->
+  <ul class="nav nav-pills mb-4 gap-2 bg-light p-2 rounded-4 shadow-sm d-inline-flex">
+    <li class="nav-item">
+      <button class="nav-link px-4 py-2" 
+              [class.active]="currentFilter === 'active'" 
+              (click)="filterByStatus('active')">
+        <i class="bi bi-person-check-fill me-2"></i>{{ 'ADMIN_USERS.MINI_NAV.ACTIVE' | translate }}
+      </button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link px-4 py-2 text-inactive" 
+              [class.active]="currentFilter === 'inactive'" 
+              (click)="filterByStatus('inactive')">
+        <i class="bi bi-person-dash-fill me-2"></i>{{ 'ADMIN_USERS.MINI_NAV.INACTIVE' | translate }}
+      </button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link px-4 py-2 text-deleted" 
+              [class.active]="currentFilter === 'deleted'" 
+              (click)="filterByStatus('deleted')">
+        <i class="bi bi-person-x-fill me-2"></i>{{ 'ADMIN_USERS.MINI_NAV.DELETED' | translate }}
+      </button>
+    </li>
+  </ul>
 
   <!-- Search & Sort Bar -->
   <div class="row g-3 mb-4 align-items-end search-filter-bar p-3 rounded shadow-sm mx-0">
@@ -61,7 +86,7 @@
             <td data-label="Role">
               <select class="form-select form-select-sm role-dropdown"
                 [value]="user.role"
-                (change)="changeRole(user, $any($event.target).value ?? 'customer')"
+                (change)="confirmChangeRole(user, $any($event.target).value ?? 'customer')"
                 [disabled]="user.role === 'superadmin' || +user.id === currentAdminId">
                 <option value="superadmin">{{ 'ADMIN_USERS.ROLES.SUPERADMIN' | translate }}</option>
                 <option value="admin">{{ 'ADMIN_USERS.ROLES.ADMIN' | translate }}</option>
@@ -79,8 +104,10 @@
                 </span>
 
                 <ng-container *ngIf="user.role !== 'superadmin' && +user.id !== currentAdminId">
-                  <button class="btn btn-sm p-1"
-                          (click)="toggleUserStatus(user)"
+                  
+                  <button *ngIf="currentFilter !== 'deleted'" 
+                          class="btn btn-sm p-1"
+                          (click)="confirmToggleStatus(user)"
                           [title]="user.is_active ? ('ADMIN_USERS.TABLE.DEACTIVATE' | translate) : ('ADMIN_USERS.TABLE.ACTIVATE' | translate)">
                     <mat-icon [class.text-success]="user.is_active"
                               [class.text-danger]="!user.is_active" class="s-18">
@@ -88,9 +115,19 @@
                     </mat-icon>
                   </button>
 
-                  <button class="btn btn-delete btn-sm" (click)="confirm(+user.id)">
+                  <button *ngIf="currentFilter === 'deleted'" 
+                          class="btn btn-sm btn-restore px-3" 
+                          (click)="confirmRestore(+user.id)"
+                          title="Visszaállítás">
+                    <i class="bi bi-arrow-counterclockwise me-1"></i> {{ "ADMIN_USERS.BUTTONS.RESTORE" | translate }}
+                  </button>
+
+                  <button *ngIf="currentFilter !== 'deleted'" 
+                          class="btn btn-delete btn-sm" 
+                          (click)="confirmDelete(+user.id)">
                     <i class="bi bi-trash-fill"></i> {{ 'ADMIN_USERS.BUTTONS.DELETE' | translate }}
                   </button>
+
                 </ng-container>
 
               </div>
@@ -146,8 +183,19 @@
           <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
             {{ 'ADMIN_USERS.BUTTONS.CANCEL' | translate }}
           </button>
-          <button type="submit" class="btn btn-dark-green">
-            {{ 'ADMIN_USERS.BUTTONS.CREATE' | translate }}
+          <button type="submit" 
+                  class="btn btn-dark-green d-flex align-items-center justify-content-center" 
+                  [disabled]="userForm.invalid || isSubmitting">
+            
+            <span *ngIf="isSubmitting" 
+                  class="spinner-border spinner-border-sm me-2" 
+                  role="status" 
+                  aria-hidden="true">
+            </span>
+            
+            <span>
+              {{ isSubmitting ? ('ADMIN_USERS.BUTTONS.SAVING' | translate) : ('ADMIN_USERS.BUTTONS.CREATE' | translate) }}
+            </span>
           </button>
         </div>
       </form>

@@ -8,6 +8,29 @@
     padding: 15px 10px;
 }
 
+
+/* Nav */
+.nav-pills .nav-link {
+  color: #6c757d;
+  font-weight: 600;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #2d4037;
+  color: white !important;
+}
+
+.nav-link.text-deleted.active {
+  background-color: #bb5127 !important;
+}
+
+.nav-link.text-inactive.active {
+  background-color: #c3ae80 !important;
+  color: black !important;
+}
+
 /*  Dropdown */
 .role-dropdown {
     max-width: 150px;
@@ -19,6 +42,27 @@
 .role-dropdown:focus {
     border-color: #c3ae80;
     box-shadow: 0 0 0 0.25rem rgba(195, 174, 128, 0.25);
+}
+
+/* Reset Button */
+.btn-restore {
+  color: #bb5127;
+  border: 1px solid #bb5127;
+  background-color: transparent;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-restore:hover {
+  background-color: #bb5127;
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(166, 61, 64, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-restore:active {
+  transform: translateY(0);
 }
 
 /* Delete Button */
@@ -82,6 +126,7 @@ tr.is-me td {
 }
 
 
+/* Modal */
 .custom-modal {
     padding: 15px;
     position: fixed;
@@ -143,13 +188,35 @@ tr.is-me td {
 
 /* --- Responsive --- */
 @media (max-width: 768px) {
-    .table-dark-green thead {
-        display: none;
+    .nav-pills {
+        display: flex !important;
+        width: 100% !important;
+        justify-content: space-between !important;
+        padding: 5px !important;
+        margin: 0 !important;
+        gap: 5px !important;
     }
 
-    .table-dark-green {
-        border: none !important;
-        background-color: transparent !important;
+    .nav-pills .nav-link {
+        flex: 1;
+        padding: 8px 10px !important;
+        font-size: 0.8rem !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        min-width: 0;
+    }
+
+    .nav-pills .nav-link mat-icon, 
+    .nav-pills .nav-link i {
+        margin-right: 10px !important;
+        margin-bottom: 2px;
+        font-size: 1.1rem !important;
+    }
+
+    .table-dark-green thead {
+        display: none;
     }
 
     .table-dark-green, 
@@ -161,13 +228,13 @@ tr.is-me td {
     }
 
     .table-dark-green tr {
-        display: block;
         margin-bottom: 25px;
         background: #ffffff;
         border-radius: 15px !important;
         box-shadow: 0 8px 20px rgba(0,0,0,0.08); 
         border: 1px solid #e0e0e0;
         position: relative;
+        overflow: hidden;
     }
 
     .table-dark-green td {
@@ -182,8 +249,9 @@ tr.is-me td {
     .table-dark-green td:last-child {
         border-bottom: none !important;
         background-color: #fafafa;
-        justify-content: space-around !important;
+        justify-content: center !important;
         gap: 15px !important;
+        padding: 15px;
     }
 
     .table-dark-green td::before {
@@ -194,39 +262,29 @@ tr.is-me td {
         letter-spacing: 0.5px;
         color: #adb5bd;
         flex: 1;
-        text-align: left
-    }
-
-    .table-dark-green td[data-label="Role"] {
-        align-items: center;
-    }
-
-    .role-dropdown {
-        width: 100% !important;
-        max-width: 160px !important;
-        padding: 6px 10px !important;
-        border-radius: 6px !important;
-        border: 1px solid #dee2e6 !important;
-        font-size: 0.85rem !important;
-        background-color: #f8f9fa !important;
+        text-align: left;
     }
 
     tr.is-me {
         border-left: 8px solid #2d4037 !important;
-        background-color: rgba(195, 174, 128, 0.05) !important;
     }
 
     .is-staff {
-        border-left: 4px solid #c3ae80 !important;
+        border-left: 6px solid #c3ae80 !important;
     }
 
     .role-dropdown {
-        max-width: 160px;
-        width: auto;
+        width: auto !important;
+        max-width: 160px !important;
     }
 }
 
 @media (max-width: 576px) {
+    .nav-pills .nav-link {
+        flex: 1 1 auto;
+        text-align: center;
+    }
+
     .modal-header {
         padding: 1rem;
     }
@@ -243,11 +301,11 @@ tr.is-me td {
 
 @media (max-width: 480px) {
     .btn-delete, .btn-dark-green {
-        padding: 10px 20px;
-        font-size: 0.9rem;
+        padding: 10px 15px;
+        font-size: 0.85rem;
     }
     
     .s-18 {
-        transform: scale(1.2);
+        transform: scale(1.1);
     }
 }
