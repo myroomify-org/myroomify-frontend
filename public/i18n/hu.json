@@ -5,7 +5,7 @@
     "ROOMS": "Szobák",
     "BOOKINGS": "Foglalások",
     "USERS": "Felhasználók",
-    "LOGIN": "Bejelentkezés",
+    "LOGIN": "Belépés",
     "LOGOUT": "Kijelentkezés",
     "REGISTER": "Regisztráció",
     "PROFILE": "Profil",
@@ -17,19 +17,19 @@
   },
 
   "LOGIN": {
-    "TITLE": "Bejelentkezés",
+    "TITLE": "Belépés",
     "SUBTITLE": "Hozza létre fiókját a teljes élményért!",
     "USERNAME": "Felhasználónév vagy Email cím",
     "PASSWORD": "Jelszó",
-    "BTN_LOGIN": "Bejelentkezés",
+    "BTN_LOGIN": "Belépés",
     "NO_ACCOUNT": "Még nincs fiókja?",
     "REQUIRED": "Ez a mező kötelező",
     "ALERTS": {
-      "TITLE_FAILED": "Bejelentkezés sikertelen!",
+      "TITLE_FAILED": "Belépés sikertelen!",
       "TEXT_FAILED": "Helytelen email vagy jelszó.",
       "TITLE_VERIFICATION": "Emailes megerősítés szükséges",
       "TEXT_VERIFICATION": "Kérjük, ellenőrizze a postafiókját, és erősítse meg e-mail-címét a bejelentkezés előtt!",
-      "SUCCESS": "Bejelentkezés sikeres!"
+      "SUCCESS": "Belépés sikeres!"
     }
   },
 
@@ -49,7 +49,7 @@
     "CONTACT": {
       "TITLE": "Elérhetőség",
       "EMAIL": "E-mail cím",
-      "PHONE": "Telefonszám"
+      "PHONE": "Telefonszám (nem kötelező)"
     },
     "LOGIN_DETAILS": {
       "TITLE": "Bejelentkezés adatok",

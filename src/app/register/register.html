@@ -62,8 +62,7 @@
         <div class="col-md-12">
           <label class="input-label">{{ 'REGISTER.CONTACT.PHONE' | translate }}</label>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput formControlName="phone"
-                   [placeholder]="(registerForm.get('phone')?.hasError('required') && registerForm.get('phone')?.touched) ? ('REGISTER.ERRORS.REQUIRED' | translate) : ''">
+            <input matInput formControlName="phone">
           </mat-form-field>
         </div>
       </div>

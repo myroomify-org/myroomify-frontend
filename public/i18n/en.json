@@ -49,7 +49,7 @@
     "CONTACT": {
       "TITLE": "Contact Details",
       "EMAIL": "Email Address",
-      "PHONE": "Phone Number"
+      "PHONE": "Phone Number (not required)"
     },
     "LOGIN_DETAILS": {
       "TITLE": "Login Details",

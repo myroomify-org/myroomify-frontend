@@ -70,7 +70,7 @@ export class Register implements OnInit {
 
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
-      phone: ['', Validators.required],
+      phone: [''],
 
       country_name: ['', Validators.required],
       city_name: ['', Validators.required],

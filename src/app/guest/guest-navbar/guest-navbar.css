@@ -228,13 +228,6 @@ a:hover {
         width: 100%;
         text-align: center;
     }
-
-    .nav-link {
-        font-size: 1.4rem !important;
-        text-transform: uppercase;
-        letter-spacing: 3px;
-        padding: 15px 0 !important;
-    }
 }
 
 @media (max-width: 991.98px) {
@@ -246,11 +239,6 @@ a:hover {
     .nav {
         flex-direction: column !important;
         padding: 1.5rem 0 !important;
-    }
-
-    .nav-link {
-        font-size: 1.4rem !important;
-        letter-spacing: 2px;
     }
 
     .navbar-collapse.show{
