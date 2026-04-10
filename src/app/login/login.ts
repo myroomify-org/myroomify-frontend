@@ -33,8 +33,8 @@ import { MatIconModule } from '@angular/material/icon';
 
 export class Login implements OnInit {
  
-  loginForm!: FormGroup;
-  hidePassword = true;
+  loginForm!: FormGroup
+  hidePassword = true
   loading: boolean = false
 
   constructor(
@@ -63,23 +63,23 @@ export class Login implements OnInit {
           this.loading = false
           
           if (role === 'customer') {
-            const pendingRoomId = localStorage.getItem('pending_booking_room_id');
+            const pendingRoomId = localStorage.getItem('pending_booking_room_id')
   
             if (pendingRoomId) {
-              const start = localStorage.getItem('pending_start');
-              const end = localStorage.getItem('pending_end');
-              const guests = localStorage.getItem('pending_guests');
+              const start = localStorage.getItem('pending_start')
+              const end = localStorage.getItem('pending_end')
+              const guests = localStorage.getItem('pending_guests')
 
-              localStorage.removeItem('pending_booking_room_id');
-              localStorage.removeItem('pending_start');
-              localStorage.removeItem('pending_end');
-              localStorage.removeItem('pending_guests');
+              localStorage.removeItem('pending_booking_room_id')
+              localStorage.removeItem('pending_start')
+              localStorage.removeItem('pending_end')
+              localStorage.removeItem('pending_guests')
 
               this.router.navigate(['/rooms/' + pendingRoomId], {
                 queryParams: { start, end, guests }
-              });
+              })
             } else {
-              this.router.navigate(['/home']);
+              this.router.navigate(['/home'])
             }
           } else {
             this.router.navigate(['/admin/profile'])

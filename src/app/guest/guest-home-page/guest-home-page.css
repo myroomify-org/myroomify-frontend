@@ -88,11 +88,13 @@
     font-weight: bold;
 }
 
+
+/* Contact Section */
 .contact{
     background-color: #f9f7f2;
 }
 
-/* --- GDPR --- */
+/* GDPR */
 .gdpr-container {
   padding: 0 5px;
   align-items: center;

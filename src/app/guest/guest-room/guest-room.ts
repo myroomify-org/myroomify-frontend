@@ -34,24 +34,25 @@ import { MatMenuTrigger } from '@angular/material/menu';
   templateUrl: './guest-room.html',
   styleUrl: './guest-room.css',
 })
+
 export class GuestRoom implements OnInit {
 
-  @ViewChild('menuTrigger') menuTrigger!: MatMenuTrigger;
+  @ViewChild('menuTrigger') menuTrigger!: MatMenuTrigger
 
-  room: any = null;
-  loading: boolean = true;
+  room: any = null
+  loading: boolean = true
 
-  startDate: Date | null = null;
-  endDate: Date | null = null;
-  selectedRange: string = '';
-  today: Date = new Date();
+  startDate: Date | null = null
+  endDate: Date | null = null
+  selectedRange: string = ''
+  today: Date = new Date()
 
-  isChoosingCheckout: boolean = false;
-  guest_count: number = 1;
+  isChoosingCheckout: boolean = false
+  guest_count: number = 1
 
-  readonly baseUrl = 'http://localhost:8000';
-  currentImageIndex: number = 0;
-  images: any[] = [];
+  readonly baseUrl = 'http://localhost:8000'
+  currentImageIndex: number = 0
+  images: any[] = []
 
   constructor(
     private route: ActivatedRoute,
@@ -63,133 +64,133 @@ export class GuestRoom implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const roomId = Number(this.route.snapshot.paramMap.get('id'));
+    const roomId = Number(this.route.snapshot.paramMap.get('id'))
     this.route.queryParams.subscribe(params => {
       if (params['start']) {
-        this.startDate = new Date(params['start']);
+        this.startDate = new Date(params['start'])
       }
       if (params['end']) {
-        this.endDate = new Date(params['end']);
+        this.endDate = new Date(params['end'])
       }
       if (params['guests']) {
-        this.guest_count = Number(params['guests']);
+        this.guest_count = Number(params['guests'])
       }
-    });
+    })
 
     if (roomId) {
       this.getRoom(roomId);
     }
   }
 
-  // API hívás a szoba adataiért
+  // API
   getRoom(id: number): void {
     this.roomApi.getRoom$(id).subscribe({
       next: (result: any) => {
-        this.room = result?.data || result;
+        this.room = result?.data || result
         
         if (this.room.images && Array.isArray(this.room.images)) {
-          this.images = this.room.images;
+          this.images = this.room.images
         } else if (this.room.primary_image) {
-          this.images = [this.room.primary_image];
+          this.images = [this.room.primary_image]
         }
         
         this.loading = false;
       },
       error: (error: any) => {
-        console.error('Error loading room details', error);
-        this.failed(error.message || 'Error loading room details');
-        this.loading = false;
+        console.error('Error loading room details', error)
+        this.failed(error.message || 'Error loading room details')
+        this.loading = false
       }
-    });
+    })
   }
 
-  // Galéria navigáció
+  // Images
   nextImage() {
-    this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
+    this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length
   }
 
   prevImage() {
-    this.currentImageIndex = (this.currentImageIndex - 1 + this.images.length) % this.images.length;
+    this.currentImageIndex = (this.currentImageIndex - 1 + this.images.length) % this.images.length
   }
 
   selectImage(index: number) {
-    this.currentImageIndex = index;
+    this.currentImageIndex = index
   }
 
   getImageUrl(imageObject: any): string {
-    const defaultImage = 'rooms/room.jpg';
-    if (!imageObject || !imageObject.path) return defaultImage;
-    const path = imageObject.path;
-    if (path.startsWith('http')) return path;
-    return `${this.baseUrl}/storage/${path}`;
+    const defaultImage = 'rooms/room.jpg'
+    if (!imageObject || !imageObject.path) return defaultImage
+    const path = imageObject.path
+    if (path.startsWith('http')) return path
+    return `${this.baseUrl}/storage/${path}`
   }
 
-  // Naptár kezelés
+  // Datapicker
   onDateSelected(date: Date | null) {
     if (!date) return;
 
     if (!this.isChoosingCheckout) {
-      this.startDate = date;
+      this.startDate = date
       if (this.endDate && this.startDate > this.endDate) {
-        this.endDate = null;
+        this.endDate = null
       }
     } else {
       if (this.startDate && date < this.startDate) {
-        this.startDate = date;
-        this.endDate = null;
+        this.startDate = date
+        this.endDate = null
       } else {
-        this.endDate = date;
+        this.endDate = date
       }
     }
 
     setTimeout(() => {
       if (this.menuTrigger) {
-        this.menuTrigger.closeMenu();
+        this.menuTrigger.closeMenu()
       }
-    }, 150);
+    }, 150)
   }
 
   private formatDate(date: Date): string {
-    const d = new Date(date);
-    const month = '' + (d.getMonth() + 1);
-    const day = '' + d.getDate();
-    const year = d.getFullYear();
-    return [year, month.padStart(2, '0'), day.padStart(2, '0')].join('-');
+    const dateObj = new Date(date)
+    const month = '' + (dateObj.getMonth() + 1)
+    const day = '' + dateObj.getDate()
+    const year = dateObj.getFullYear()
+    return [year, month.padStart(2, '0'), day.padStart(2, '0')].join('-')
   }
 
   openCalendar(forCheckout: boolean) {
-    this.isChoosingCheckout = forCheckout;
+    this.isChoosingCheckout = forCheckout
   }
 
-  // Foglalási folyamat
+  // Booking
   async bookRoom() {
-    const isLoggedIn = await firstValueFrom(this.authApi.isLoggedIn$);
-    const user = await firstValueFrom(this.authApi.currentUser$);
+    const isLoggedIn = await firstValueFrom(this.authApi.isLoggedIn$)
+    const user = await firstValueFrom(this.authApi.currentUser$)
 
     if (!isLoggedIn) {
-      this.warning(this.translate.instant('GUEST_ALERTS.WARNING.BOOK_LOGIN'));
+      this.warning(this.translate.instant('GUEST_ALERTS.WARNING.BOOK_LOGIN'))
 
-      localStorage.setItem('pending_booking_room_id', this.room.id);
-      if (this.startDate) localStorage.setItem('pending_start', this.formatDate(this.startDate));
-      if (this.endDate) localStorage.setItem('pending_end', this.formatDate(this.endDate));
-      localStorage.setItem('pending_guests', this.guest_count.toString());
+      localStorage.setItem('pending_booking_room_id', this.room.id)
+      if (this.startDate) localStorage.setItem('pending_start', this.formatDate(this.startDate))
+      if (this.endDate) localStorage.setItem('pending_end', this.formatDate(this.endDate))
+      localStorage.setItem('pending_guests', this.guest_count.toString())
       
-      this.router.navigate(['/login']);
-      return;
+      this.router.navigate(['/login'])
+      return
     }
 
     if (!this.startDate || !this.endDate) {
-      this.warning(this.translate.instant('GUEST_ALERTS.WARNING.BOOK_DATES'));
-      return;
+      this.warning(this.translate.instant('GUEST_ALERTS.WARNING.BOOK_DATES'))
+      return
     }
 
     const confirmed = await this.confirm(
       this.translate.instant('GUEST_ALERTS.CONFIRM.TEXT_BOOK')
-    );
+    )
 
-    if (!confirmed) return;
-    
-    const finalPrice = this.calculateTotalPrice();
+    if (!confirmed) return
+
+    const finalPrice = this.calculateTotalPrice()
 
     const bookingData = {
       room_id: this.room.id,
@@ -199,35 +200,36 @@ export class GuestRoom implements OnInit {
       guest_count: this.guest_count,
       total_price: finalPrice,
       status: 'pending'
-    };
+    }
 
     this.bookingApi.addBooking$(bookingData).subscribe({
       next: () => {
-        this.success(this.translate.instant('GUEST_ALERTS.SUCCESS.TITLE_BOOK'));
+        this.success(this.translate.instant('GUEST_ALERTS.SUCCESS.TITLE_BOOK'))
         this.router.navigate(['/profile'], {
           queryParams: { tab: 'bookings' },
           replaceUrl: true
-        });
+        })
       },
       error: (error: any) => {
-        this.failed(error.message || this.translate.instant('GUEST_ALERTS.FAILED.TITLE_BOOK'));
+        this.failed(error.message || this.translate.instant('GUEST_ALERTS.FAILED.TITLE_BOOK'))
       }
-    });
+    })
   }
 
+  // Price
   calculateTotalPrice(): number {
-    if (!this.startDate || !this.endDate || !this.room) return 0;
+    if (!this.startDate || !this.endDate || !this.room) return 0
 
-    const diffInTime = this.endDate.getTime() - this.startDate.getTime();
-    const diffInDays = Math.ceil(diffInTime / (1000 * 3600 * 24));
+    const diffInTime = this.endDate.getTime() - this.startDate.getTime()
+    const diffInDays = Math.ceil(diffInTime / (1000 * 3600 * 24))
     
-    const nights = diffInDays > 0 ? diffInDays : 1;
+    const nights = diffInDays > 0 ? diffInDays : 1
 
-    const pricePerNight = this.room.total_price || this.room.price;
-    return pricePerNight * this.guest_count * nights;
+    const pricePerNight = this.room.total_price || this.room.price
+    return pricePerNight * this.guest_count * nights
   }
 
-  // SweetAlerts
+  // Alerts
   success(text: string) {
     Swal.fire({
       icon: 'success',
@@ -235,7 +237,7 @@ export class GuestRoom implements OnInit {
       title: text,
       showConfirmButton: false,
       timer: 1500
-    });
+    })
   }
 
   warning(text: string) {
@@ -250,7 +252,7 @@ export class GuestRoom implements OnInit {
         confirmButton: 'rounded-pill px-4',
       },
       timer: 2500
-    });
+    })
   }
 
   async confirm(text: string) {
@@ -270,8 +272,8 @@ export class GuestRoom implements OnInit {
         confirmButton: 'rounded-pill px-4',
         cancelButton: 'rounded-pill px-4 text-dark border'
       }
-    });
-    return result.isConfirmed;
+    })
+    return result.isConfirmed
   }
 
   failed(text: string) {
@@ -284,6 +286,6 @@ export class GuestRoom implements OnInit {
         popup: 'rounded-4 shadow-lg',
         confirmButton: 'rounded-pill px-4',
       }
-    });
+    })
   }
 }

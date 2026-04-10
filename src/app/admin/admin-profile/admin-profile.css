@@ -1,3 +1,4 @@
+/*  Container */
 .profile-nav {
   background: white;
   border-radius: 15px;
@@ -45,6 +46,7 @@
   border-radius: 8px;
 }
 
+/*  Button */
 .btn-save {
   background: #2d4037;
   color: #c3ae80;

@@ -1,4 +1,4 @@
-/* --- Full Navbar --- */
+/* Full Navbar */
 .navbar {
     position: absolute;
     top: 0;
@@ -18,7 +18,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* --- Navigation Containers --- */
+/* Navigation Containers */
 .nav-left, .nav-center, .nav-right {
     flex: 1;
     display: flex;
@@ -51,7 +51,7 @@
     margin: 0 10px; 
 }
 
-/* --- Navigation --- */
+/* Navigation */
 .nav-link {
     color: white !important;
     font-size: 20px;
@@ -70,7 +70,7 @@
     font-weight: bold;
 }
 
-/* --- Profil Button  --- */
+/* Profil Button  */
 .user-profile-btn {
     background: none;
     border: none;
@@ -100,7 +100,7 @@
     border: 1px solid rgba(195, 174, 128, 0.3);
 }
 
-/* --- Mat-Menu --- */
+/* Mat-Menu */
 ::ng-deep .mat-mdc-menu-panel {
     background-color: #333833 !important;
     border-radius: 12px !important;
@@ -116,7 +116,7 @@
     color: #c3ae80 !important;
 }
 
-/* --- Mobil Hamburger --- */
+/* Mobil Hamburger */
 .navbar-toggler-custom {
     background: transparent;
     border: none;
@@ -128,7 +128,7 @@
     font-size: 2rem;
 }
 
-/* --- Responsive --- */
+/* Responsive */
 @media (max-width: 992px) {
     .nav-center {
         display: none !important; 

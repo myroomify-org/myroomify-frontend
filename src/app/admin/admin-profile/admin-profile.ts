@@ -74,6 +74,7 @@ export class AdminProfile implements OnInit{
     this.getProfile()
   }
 
+  // API
   getProfile() {
     this.profileApi.getProfile$().subscribe({
       next: (result: any) => {
@@ -112,6 +113,7 @@ export class AdminProfile implements OnInit{
     }
   }
 
+  // Update
   toggleEdit() {
     this.isEditing = !this.isEditing
     if (!this.isEditing) this.getProfile()
@@ -155,6 +157,7 @@ export class AdminProfile implements OnInit{
     })
   }
 
+  // Alerts
   success(title: string){ {
     Swal.fire({
       icon: 'success',

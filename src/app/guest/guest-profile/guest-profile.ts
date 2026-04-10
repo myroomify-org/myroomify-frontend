@@ -72,7 +72,7 @@ export class GuestProfile implements OnInit {
     this.getDatas()
   }
 
-  
+  // API
   getDatas() {
     this.profileApi.getProfile$().subscribe({
       next: (result: any) => {
@@ -83,10 +83,10 @@ export class GuestProfile implements OnInit {
 
     this.bookingApi.getBookings$().subscribe({
       next: (result: any) => {
-        this.bookings = result.data.map((b: any) => ({
-          ...b,
-          check_in: new Date(b.check_in),
-          check_out: new Date(b.check_out)
+        this.bookings = result.data.map((booking: any) => ({
+          ...booking,
+          check_in: new Date(booking.check_in),
+          check_out: new Date(booking.check_out)
         }))
       }
     })
@@ -112,7 +112,7 @@ export class GuestProfile implements OnInit {
     }
   }
 
-  // Edit user
+  // Update User
   toggleEdit() {
     this.isEditing = !this.isEditing;
   }
@@ -159,9 +159,7 @@ export class GuestProfile implements OnInit {
         setTimeout(() => {
           this.router.navigate(['/login'])
           this.authApi.logout$()
-        }, 2000)
-
-        
+        }, 2000)       
         
         this.success(response.message)
       },
@@ -174,14 +172,15 @@ export class GuestProfile implements OnInit {
 
   //Booking Profile
   private formatDate(date: Date | string): string {
-    const d = new Date(date)
+    const dateObj = new Date(date)
     return [
-      d.getFullYear(),
-      ('' + (d.getMonth() + 1)).padStart(2, '0'),
-      ('' + d.getDate()).padStart(2, '0')
+      dateObj.getFullYear(),
+      ('' + (dateObj.getMonth() + 1)).padStart(2, '0'),
+      ('' + dateObj.getDate()).padStart(2, '0')
     ].join('-')
   }
 
+  // Update Booking
   startEditBooking(booking: any) {
     this.editingBookingId = booking.id
     this.originalBookingData = JSON.parse(JSON.stringify(booking))
@@ -243,10 +242,12 @@ export class GuestProfile implements OnInit {
     }
   }
 
+
+  // Request
   private sendCancelRequest(id: number) {
     this.bookingApi.cancelBooking$(id).subscribe({
       next: (result: any) => {
-        const index = this.bookings.findIndex(b => b.id === id)
+        const index = this.bookings.findIndex(booking => booking.id === id)
         if (index !== -1) {
           const updatedBooking = result.data || result
           this.bookings[index] = {

@@ -24,6 +24,7 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './guest-navbar.html',
   styleUrl: './guest-navbar.css',
 })
+
 export class GuestNavbar {
   isMenuCollapsed: boolean = true
 

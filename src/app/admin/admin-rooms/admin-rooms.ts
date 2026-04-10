@@ -5,6 +5,7 @@ import { AdminRoomsService } from '../../shared/admin/admin-rooms-service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { AuthService } from '../../shared/auth/auth-service';
 
 interface CardData {
   id: number,
@@ -41,6 +42,7 @@ export class AdminRooms {
   constructor(
     private build: FormBuilder,
     private roomApi: AdminRoomsService,
+    public authApi: AuthService,
     private router: Router,
     private translate: TranslateService
   ) {}
@@ -50,6 +52,7 @@ export class AdminRooms {
     this.initForm()
   }
 
+  // Page
   private initForm(){
     this.cardForm = this.build.group({
         name: [''],
@@ -60,11 +63,11 @@ export class AdminRooms {
     })
   }
 
-  // read
+  // API
   get() {
     this.roomApi.getRooms$().subscribe({
       next: (result: any) => {
-        this.allRooms = result.data;
+        this.allRooms = result.data
         this.updateCounts()
         this.filterCards()
         console.log(result)
@@ -73,7 +76,7 @@ export class AdminRooms {
     })
   }
 
-  // card
+  // Card
   addCard() {
     if (this.cardForm.invalid) {
       this.failed("TITLE_INVALID_FORM")
@@ -102,8 +105,9 @@ export class AdminRooms {
     })
   }
 
-  delete(id: number) {
-    this.roomApi.deleteRoom$(id).subscribe({
+  // Archive & Restore & Delete
+  maintenanceRoom(id: number) {
+    this.roomApi.maintenanceRoom$(id).subscribe({
       next: (response: any) => {
         this.success(response.message)
         this.get()
@@ -126,28 +130,40 @@ export class AdminRooms {
     })
   }
 
-  // images
+  deleteRoom(id: number) {
+    // this.roomApi.deleteRoom$(id).subscribe({
+    //   next: (response: any) => {
+    //     this.success(response.message)
+    //     this.get()
+    //   },
+    //   error: (error: any) => {
+    //     this.failed(error.message)
+    //   }
+    // })
+  }
+
+  // Images
   getPrimaryImage(card: any): string {
-    const backendStorageUrl = 'http://localhost:8000/storage/';
-    const defaultPlaceholder = 'rooms/room.jpg';
+    const backendStorageUrl = 'http://localhost:8000/storage/'
+    const defaultPlaceholder = 'rooms/room.jpg'
 
     if (card.primary_image && card.primary_image.path) {
-        return this.formatImagePath(card.primary_image.path, backendStorageUrl);
+        return this.formatImagePath(card.primary_image.path, backendStorageUrl)
     }
 
     if (card.images && card.images.length > 0) {
-        const primaryInArray = card.images.find((img: any) => img.is_primary == 1 || img.is_primary === true);
-        const imageToDisplay = primaryInArray || card.images[0];
+        const primaryInArray = card.images.find((img: any) => img.is_primary == 1 || img.is_primary === true)
+        const imageToDisplay = primaryInArray || card.images[0]
         
         if (imageToDisplay && imageToDisplay.path) {
-            return this.formatImagePath(imageToDisplay.path, backendStorageUrl);
+            return this.formatImagePath(imageToDisplay.path, backendStorageUrl)
         }
     }
 
     return defaultPlaceholder
   }
 
-  // view and filter
+  // View and filter
   switchView(view: 'active' | 'deleted') {
     this.currentView = view
     this.filterCards()
@@ -166,7 +182,7 @@ export class AdminRooms {
     this.deletedCount = this.allRooms.filter(room => room.deleted_at).length
   }
 
-  // assistant
+  // Assistant
   private formatImagePath(path: string, baseUrl: string): string {
     let cleanPath = path.replace(/^\//, '')
     if (cleanPath.startsWith('public/')) {
@@ -196,7 +212,7 @@ export class AdminRooms {
     this.cardForm.reset()
   }
 
-  // alerts
+  // Alerts
   success(title: string) {
     Swal.fire({
       icon: 'success',
@@ -215,14 +231,14 @@ export class AdminRooms {
     this.translate.get([
       `ADMIN_ALERTS.FAILED.${key}`,
       'ADMIN_ALERTS.FAILED.TEXT_BOOKING_ERROR'
-    ]).subscribe(t => {
+    ]).subscribe(text => {
       Swal.fire({
         icon: 'error',
-        title: t[`ADMIN_ALERTS.FAILED.${key}`],
-        text: t['ADMIN_ALERTS.FAILED.TEXT_BOOKING_ERROR'],
+        title: text[`ADMIN_ALERTS.FAILED.${key}`],
+        text: text['ADMIN_ALERTS.FAILED.TEXT_BOOKING_ERROR'],
         confirmButtonColor: '#2d4037'
-      });
-    });
+      })
+    })
   }
 
   confirmDelete(id: number) {
@@ -237,8 +253,8 @@ export class AdminRooms {
       confirmButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CONFIRM_DELETE_ROOM'),
       cancelButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CANCEL_GENERAL')
     }).then((result) => {
-      if (result.isConfirmed) this.delete(id);
-    });
+      if (result.isConfirmed) this.deleteRoom(id)
+    })
   }
 
   confirmMaintenance(id: number) {
@@ -253,7 +269,7 @@ export class AdminRooms {
       confirmButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CONFIRM_MAINTENANCE'),
       cancelButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CANCEL_GENERAL')
     }).then((result) => {
-      if (result.isConfirmed) this.delete(id)
+      if (result.isConfirmed) this.maintenanceRoom(id)
     })
   }
 
@@ -268,8 +284,8 @@ export class AdminRooms {
         title: t['ADMIN_ALERTS.INFO.LIMIT_REACHED_TITLE'],
         text: t['ADMIN_ALERTS.INFO.LIMIT_REACHED_TEXT'],
         confirmButtonColor: '#2d4037'
-      });
-    });
+      })
+    })
   }
 }
 

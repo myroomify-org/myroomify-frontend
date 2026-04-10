@@ -18,8 +18,9 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './privacy-policy.html',
   styleUrl: './privacy-policy.css',
 })
+
 export class PrivacyPolicy {
   goBack() {
-    window.close();
+    window.close()
   }
 }

@@ -6,7 +6,7 @@
     </div>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      
+      <!-- Username -->
       <div class="form-group mb-3">
         <label class="custom-label">{{ 'LOGIN.USERNAME' | translate }}</label>
         <mat-form-field appearance="outline" class="w-100 no-subscript">
@@ -16,6 +16,7 @@
         </mat-form-field>
       </div>
 
+      <!-- Password -->
       <div class="form-group mb-4">
         <label class="custom-label">{{ 'LOGIN.PASSWORD' | translate }}</label>
         <mat-form-field appearance="outline" class="w-100 no-subscript">
@@ -29,12 +30,14 @@
         </mat-form-field>
       </div>
 
+      <!-- Login Button -->
       <div class="button-wrapper">
         <button mat-flat-button class="btn-login-custom w-100" [disabled]="loginForm.invalid || loading">
           {{ 'LOGIN.BTN_LOGIN' | translate }}
         </button>
       </div>
 
+      <!-- Register Link -->
       <div class="text-center mt-4">
         <p class="small text-white-50">
           {{ 'LOGIN.NO_ACCOUNT' | translate }} 

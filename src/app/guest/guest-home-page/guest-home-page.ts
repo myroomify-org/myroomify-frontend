@@ -25,6 +25,7 @@ export class GuestHomePage {
     this.getRooms()
   }
 
+  // API
   getRooms(): void {
     this.roomApi.getRooms$().subscribe({
       next: (result: any) => {
@@ -37,6 +38,7 @@ export class GuestHomePage {
     })
   }
 
+  // Navigation
   navigateRooms(){
     this.router.navigate(['/rooms'])
   }

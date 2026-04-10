@@ -358,7 +358,6 @@
     }
   },
 
-  
   "ADMIN_BOOKINGS": {
     "TITLE": "Foglalások kezelése",
     "SUBTITLE": "Az összes vendégfoglalás áttekintése és kezelése.",
@@ -394,7 +393,8 @@
       "EDIT": "Foglalás módosítása",
       "CONFIRM": "Visszaigazolás (Érkezik)",
       "COMPLETE": "Lezárás (Távozott)",
-      "CANCEL": "Sztornózás"
+      "CANCEL": "Sztornózás",
+      "DELETE": "Törlés"
     },
     "BOOKING_MODAL": {
       "CREATE_TITLE": "Új foglalás létrehozása",
@@ -556,6 +556,9 @@
       "TEXT_DEACTIVATE_USER": "A felhasználó deaktiválva lesz.",
       "TITLE_CHANGE_ROLE": "Biztosan módosítani szeretné?",
       "TEXT_CHANGE_ROLE": "A felhasználó hozzáférési jogosultsága változni fog.",
+      "TITLE_CANCEL_BOOKING": "Biztosan szeretné lemondani ezt a foglalást?",
+      "CONFIRM_CANCEL_BOOKING": "Igen, foglalás lemondása",
+      "CANCEL_CANCEL_BOOKING": "Mégse",
       "TITLE_DELETE_BOOKING": "Biztosan törölni szeretné ezt a foglalást?",
       "TEXT_DELETE_BOOKING": "Ezt a műveletet nem lehet visszavonni.",
       "CONFIRM_DELETE_BOOKING": "Igen, foglalás törlése",
@@ -568,7 +571,7 @@
       "YES": "Igen",
       "CANCEL_DELETE_IMAGE": "Mégse",
       "TITLE_DELETE_ROOM": "Biztos benne?",
-      "TEXT_DELETE_ROOM": "A szoba átkerül az archivált elemek közé.",
+      "TEXT_DELETE_ROOM": "A szoba törölve lesz, és nem lehet visszavonni.",
       "CONFIRM_DELETE_ROOM": "Igen, törlöm!",
       "CANCEL_GENERAL": "Mégse",
       "TITLE_MAINTENANCE": "Szoba archiválása",
@@ -595,7 +598,8 @@
       "TITLE_CREATE_ROOM": "Nem sikerült hozzáadni a szobát.",
       "TITLE_DELETE_ROOM": "A törlés sikertelen.",
       "TITLE_RESTORE_ROOM": "Hiba történt a visszaállítás során.",
-      "TEXT_BOOKING_ERROR": "A műveletet nem sikerült befejezni."
+      "TEXT_BOOKING_ERROR": "A műveletet nem sikerült befejezni.",
+      "NOT_SUPER_ADMIN": "Csak a szuper adminisztrátorok jogosultak a teljes törlésre.."
     },
     "INFO": {
       "LIMIT_REACHED_TITLE": "Limit elérve",

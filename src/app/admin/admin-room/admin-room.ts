@@ -50,7 +50,7 @@ export class AdminRoom implements OnInit{
     })
   }
 
-  // page
+  // Page
   private initForm() {
     this.roomForm = this.builder.group({
       name: [''],
@@ -60,7 +60,7 @@ export class AdminRoom implements OnInit{
     })
   }
 
-  // read
+  // API
   get(id:number){
     this.roomApi.getRoom$(id).subscribe({
       next: (result: any) => {
@@ -78,7 +78,7 @@ export class AdminRoom implements OnInit{
     })
   }
 
-  // images
+  // Image
   getMainImagePath(): string {
     const mainImage = this.existingImages.find(img => img.is_primary) || this.existingImages[0]    
     if (!mainImage) return '/rooms/room.jpg'
@@ -116,7 +116,7 @@ export class AdminRoom implements OnInit{
     return `http://localhost:8000/storage/${path}`
   }
 
-  // file management
+  // File management
   onFileDropped(event: DragEvent) {
     event.preventDefault()    
     if (event.dataTransfer?.files.length) {
@@ -152,7 +152,7 @@ export class AdminRoom implements OnInit{
     this.previews.splice(index, 1)
   }
 
-  // update
+  // Update
   edit() {
     if (this.roomForm.invalid) {
       this.unfilledWarning()
@@ -206,7 +206,7 @@ export class AdminRoom implements OnInit{
       title: title,
       showConfirmButton: false,
       timer: 2500
-    });
+    })
   }
 
   unfilledWarning(){
@@ -234,36 +234,36 @@ export class AdminRoom implements OnInit{
           this.imageApi.deleteImage$(this.roomId, imageId).subscribe({
             next: () => resolve(true),
             error: (error) => {
-              this.failed(error.message);
-              reject(error);
+              this.failed(error.message)
+              reject(error)
             }
-          });
-        });
+          })
+        })
       },
       allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
       if (result.isConfirmed) {
-        this.existingImages.splice(index, 1);
-        this.get(this.roomId);
-        this.success("");
+        this.existingImages.splice(index, 1)
+        this.get(this.roomId)
+        this.success("")
       }
-    });
+    })
   }
 
   failed(error: any){
-    let displayMessage = 'Ismeretlen hiba történt';
+    let displayMessage = 'Ismeretlen hiba történt'
 
     if (error?.error?.data) {
-      const validationErrors = error.error.data;
+      const validationErrors = error.error.data
       displayMessage = Object.values(validationErrors)
         .flat()
-        .join(' ');
+        .join(' ')
     } 
     else if (error?.error?.message) {
-      displayMessage = error.error.message;
+      displayMessage = error.error.message
     } 
     else if (error?.message) {
-      displayMessage = error.message;
+      displayMessage = error.message
     }
     Swal.fire({
       position: "center",
@@ -295,12 +295,12 @@ export class AdminRoom implements OnInit{
           cancelButtonText: t['ADMIN_ALERTS.CONFIRM.CANCEL_GENERAL']
         }).then((result) => {
           if (result.isConfirmed) {
-            this.router.navigate(['admin/rooms']);
+            this.router.navigate(['admin/rooms'])
           }
-        });
-      });
+        })
+      })
     } else {
-      this.router.navigate(['admin/rooms']);
+      this.router.navigate(['admin/rooms'])
     }
   }
 }

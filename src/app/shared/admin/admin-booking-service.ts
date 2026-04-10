@@ -38,4 +38,8 @@ export class AdminBookingService {
   cancelBooking$(id: number){
     return this.http.post(this.url + id + "/cancel", {})
   }
+
+  // deleteBooking$(id: number){
+  //   return this.http.post(this.url + id + "", {})
+  // }
 }

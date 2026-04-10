@@ -62,7 +62,7 @@
     backdrop-filter: blur(4px);
 }
 
-/* Thumbnails (Új rész a kis képekhez) */
+/* Thumbnails */
 .thumb-wrapper {
     opacity: 0.6;
     transition: all 0.3s ease;
@@ -152,7 +152,7 @@ h1 {
     color: #6c757d;
 }
 
-/*Mat menu*/
+/* Mat menu */
 .date-separator {
     width: 1px;
     height: 30px;
@@ -188,7 +188,7 @@ h1 {
   --mdc-filled-button-container-color: transparent;
 }
 
-/*Calendat*/
+/* Calendar */
 ::ng-deep .cdk-overlay-container {
   z-index: 9999 !important;
 }
@@ -228,7 +228,7 @@ h1 {
     font-family: 'Quicksand', sans-serif;
 }
 
-/* Responsiveness */
+/* Responsive */
 @media (max-width: 992px) {
     .main-room-image img {
         height: 300px;

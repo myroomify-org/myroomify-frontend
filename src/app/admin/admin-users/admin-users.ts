@@ -103,7 +103,7 @@ export class AdminUsers implements OnInit {
     }
   }
 
-  // READ
+  // API
   getUsers(): void {
     this.userApi.getUsers$().subscribe({
       next: (result: any) => {
@@ -118,7 +118,7 @@ export class AdminUsers implements OnInit {
     })
   }
 
-  // Create
+  // Add
   addUser(): void {
     const formValue = this.userForm.getRawValue()
 
@@ -196,8 +196,8 @@ export class AdminUsers implements OnInit {
     statusRequest$.subscribe({
       next: (result: any) => {      
         this.success(result.message)
-        user.is_active = isCurrentlyActive ? 0 : 1;
-        this.applyFilters();
+        user.is_active = isCurrentlyActive ? 0 : 1
+        this.applyFilters()
       },
       error: (error: any) => {
         this.failed(error.message)
@@ -205,7 +205,7 @@ export class AdminUsers implements OnInit {
     })
   }
 
-  // delete
+  // Delete
   private deleteUser(id: number): void {
     this.userApi.deleteUser$(id).subscribe({
       next: (result: any) => {

@@ -1,5 +1,4 @@
-/* Rooms Dashboard Speciális stílusok */
-
+/* Add Room */
 .add-room-card {
     border: 2px dashed #c3ae80;
     background-color: #fcfbf7;
@@ -27,6 +26,7 @@
     margin: 0 auto;
 }
 
+/* Room Card */
 .room-card {
     border-radius: 15px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -49,6 +49,7 @@
     object-position: center 20%;
 }
 
+/* Price Tag */
 .price-tag {
     position: absolute;
     top: 15px;
@@ -62,6 +63,7 @@
     z-index: 2;
 }
 
+/* Badges */
 .badge-info-light {
     background-color: #f0f2f1;
     color: #2d4037;
@@ -69,6 +71,7 @@
     padding: 6px 10px;
 }
 
+/* Buttons */
 .btn-edit-minimal {
     background: transparent;
     border: 1px solid #2d4037;
@@ -104,6 +107,7 @@
     color: white;
 }
 
+/* Image Container */
 .image-container {
     height: 170px;
     width: 100%;
@@ -117,7 +121,7 @@
     object-fit: cover;
 }
 
-/* --- Modal Kiegészítések --- */
+/* Modal */
 
 .bg-dark-green {
     background-color: #2d4037 !important;
@@ -129,7 +133,7 @@
 
 .modal-content {
     border-radius: 20px !important;
-    overflow: hidden; /* Ez biztosítja, hogy a fejléc sarka ne lógjon ki */
+    overflow: hidden;
 }
 
 .btn-close-white {

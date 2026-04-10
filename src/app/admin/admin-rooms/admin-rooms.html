@@ -4,6 +4,7 @@
         <p class="text-muted d-none d-md-block">{{ 'ADMIN_ROOMS.SUBTITLE' | translate }}</p>
     </div>
 
+    <!-- Filters -->
     <div class="btn-group mt-3 shadow-sm rounded-pill p-1 bg-light mb-4">
         <button class="btn rounded-pill px-4" 
                 [class.btn-dark-green]="currentView === 'active'"
@@ -17,6 +18,7 @@
         </button>
     </div>
 
+    <!-- Cards -->
     <div class="row g-4">
         <div class="col-lg-3 col-md-6 col-12" *ngIf="currentView === 'active'">
             <div class="add-room-card h-100 shadow-sm d-flex align-items-center justify-content-center" 
@@ -32,22 +34,26 @@
 
         <div class="col-lg-3 col-md-6 col-12" *ngFor="let card of cards">
             <div class="room-card card h-100 border-0 shadow-sm overflow-hidden">
+                <!-- Price -->
                 <div class="price-tag">
                     {{ 'ADMIN_ROOMS.CARD.PRICE_PER_NIGHT' | translate:{price: (card.price | number)} }}
                 </div>
                 
+                <!-- Image -->
                 <div class="image-container">
                     <img [src]="getPrimaryImage(card)" 
                          class="img-fluid" 
                          [alt]="'ADMIN_ROOMS.CARD.IMAGE_ALT' | translate">
                 </div>
 
+                <!-- Card body -->
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title fw-bold text-dark">{{ card.name }}</h5>
                     <p class="card-text text-muted small mb-3">
                         {{ (card.description | slice:0:60) || ('ADMIN_ROOMS.CARD.NO_DESCRIPTION' | translate) }}...
                     </p>
                     
+                    <!-- Badges -->
                     <div class="d-flex gap-2 mb-4">
                         <span class="badge badge-info-light">
                             <i class="bi bi-people-fill me-1"></i> {{ card.capacity }} {{ 'ADMIN_ROOMS.CARD.PERSONS' | translate }}
@@ -57,6 +63,7 @@
                         </span>
                     </div>
 
+                    <!-- Buttons -->
                     <div class="d-flex gap-2 border-top pt-3 mt-auto">
                         <ng-container *ngIf="currentView === 'active'">
                             <button class="btn btn-edit-minimal flex-grow-1" (click)="edit(card.id)">
@@ -64,6 +71,10 @@
                             </button>
                             <button class="btn btn-maintenance" (click)="confirmMaintenance(card.id)">
                                 <i class="bi bi-gear-fill"></i>
+                            </button>
+                            <button *ngIf="authApi.hasRole(['superadmin'])" (click)="confirmDelete(card.id)" 
+                                class="btn btn-action btn-danger">
+                                <i class="bi bi-trash"></i>
                             </button>
                         </ng-container>
 
@@ -78,6 +89,7 @@
         </div>                
     </div>
 
+    <!-- Modal -->
     <div *ngIf="showModal" class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">

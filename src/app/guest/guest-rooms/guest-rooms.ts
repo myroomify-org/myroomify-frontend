@@ -13,13 +13,13 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 
 interface Room {
-  id: number;
-  name: string;
-  capacity: number;
-  description: string;
-  price: number;
-  is_available: boolean;
-  primary_image: string;
+  id: number
+  name: string
+  capacity: number
+  description: string
+  price: number
+  is_available: boolean
+  primary_image: string
 }
 
 @Component({
@@ -37,18 +37,19 @@ interface Room {
   templateUrl: './guest-rooms.html',
   styleUrl: './guest-rooms.css',
 })
+
 export class GuestRooms implements OnInit {
-  @ViewChild('menuTrigger') menuTrigger!: MatMenuTrigger;
+  @ViewChild('menuTrigger') menuTrigger!: MatMenuTrigger
 
-  rooms: Room[] = [];
-  filteredRooms: Room[] = [];
+  rooms: Room[] = []
+  filteredRooms: Room[] = []
 
-  selectedGuests: number = 2;
-  startDate: Date | null = null;
-  endDate: Date | null = null;
+  selectedGuests: number = 2
+  startDate: Date | null = null
+  endDate: Date | null = null
 
-  isChoosingCheckout: boolean = false;
-  readonly baseUrl = 'http://localhost:8000';
+  isChoosingCheckout: boolean = false
+  readonly baseUrl = 'http://localhost:8000'
 
   constructor(
     private router: Router,
@@ -58,9 +59,9 @@ export class GuestRooms implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      if (params['start']) this.startDate = new Date(params['start']);
-      if (params['end']) this.endDate = new Date(params['end']);
-      if (params['guests']) this.selectedGuests = Number(params['guests']);
+      if (params['start']) this.startDate = new Date(params['start'])
+      if (params['end']) this.endDate = new Date(params['end'])
+      if (params['guests']) this.selectedGuests = Number(params['guests'])
       
       this.getRooms()
     })
@@ -70,30 +71,31 @@ export class GuestRooms implements OnInit {
   getRooms(): void {
     this.roomApi.getRooms$().subscribe({
       next: (result: any) => {
-        this.rooms = result.data;
+        this.rooms = result.data
         if (this.startDate && this.endDate) {
-          this.applyFilters();
+          this.applyFilters()
         } else {
-          this.filteredRooms = [...this.rooms];
+          this.filteredRooms = [...this.rooms]
         }
       },
       error: (error: any) => {
-        console.error('Error getting rooms', error);
+        console.error('Error getting rooms', error)
       }
-    });
+    })
   }
 
   // Image
   getImageUrl(imageObject: any) {
-    const defaultImage = 'rooms/room.jpg';
+    const defaultImage = 'rooms/room.jpg'
     if (!imageObject?.path || typeof imageObject.path !== 'string') {
-      return defaultImage;
+      return defaultImage
     }
     return imageObject.path.startsWith('http') 
       ? imageObject.path 
-      : `${this.baseUrl}/storage/${imageObject.path}`;
+      : `${this.baseUrl}/storage/${imageObject.path}`
   }
 
+  // Filters
   private applyFilters(): void {
     const guestCount = Number(this.selectedGuests);
     this.filteredRooms = this.rooms.filter(room => {
@@ -104,19 +106,19 @@ export class GuestRooms implements OnInit {
   // Search
   searchRooms(): void {
     if (!this.startDate || !this.endDate) {
-      return;
+      return
     }
-    this.applyFilters();
-    this.scrollToResults();
+    this.applyFilters()
+    this.scrollToResults()
   }
 
   private scrollToResults(): void {
     setTimeout(() => {
-      const element = document.getElementById('room-list');
+      const element = document.getElementById('room-list')
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
       }
-    }, 100);
+    }, 100)
   }
 
   // Calendar
@@ -147,7 +149,7 @@ export class GuestRooms implements OnInit {
     }, 150)
   }
 
-  // NAvigation
+  // Navigation
   navigate(id: number) {
     this.router.navigate(['/rooms/' + id], {
       queryParams: {

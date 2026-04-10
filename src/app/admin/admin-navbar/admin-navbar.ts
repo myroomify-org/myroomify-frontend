@@ -36,15 +36,18 @@ export class AdminNavbar {
     this.translate.use(savedLang)
   }
 
+  // Language
   changeLang(lang: string) {
     this.translate.use(lang)
     localStorage.setItem('lang', lang)
   }
 
+  // Navigation
   toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
+    this.isMenuOpen = !this.isMenuOpen
   }
 
+  // User
   logout() {
     this.authApi.logout$()
   }

@@ -9,7 +9,7 @@
 
     <div class="row g-5 align-items-start">
       <div class="col-lg-8">
-        
+        <!-- Images -->
         <div class="main-room-image shadow-sm mb-4 position-relative overflow-hidden rounded-4">
           <img [src]="getImageUrl(images[currentImageIndex])" 
                [alt]="room.name" 
@@ -39,6 +39,7 @@
           </div>
         </div>
 
+        <!-- Room info -->
         <h1 class="display-4 fw-bold mb-3">{{ room.name }}</h1>
         <div class="d-flex gap-3 mb-4">
           <span class="badge bg-soft-green text-dark px-3 py-2"><i class="bi bi-people"></i> {{ room.capacity }} {{ 'GUEST_ROOM.ABOUT.GUESTS' | translate }}</span>
@@ -49,6 +50,7 @@
         </div>
       </div>
 
+      <!-- Booking card -->
       <div class="col-lg-4">
         <div class="card booking-card border-0 shadow-lg p-4 sticky-top" style="top: 110px;">
           <h4 class="fw-bold mb-1">{{ 'GUEST_ROOM.BOOKING.PRICE' | translate }} {{ room.price }} Ft</h4>

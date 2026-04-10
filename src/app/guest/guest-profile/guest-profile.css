@@ -1,3 +1,4 @@
+/*  Container */
 .container{
     font-family: Quicksand;
     margin-top: 50px;
@@ -87,7 +88,7 @@
     color: #2d4037;
 }
 
-/* Satus */
+/* Status */
 .status-badge {
   font-size: 0.65rem;
   font-weight: 800;
@@ -101,6 +102,19 @@
 .status-badge.confirmed { background: #e8f5e9; color: #2d4037; }
 .status-badge.pending { background: #fff3e0; color: #836d3e; }
 .status-badge.cancelled { background: #ffebee; color: #ff5555; }
+
+/* Inputs */
+.form-control-custom {
+    border: 1px solid #eee;
+    padding: 12px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.form-control-custom:focus {
+    border-color: #c3ae80;
+    box-shadow: 0 0 0 0.25 row rgba(195, 174, 128, 0.1);
+}
 
 /* Buttons */
 .btn-edit-minimal {
@@ -128,20 +142,6 @@
 
 .btn-cancel-icon:hover {
     transform: scale(1.1);
-}
-
-
-/* Inputs */
-.form-control-custom {
-    border: 1px solid #eee;
-    padding: 12px;
-    border-radius: 10px;
-    transition: 0.3s;
-}
-
-.form-control-custom:focus {
-    border-color: #c3ae80;
-    box-shadow: 0 0 0 0.25 row rgba(195, 174, 128, 0.1);
 }
 
 /* Buttons */
@@ -205,7 +205,7 @@
 }
 
 
-/*Calendar*/
+/* Calendar */
 ::ng-deep .cdk-overlay-container {
   z-index: 9999 !important;
 }
@@ -246,8 +246,7 @@
 }
 
 
-/*Price*/
-
+/* Price */
 .price-container {
   min-width: 150px;
   text-align: center;
@@ -307,7 +306,7 @@
   border-top-width: 3px !important;
 }
 
-/*Responsiveness*/
+/* Responsive */
 @media (max-width: 991.98px) {
   .profile-nav {
     margin-bottom: 1.5rem;

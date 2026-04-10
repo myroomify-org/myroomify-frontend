@@ -36,7 +36,11 @@ export class AdminRoomsService {
   }
 
   // Delete
-  deleteRoom$(id: number){
+  maintenanceRoom$(id: number){
     return this.http.delete(this.url + id)
   }
+
+  // deleteRoom$(id: number){
+  //   return this.http.delete(this.url + id)
+  // }
 }

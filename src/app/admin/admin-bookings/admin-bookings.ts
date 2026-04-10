@@ -11,6 +11,7 @@ import { AdminUserService } from '../../shared/admin/admin-user-service';
 import { AdminGuestService } from '../../shared/admin/admin-guest-service';
 import { AdminGuests } from '../admin-guests/admin-guests';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { AuthService } from '../../shared/auth/auth-service';
 
 @Component({
   selector: 'app-admin-bookings',
@@ -48,6 +49,7 @@ export class AdminBookings implements OnInit {
     private roomApi: AdminRoomsService,
     private userApi: AdminUserService,
     private guestApi: AdminGuestService,
+    public authApi: AuthService,
     private builder: FormBuilder,
     private translate: TranslateService
   ) {}
@@ -59,6 +61,7 @@ export class AdminBookings implements OnInit {
     this.setupRoomCapacitySync()
   }
 
+  // Page
   private initForm() {
     this.bookingForm = this.builder.group({
       id: [''],
@@ -96,7 +99,7 @@ export class AdminBookings implements OnInit {
     this.getUsers()
   }
 
-  // Api calls
+  // API
   getBookings() {
     this.bookApi.getBookings$().subscribe({
       next: (result: any) => {
@@ -144,9 +147,9 @@ export class AdminBookings implements OnInit {
     }
 
     if (this.sortKey) {
-      result.sort((a, b) => {
+      result.sort((a, booking) => {
         let valA = (this.sortKey === 'room') ? (a.room?.name || '') : (a[this.sortKey]?.toString() || '')
-        let valB = (this.sortKey === 'room') ? (b.room?.name || '') : (b[this.sortKey]?.toString() || '')
+        let valB = (this.sortKey === 'room') ? (booking.room?.name || '') : (booking[this.sortKey]?.toString() || '')
         return valA.localeCompare(valB);
       })
     }
@@ -251,6 +254,7 @@ export class AdminBookings implements OnInit {
     })
   }
 
+  // Save Booking
   save() {
     if (this.bookingForm.invalid) {
       this.failed(this.translate.instant('ADMIN_ALERTS.FAILED.TITLE_INVALID_FORM'))
@@ -293,7 +297,7 @@ export class AdminBookings implements OnInit {
         if (newStatus === 'confirmed') {
           request$ = this.bookApi.confirmBooking$(id);
         } else if (newStatus === 'completed') {
-          const booking = this.bookings.find(b => b.id === id)
+          const booking = this.bookings.find(booking => booking.id === id)
           const fullData = { ...booking, status: 'completed' }
           request$ = this.bookApi.editBooking$(fullData, id)
         }
@@ -311,6 +315,7 @@ export class AdminBookings implements OnInit {
       }
     })
   }
+
 
   // Guest Management
   addGuest(guestData: any = null) {
@@ -385,7 +390,7 @@ export class AdminBookings implements OnInit {
     return guests.some((guest: any) => guest.id !== null && guest.id !== undefined && guest.id !== '')
   }
 
-  // Helper functions
+  // Cancel Booking
   cancel() {
     this.showModal = false
     this.bookingForm.reset()
@@ -394,13 +399,12 @@ export class AdminBookings implements OnInit {
 
   confirmCancel(id: number) {
     Swal.fire({
-      title: this.translate.instant('ADMIN_ALERTS.CONFIRM.TITLE_DELETE_BOOKING'),
-      text: this.translate.instant('ADMIN_ALERTS.CONFIRM.TEXT_DELETE_BOOKING'),
+      title: this.translate.instant('ADMIN_ALERTS.CONFIRM.TITLE_CANCEL_BOOKING'),
       icon: 'warning',
       iconColor: '#c3ae80',
       showCancelButton: true,
-      confirmButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CONFIRM_DELETE_BOOKING'),
-      cancelButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CANCEL_DELETE_BOOKING'),
+      confirmButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CONFIRM_CANCEL_BOOKING'),
+      cancelButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CANCEL_CANCEL_BOOKING'),
       confirmButtonColor: '#2d4037',
       cancelButtonColor: '#6c757d',
     }).then(result => {
@@ -413,10 +417,45 @@ export class AdminBookings implements OnInit {
     })
   }
 
+  // Delete Booking
+  deleteBooking(id: number){
+    // this.isSaving = true
+    
+    // // Feltételezve, hogy az AdminBookingService-ben lesz ilyen metódus
+    // this.bookApi.deleteBooking$(id).subscribe({
+    //   next: (response: any) => {
+    //     this.isSaving = false
+    //     this.success(response.message)
+    //   },
+    //   error: (error: any) => {
+    //     this.isSaving = false
+    //     this.failed(error.error?.message)
+    //   }
+    // })
+  }
+
+  confirmDeleteBooking(id: number){
+    Swal.fire({
+    title: this.translate.instant('ADMIN_ALERTS.CONFIRM.TITLE_DELETE_BOOKING'),
+    text: this.translate.instant('ADMIN_ALERTS.CONFIRM.TEXT_DELETE_BOOKING'),
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CONFIRM_DELETE_BOOKING'),
+    cancelButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CANCEL_DELETE_BOOKING'),
+    confirmButtonColor: '#8b0000'
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.deleteBooking(id)
+      }
+    })
+  }
+
+  // Delete Guest
   deleteGuest(index: number) { 
     this.guestArray.removeAt(index)
   }
 
+  // Toggle
   toggleRow(booking: any) {
     booking.isExpanded = !booking.isExpanded
   }
@@ -424,6 +463,7 @@ export class AdminBookings implements OnInit {
   trackById(index: number, item: any) { 
     return item.id || index
   }
+
 
   // Alerts
   private success(title: string) {

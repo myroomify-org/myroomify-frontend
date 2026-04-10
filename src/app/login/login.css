@@ -1,4 +1,4 @@
-/* Konténer és Kártya alapok */
+/* Container */
 .login-container {
   min-height: 100vh;
   background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('/home/home.jpg');
@@ -22,7 +22,7 @@
   color: white;
 }
 
-/* Feliratok a rubrikán kívül */
+/* Label */
 .custom-label {
   display: block;
   margin-bottom: 6px;
@@ -33,9 +33,9 @@
   letter-spacing: 0.5px;
 }
 
-/* Input mezők stílusa */
+/* Input */
 ::ng-deep .no-subscript .mat-mdc-form-field-subscript-wrapper {
-  display: none !important; /* Eltünteti az alsó üres sávot */
+  display: none !important;
 }
 
 ::ng-deep .mat-mdc-text-field-wrapper {
@@ -48,14 +48,12 @@
   font-weight: 500 !important;
 }
 
-/* Piros placeholder hiba esetén */
 ::ng-deep input::placeholder {
   color: #c03b3b !important;
   font-size: 0.8rem;
   font-weight: 600;
 }
 
-/* Keret pirosítása hiba esetén */
 ::ng-deep .mat-form-field-invalid .mdc-notched-outline__leading,
 ::ng-deep .mat-form-field-invalid .mdc-notched-outline__notch,
 ::ng-deep .mat-form-field-invalid .mdc-notched-outline__trailing {
@@ -63,11 +61,11 @@
   border-width: 2px !important;
 }
 
-/* --- A GOMB STÍLUSA (Regisztrációs mintára) --- */
+/* Button */
 .btn-login-custom {
-  background-color: #2d4037 !important; /* Sötétzöld alap */
+  background-color: #2d4037 !important;
   color: white !important;
-  padding: 24px 0 !important; /* Magasabb gomb */
+  padding: 24px 0 !important;
   font-weight: 600 !important;
   font-size: 1rem !important;
   letter-spacing: 1px;
@@ -93,7 +91,7 @@
   cursor: not-allowed;
 }
 
-/* Linkek */
+/* Link */
 .register-link {
   color: #c3ae80;
   text-decoration: none;
@@ -104,7 +102,7 @@
   text-decoration: underline;
 }
 
-/* Responsiveness javítása */
+/* Responsive */
 @media (max-width: 576px) {
   .login-container {
     padding: 15px;
