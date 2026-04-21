@@ -417,39 +417,6 @@ export class AdminBookings implements OnInit {
     })
   }
 
-  // Delete Booking
-  deleteBooking(id: number){
-    // this.isSaving = true
-    
-    // // Feltételezve, hogy az AdminBookingService-ben lesz ilyen metódus
-    // this.bookApi.deleteBooking$(id).subscribe({
-    //   next: (response: any) => {
-    //     this.isSaving = false
-    //     this.success(response.message)
-    //   },
-    //   error: (error: any) => {
-    //     this.isSaving = false
-    //     this.failed(error.error?.message)
-    //   }
-    // })
-  }
-
-  confirmDeleteBooking(id: number){
-    Swal.fire({
-    title: this.translate.instant('ADMIN_ALERTS.CONFIRM.TITLE_DELETE_BOOKING'),
-    text: this.translate.instant('ADMIN_ALERTS.CONFIRM.TEXT_DELETE_BOOKING'),
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CONFIRM_DELETE_BOOKING'),
-    cancelButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CANCEL_DELETE_BOOKING'),
-    confirmButtonColor: '#8b0000'
-    }).then(result => {
-      if (result.isConfirmed) {
-        this.deleteBooking(id)
-      }
-    })
-  }
-
   // Delete Guest
   deleteGuest(index: number) { 
     this.guestArray.removeAt(index)

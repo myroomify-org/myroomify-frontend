@@ -72,10 +72,6 @@
                             <button class="btn btn-maintenance" (click)="confirmMaintenance(card.id)">
                                 <i class="bi bi-gear-fill"></i>
                             </button>
-                            <button *ngIf="authApi.hasRole(['superadmin'])" (click)="confirmDelete(card.id)" 
-                                class="btn btn-action btn-danger">
-                                <i class="bi bi-trash"></i>
-                            </button>
                         </ng-container>
 
                         <ng-container *ngIf="currentView === 'deleted'">

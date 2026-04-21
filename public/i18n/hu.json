@@ -519,6 +519,9 @@
       "UNFILLED": "Kérjük, minden mezőt tölts ki.",
       "DELETE_TITLE": "Biztos vagy benne?",
       "DELETE_TEXT": "Ez a művelet azonnal törli a képet a szerverről."
+    },
+    "SUCCESS": {
+      "DELETE": "Sikeresen törölve!"
     }
   },
 
@@ -577,7 +580,7 @@
       "TITLE_MAINTENANCE": "Szoba archiválása",
       "TEXT_MAINTENANCE": "Ez a szoba átkerül az archivált nézetbe és nem lesz foglalható a vendégek számára.",
       "CONFIRM_MAINTENANCE": "Igen, archiválás",
-      "CONFIRM_DELETE_IMAGE": "Igen, archiválás"
+      "CONFIRM_DELETE_IMAGE": "Igen, törlés"
     },
     "FAILED": {
       "TITLE_UPDATE_ROOM": "Hiba történt a szoba frissítésekor.",

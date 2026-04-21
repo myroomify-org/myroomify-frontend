@@ -122,11 +122,6 @@
                   class="btn btn-action btn-danger" (click)="confirmCancel(booking.id)" [title]="'ADMIN_BOOKINGS.ACTIONS.CANCEL' | translate">                  
                   <i class="bi bi-x-circle"></i>                
                 </button>
-
-                <button *ngIf="authApi.hasRole(['superadmin'])" (click)="confirmDeleteBooking(booking.id)" 
-                  class="btn btn-action btn-danger" [title]="'ADMIN_BOOKINGS.ACTIONS.DELETE' | translate">
-                  <i class="bi bi-trash"></i>
-                </button>
               </td>
             </tr>
 

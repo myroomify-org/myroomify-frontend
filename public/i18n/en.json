@@ -518,6 +518,9 @@
       "UNFILLED": "Please fill in all required fields!",
       "DELETE_TITLE": "Biztos vagy benne?",
       "DELETE_TEXT": "This will delete the image from the server immediately."
+    },
+    "SUCCESS": {
+      "DELETE": "Deleted successfully!"
     }
   },
 
@@ -577,7 +580,7 @@
       "TITLE_MAINTENANCE": "Archive Room",
       "TEXT_MAINTENANCE": "This room will be moved to the archived view and will not be bookable for guests.",
       "CONFIRM_MAINTENANCE": "Yes, archive it",
-      "CONFIRM_DELETE_IMAGE": "Yes, archive it"
+      "CONFIRM_DELETE_IMAGE": "Yes, delete it"
     },
     "FAILED": {
       "TITLE_UPDATE_ROOM": "Error updating the room.",

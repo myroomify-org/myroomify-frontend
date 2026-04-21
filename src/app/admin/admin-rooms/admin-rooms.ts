@@ -130,18 +130,6 @@ export class AdminRooms {
     })
   }
 
-  deleteRoom(id: number) {
-    // this.roomApi.deleteRoom$(id).subscribe({
-    //   next: (response: any) => {
-    //     this.success(response.message)
-    //     this.get()
-    //   },
-    //   error: (error: any) => {
-    //     this.failed(error.message)
-    //   }
-    // })
-  }
-
   // Images
   getPrimaryImage(card: any): string {
     const backendStorageUrl = 'http://localhost:8000/storage/'
@@ -238,22 +226,6 @@ export class AdminRooms {
         text: text['ADMIN_ALERTS.FAILED.TEXT_BOOKING_ERROR'],
         confirmButtonColor: '#2d4037'
       })
-    })
-  }
-
-  confirmDelete(id: number) {
-    Swal.fire({
-      title: this.translate.instant('ADMIN_ALERTS.CONFIRM.TITLE_DELETE_ROOM'),
-      text: this.translate.instant('ADMIN_ALERTS.CONFIRM.TEXT_DELETE_ROOM'),
-      icon: "warning",
-      iconColor:'#c3ae80',
-      showCancelButton: true,
-      confirmButtonColor: "#2d4037",
-      cancelButtonColor: "#000",
-      confirmButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CONFIRM_DELETE_ROOM'),
-      cancelButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CANCEL_GENERAL')
-    }).then((result) => {
-      if (result.isConfirmed) this.deleteRoom(id)
     })
   }
 

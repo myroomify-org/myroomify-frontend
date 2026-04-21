@@ -18,7 +18,7 @@ export class AdminImageService {
   }
 
   setPrimary$(roomId: number, imageId: number){
-    return this.http.put(this.url + roomId + '/images/' + imageId + '/primary', {})
+    return this.http.post(this.url + roomId + '/images/' + imageId + '/set-primary', {})
   }
 
   deleteImage$(roomId: number, imageId: number){

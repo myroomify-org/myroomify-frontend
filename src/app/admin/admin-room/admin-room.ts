@@ -101,9 +101,10 @@ export class AdminRoom implements OnInit{
 
   deleteExistingImage(imageId: number, index: number) {
     this.imageApi.deleteImage$(this.roomId, imageId).subscribe({
-      next: () => {
+      next: (response: any) => {
         this.existingImages.splice(index, 1)
         this.get(this.roomId)
+        this.success(response.message)
       },
       error: (error: any) => {
         this.failed(error)
@@ -245,7 +246,7 @@ export class AdminRoom implements OnInit{
       if (result.isConfirmed) {
         this.existingImages.splice(index, 1)
         this.get(this.roomId)
-        this.success("")
+        this.success(this.translate.instant("ADMIN_ROOM.SUCCESS.DELETE"))
       }
     })
   }
