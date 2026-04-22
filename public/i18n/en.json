@@ -19,7 +19,7 @@
   "LOGIN": {
     "TITLE": "Login",
     "SUBTITLE": "Create your account for the full experience",
-    "USERNAME": "Username or Email",
+    "USERNAME": "Email",
     "PASSWORD": "Password",
     "BTN_LOGIN": "Login",
     "NO_ACCOUNT": "Don't have an account?",
@@ -140,6 +140,7 @@
         "LAST_NAME": "Enter your last name",
         "COUNTRY": "e.g. Hungary",
         "CITY": "e.g. Budapest",
+        "PHONE": "pl. +36 30 123 4567",
         "POSTAL_CODE": "e.g. 1021",
         "STREET_ADDRESS": "e.g. Main street 2."
       },

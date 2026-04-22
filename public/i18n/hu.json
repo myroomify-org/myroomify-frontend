@@ -19,7 +19,7 @@
   "LOGIN": {
     "TITLE": "Belépés",
     "SUBTITLE": "Hozza létre fiókját a teljes élményért!",
-    "USERNAME": "Felhasználónév vagy E-mail cím",
+    "USERNAME": "E-mail cím",
     "PASSWORD": "Jelszó",
     "BTN_LOGIN": "Belépés",
     "NO_ACCOUNT": "Még nincs fiókja?",
@@ -140,6 +140,7 @@
         "LAST_NAME": "Adja meg a vezetéknévet",
         "COUNTRY": "pl. Magyarország",
         "CITY": "pl. Budapest",
+        "PHONE": "pl. +36 30 123 4567",
         "POSTAL_CODE": "pl. 1021",
         "STREET_ADDRESS": "pl. Fő utca 2."
       },
