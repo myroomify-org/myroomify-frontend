@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { AdminImageService } from '../../shared/admin/admin-image-service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -83,7 +84,7 @@ export class AdminRoom implements OnInit{
     const mainImage = this.existingImages.find(img => img.is_primary) || this.existingImages[0]    
     if (!mainImage) return '/rooms/room.jpg'
     
-    const baseUrl = 'http://localhost:8000/storage'
+    const baseUrl = environment.storageHost
     return mainImage.path.startsWith('/') ? `${baseUrl}${mainImage.path}` : `${baseUrl}/${mainImage.path}`
   }
 
@@ -114,7 +115,7 @@ export class AdminRoom implements OnInit{
  
   getImageUrl(path: string): string {
     if (!path) return ''
-    return `http://localhost:8000/storage/${path}`
+    return `${environment.storageHost}/${path}`
   }
 
   // File management

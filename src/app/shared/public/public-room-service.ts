@@ -1,12 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PublicRoomService {
   // Api
-  url = "http://localhost:8000/api/public/rooms/"
+  url = environment.apiHost + '/public/rooms'
 
   constructor(
     private http: HttpClient
@@ -18,6 +19,6 @@ export class PublicRoomService {
   }
 
   getRoom$(id: number){
-    return this.http.get(this.url + id)
+    return this.http.get(`${this.url}/${id}`)
   }
 }

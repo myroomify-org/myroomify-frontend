@@ -61,8 +61,15 @@ export class GuestNavbar {
   }
 
   logout(): void {
-    this.authApi.logout$();
-    this.router.navigate(['/login'])
-    console.log('Logout successful!')
+    this.authApi.logout$().subscribe({
+      next: () => {
+        localStorage.removeItem('token')
+        console.log('Logout successful!');
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        console.error('Logout error', error);
+      }
+    });
   }
 }

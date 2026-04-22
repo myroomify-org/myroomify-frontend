@@ -159,8 +159,8 @@
               <div class="col-md-12 mb-2">
                 <label class="label-minimal text-dark">{{ 'ADMIN_BOOKINGS.BOOKING_MODAL.LABEL_USER' | translate }}</label>
                 <select formControlName="user_id" class="form-select form-control-custom">
-                  <option [value]="null">{{ 'ADMIN_BOOKINGS.BOOKING_MODAL.SELECT_USER_OPTIONAL' | translate }}</option>
-                  <option *ngFor="let user of users" [value]="user.id">{{ user.name }} ({{ user.email }})</option>
+                  <option [ngValue]="null">{{ 'ADMIN_BOOKINGS.BOOKING_MODAL.SELECT_USER_OPTIONAL' | translate }}</option>
+                  <option *ngFor="let user of users" [ngValue]="user.id">{{ user.name }} ({{ user.email }})</option>
                 </select>
               </div>
 
@@ -187,8 +187,8 @@
               <div class="col-md-6">
                 <label class="label-minimal text-dark">{{ 'ADMIN_BOOKINGS.BOOKING_MODAL.LABEL_ROOM' | translate }}</label>
                 <select formControlName="room_id" class="form-select form-control-custom" [class.is-invalid]="bookingForm.get('guest_count')?.errors?.['maxCapacity']">
-                  <option [value]="null">{{ 'ADMIN_BOOKINGS.BOOKING_MODAL.LABEL_ROOM' | translate }}</option>
-                  <option *ngFor="let room of rooms" [value]="room.id">
+                  <option [ngValue]="null">{{ 'ADMIN_BOOKINGS.BOOKING_MODAL.LABEL_ROOM' | translate }}</option>
+                  <option *ngFor="let room of rooms" [ngValue]="room.id">
                     {{ room.name }} (Max: {{ room.capacity }})
                   </option>
                 </select>
@@ -275,6 +275,9 @@
                   <div class="col-md-6">
                     <label class="label-minimal text-dark-green fw-bold small">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_BIRTH_DATE' | translate }}</label>
                     <input type="date" formControlName="birth_date" class="form-control form-control-custom">
+                    <div *ngIf="guestGroup.get('birth_date')?.errors?.['beforeToday'] && (guestGroup.get('birth_date')?.dirty || guestGroup.get('birth_date')?.touched)" class="text-danger small mt-1">
+                      A születési dátumnak a múltban kell lennie.
+                    </div>
                   </div>
                   <div class="col-md-6">
                     <label class="label-minimal text-dark-green fw-bold small">{{ 'ADMIN_BOOKINGS.GUEST_MODAL.LABEL_NATIONALITY' | translate }}</label>

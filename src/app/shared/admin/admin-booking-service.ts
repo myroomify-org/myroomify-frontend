@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminBookingService {
   //Api
-  url = "http://localhost:8000/api/admin/bookings/"
+  url = environment.apiHost + '/admin/bookings'
 
   constructor(
     private http: HttpClient
@@ -18,7 +19,7 @@ export class AdminBookingService {
   }
 
   getBooking$(id: number){
-    return this.http.get(this.url + id)
+    return this.http.get(`${this.url}/${id}`)
   }
 
   // Add
@@ -28,14 +29,29 @@ export class AdminBookingService {
 
   // Edit
   editBooking$(data: any, id:number){
-    return this.http.put(this.url + id,  data)
+    return this.http.put(`${this.url}/${id}`,  data)
   }
 
   confirmBooking$(id: number){
-    return this.http.post(this.url + id + "/confirm", {})
+    return this.http.post(`${this.url}/${id}/confirm`, {})
   }
 
   cancelBooking$(id: number){
-    return this.http.post(this.url + id + "/cancel", {})
+    return this.http.post(`${this.url}/${id}/cancel`, {})
+  }
+
+  // Delete (soft)
+  deleteBooking$(id: number){
+    return this.http.delete(`${this.url}/${id}`)
+  }
+
+  // Restore
+  restoreBooking$(id: number){
+    return this.http.post(`${this.url}/${id}/restore`, {})
+  }
+
+  // Force delete (permanent)
+  forceDeleteBooking$(id: number){
+    return this.http.delete(`${this.url}/${id}/force-delete`)
   }
 }

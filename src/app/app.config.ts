@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection , importProvidersFrom} from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection , importProvidersFrom, APP_INITIALIZER } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -6,7 +6,9 @@ import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common
 import { AuthInterceptor } from './shared/auth/auth-interceptor';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
+import { Observable, lastValueFrom, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { AuthService } from './shared/auth/auth-service';
 
 export class CustomTranslateLoader implements TranslateLoader {
   constructor(private http: HttpClient) {}
@@ -36,5 +38,18 @@ export const appConfig: ApplicationConfig = {
         defaultLanguage: 'en'
       })
     )
+    ,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (auth: AuthService) => {
+        return () => {
+          const token = localStorage.getItem('token')
+          if (!token) return Promise.resolve()
+          return lastValueFrom(auth.refreshProfile$().pipe(catchError(() => of(null))))
+        }
+      },
+      deps: [AuthService],
+      multi: true
+    }
   ]
 }

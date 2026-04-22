@@ -80,17 +80,46 @@ export class AdminProfile implements OnInit{
       next: (result: any) => {
         this.user = result.data
         const user = result.data
+        const profile = user.profile || {}
+        const addressField = profile.address
+        const cityObj = profile.city || (typeof addressField === 'object' ? addressField.city : undefined)
+        const addressString = typeof addressField === 'string' ? addressField : (addressField?.address || '')
+
+        const firstName = profile.first_name || profile.firstName || profile.firstname || profile.given_name || ''
+        const lastName = profile.last_name || profile.lastName || profile.lastname || profile.family_name || ''
+        const phone = profile.phone || profile.phone_number || profile.mobile || ''
+        const countryName = cityObj?.country?.name || ''
+        const cityName = cityObj?.name || ''
+        const postalCode = cityObj?.postal_code || ''
+
         this.profileForm.patchValue({
           name: user.name,
           email: user.email,
-          first_name: user.profile?.first_name,
-          last_name: user.profile?.last_name,
-          phone: user.profile?.phone,
-          country_name: user.profile?.address?.city?.country?.name,
-          city_name: user.profile?.address?.city?.name,
-          address: user.profile?.address?.address,
-          postal_code: user.profile?.address?.postal_code,
+          first_name: firstName,
+          last_name: lastName,
+          phone: phone,
+          country_name: countryName,
+          city_name: cityName,
+          address: addressString,
+          postal_code: postalCode,
         })
+
+        this.user = {
+          ...user,
+          first_name: firstName,
+          last_name: lastName,
+          phone: phone,
+          country_name: countryName,
+          city_name: cityName,
+          postal_code: postalCode,
+          address: addressString,
+          
+          firstName: firstName,
+          lastName: lastName,
+          phone_number: phone,
+          mobile: phone,
+          profile: profile
+        }
       }
     })
   }

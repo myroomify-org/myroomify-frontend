@@ -34,8 +34,11 @@ import { MatIconModule } from '@angular/material/icon';
 export class Login implements OnInit {
  
   loginForm!: FormGroup
+  forgotForm!: FormGroup
   hidePassword = true
   loading: boolean = false
+  forgotLoading: boolean = false
+  showForgot: boolean = false
 
   constructor(
     private fb: FormBuilder,
@@ -50,6 +53,9 @@ export class Login implements OnInit {
         login: ['', Validators.required],
         password: ['', [Validators.required]]
       })
+    this.forgotForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]]
+    })
   }
 
   // Login
@@ -82,7 +88,11 @@ export class Login implements OnInit {
               this.router.navigate(['/home'])
             }
           } else {
-            this.router.navigate(['/admin/profile'])
+            if (role === 'receptionist') {
+              this.router.navigate(['/admin/bookings'])
+            } else {
+              this.router.navigate(['/admin/profile'])
+            }
           }
         },
         error: (error: any) => {
@@ -125,6 +135,34 @@ export class Login implements OnInit {
       title: this.translate.instant('LOGIN.ALERTS.TITLE_FAILED'),
       text: text,
       confirmButtonColor: '#2d4037'
+    })
+  }
+
+  // Forgot password UI
+  openForgot() {
+    this.showForgot = true
+    this.forgotForm.reset()
+  }
+
+  backToLogin() {
+    this.showForgot = false
+  }
+
+  requestNewPassword() {
+    if (this.forgotForm.invalid) return
+    this.forgotLoading = true
+    const payload = { email: this.forgotForm.value.email }
+    this.authApi.forgotPassword$(payload).subscribe({
+      next: (response: any) => {
+        this.forgotLoading = false
+        const msg = response?.message || this.translate.instant('LOGIN.FORGOT.SUCCESS')
+        Swal.fire({ icon: 'success', title: msg, showConfirmButton: false, timer: 2000 })
+        this.showForgot = false
+      },
+      error: (error: any) => {
+        this.forgotLoading = false
+        this.failed(error.error?.message || this.translate.instant('LOGIN.FORGOT.FAILED'))
+      }
     })
   }
 }

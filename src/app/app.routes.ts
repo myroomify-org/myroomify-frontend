@@ -15,6 +15,8 @@ import { GuestRoom } from './guest/guest-room/guest-room';
 import { GuestProfile } from './guest/guest-profile/guest-profile';
 import { AdminProfile } from './admin/admin-profile/admin-profile';
 import { roleGuard } from './shared/auth/role-guard';
+import { guestGuard } from './shared/auth/guest-guard';
+import { authGuard } from './shared/auth/auth-guard';
 import { PrivacyPolicy } from './privacy-policy/privacy-policy';
 
 export const routes: Routes = [
@@ -25,9 +27,9 @@ export const routes: Routes = [
             { path: 'rooms', component: GuestRooms },
             { path: 'rooms/:id', component: GuestRoom },
             { path: 'gallery', component: GuestGallery },
-            { path: 'profile', component: GuestProfile },
-            { path: 'login', component: Login },
-            { path: 'register', component: Register },
+            { path: 'profile', component: GuestProfile, canActivate: [authGuard] },
+            { path: 'login', component: Login, canActivate: [guestGuard] },
+            { path: 'register', component: Register, canActivate: [guestGuard] },
             { path: 'privacy-policy', component: PrivacyPolicy },
         ]
     },
@@ -52,9 +54,10 @@ export const routes: Routes = [
               canActivate: [roleGuard], 
               data: { roles: ['admin', 'superadmin'] } 
             },
-            { path: 'bookings', component: AdminBookings },  
-            { path: 'guests', component: AdminGuests },
-            { path: 'profile', component: AdminProfile }, 
+            { path: 'bookings', component: AdminBookings, canActivate: [roleGuard], data: { roles: ['admin','superadmin','receptionist'] } },  
+            { path: 'guests', component: AdminGuests, canActivate: [roleGuard], data: { roles: ['admin','superadmin', 'receptionist'] } },
+            { path: 'profile', component: AdminProfile, canActivate: [roleGuard], data: { roles: ['admin','superadmin', 'receptionist'] } }, 
          ]
-    },     
+    },
+    { path: '**', redirectTo: 'home' },
 ];

@@ -152,6 +152,7 @@ export class AdminUsers implements OnInit {
 
     this.userApi.changeRole$(+user.id, payload).subscribe({
       next: (result: any) => {
+        console.log(user.id, result)
         user.role = newRole as UserRole
         this.success(result.message)
       },
@@ -164,7 +165,7 @@ export class AdminUsers implements OnInit {
   private preparePayload(user: User): any {
     const nameParts = (user.name || '').trim().split(' ')
     
-    return {
+    const payload: any = {
       id: user.id,
       name: user.name,
       email: user.email,
@@ -176,10 +177,15 @@ export class AdminUsers implements OnInit {
       country_name: user.country_name || 'Hungary',
       city_name: user.city_name || 'Budapest',
       address: user.address || 'Temporary Address',
-      postal_code: user.postal_code || '0000',
-      password: '',
-      password_confirmation: ''
+      postal_code: user.postal_code || '0000'
     }
+
+    if ((user as any).password && (user as any).password.length > 0) {
+      payload.password = (user as any).password
+      payload.password_confirmation = (user as any).password_confirmation || (user as any).password
+    }
+
+    return payload
   }
 
   isStaff(role: UserRole | undefined): boolean {

@@ -24,6 +24,16 @@
     "BTN_LOGIN": "Login",
     "NO_ACCOUNT": "Don't have an account?",
     "REQUIRED": "This field is required",
+    "FORGOT": {
+      "LINK": "Password reset",
+      "TITLE": "Password reset",
+      "EMAIL_LABEL": "Email",
+      "EMAIL_PLACEHOLDER": "Enter your email",
+      "BTN_REQUEST": "Request new password",
+      "BACK": "Back to login",
+      "SUCCESS": "Password reset requested",
+      "FAILED": "Failed to request password reset"
+    },
     "ALERTS": {
       "TITLE_FAILED": "Login failed!",
       "TEXT_FAILED": "Invalid email or password.",
@@ -400,7 +410,7 @@
       "CREATE_TITLE": "Create New Booking",
       "EDIT_TITLE": "Edit Booking #{{id}}",
       "LABEL_USER": "Client / Registered User",
-      "SELECT_USER_OPTIONAL": "Select user (Optional)",
+      "SELECT_USER_OPTIONAL": "Select user",
       "LABEL_USERNAME": "Username",
       "PLACEHOLDER_NAME": "Enter name",
       "LABEL_USER_EMAIL": "User Email Address",

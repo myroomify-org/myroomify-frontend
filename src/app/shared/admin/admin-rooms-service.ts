@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminRoomsService {
   // Api
-  url = "http://localhost:8000/api/admin/rooms/"
+  url = environment.apiHost + '/admin/rooms'
 
   constructor(
     private http: HttpClient
@@ -18,7 +19,7 @@ export class AdminRoomsService {
   }
 
   getRoom$(id: number){
-    return this.http.get(this.url + id)
+    return this.http.get(`${this.url}/${id}`)
   }
 
   // Add
@@ -27,16 +28,24 @@ export class AdminRoomsService {
   }
 
   restoreRoom$(id:number,){
-    return this.http.post(this.url + id + "/restore", {})
+    return this.http.post(`${this.url}/${id}/restore`, {})
   }
 
   // Edit
   editRoom$(id: number, data: any){
-    return this.http.post(this.url + id, data)
+    if (typeof FormData !== 'undefined' && data instanceof FormData) {
+      return this.http.post(`${this.url}/${id}`, data)
+    }
+    return this.http.put(`${this.url}/${id}`, data)
   }
 
   // Delete
-  maintenanceRoom$(id: number){
-    return this.http.delete(this.url + id)
+  deleteRoom$(id: number){
+    return this.http.delete(`${this.url}/${id}`)
+  }
+
+  // Force delete (permanent) - superadmin
+  forceDeleteRoom$(id: number){
+    return this.http.delete(`${this.url}/${id}/force-delete`)
   }
 }

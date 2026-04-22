@@ -17,6 +17,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-guest-room',
@@ -50,7 +51,9 @@ export class GuestRoom implements OnInit {
   isChoosingCheckout: boolean = false
   guest_count: number = 1
 
-  readonly baseUrl = 'http://localhost:8000'
+  readonly baseUrl = environment.baseHost
+  readonly storageUrl = environment.storageHost
+
   currentImageIndex: number = 0
   images: any[] = []
 
@@ -72,8 +75,11 @@ export class GuestRoom implements OnInit {
       if (params['end']) {
         this.endDate = new Date(params['end'])
       }
-      if (params['guests']) {
-        this.guest_count = Number(params['guests'])
+      if (params['guests'] !== undefined && params['guests'] !== null && params['guests'] !== '') {
+        const parsed = Number(params['guests'])
+        if (!isNaN(parsed) && parsed > 0) {
+          this.guest_count = parsed
+        }
       }
     })
 
@@ -94,6 +100,9 @@ export class GuestRoom implements OnInit {
           this.images = [this.room.primary_image]
         }
         
+        if (!this.guest_count || this.guest_count < 1) this.guest_count = 1
+        if (this.room?.capacity && this.guest_count > this.room.capacity) this.guest_count = this.room.capacity
+
         this.loading = false;
       },
       error: (error: any) => {
@@ -122,7 +131,7 @@ export class GuestRoom implements OnInit {
     if (!imageObject || !imageObject.path) return defaultImage
     const path = imageObject.path
     if (path.startsWith('http')) return path
-    return `${this.baseUrl}/storage/${path}`
+    return `${this.storageUrl}/${path}`
   }
 
   // Datapicker
@@ -181,6 +190,16 @@ export class GuestRoom implements OnInit {
 
     if (!this.startDate || !this.endDate) {
       this.warning(this.translate.instant('GUEST_ALERTS.WARNING.BOOK_DATES'))
+      return
+    }
+
+    if (!this.guest_count || this.guest_count < 1) {
+      this.warning(this.translate.instant('GUEST_ALERTS.WARNING.BOOK_GUESTS') || 'Please select number of guests')
+      return
+    }
+
+    if (this.room?.capacity && this.guest_count > this.room.capacity) {
+      this.warning(this.translate.instant('GUEST_ALERTS.WARNING.BOOK_GUESTS_EXCEED') || 'Selected guests exceed room capacity')
       return
     }
 

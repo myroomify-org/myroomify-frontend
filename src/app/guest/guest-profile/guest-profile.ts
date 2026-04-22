@@ -95,21 +95,36 @@ export class GuestProfile implements OnInit {
   // User Profile
   private mapUserData(apiData: any) {
     const profile = apiData?.profile || {}
-    const address = profile?.address || {}
-    
-    return {
-      id: apiData.id,
-      name: apiData.name,
-      first_name: profile.first_name || '',
-      last_name: profile.last_name || '',
-      phone: profile.phone || '',
-      email: apiData.email,
-      country_name: address.city?.country?.name || '',
-      city_name: address.city?.name || '',
-      postal_code: address.postal_code || '',
-      address: address.address || '',
-      rawProfile: profile 
+
+    const addressField = profile.address
+    const cityObj = profile.city || (typeof addressField === 'object' ? addressField.city : undefined)
+    const addressString = typeof addressField === 'string' ? addressField : (addressField?.address || '')
+
+    const firstName = profile.first_name || profile.firstName || profile.firstname || profile.given_name || ''
+    const lastName = profile.last_name || profile.lastName || profile.lastname || profile.family_name || ''
+    const phone = profile.phone || profile.phone_number || profile.mobile || ''
+
+    const mapped: any = {
+      id: apiData.id || apiData.user_id || null,
+      name: apiData.name || '',
+      first_name: firstName,
+      last_name: lastName,
+      phone: phone,
+      email: apiData.email || '',
+      country_name: cityObj?.country?.name || '',
+      city_name: cityObj?.name || '',
+      postal_code: cityObj?.postal_code || '',
+      address: addressString,
+      rawProfile: profile
     }
+
+    mapped['firstName'] = mapped.first_name
+    mapped['lastName'] = mapped.last_name
+    mapped['phone_number'] = mapped.phone
+    mapped['mobile'] = mapped.phone
+    mapped['profile'] = profile
+
+    return mapped
   }
 
   // Update User

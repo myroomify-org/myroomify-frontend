@@ -48,8 +48,17 @@ export class AdminNavbar {
   }
 
   // User
-  logout() {
-    this.authApi.logout$()
+  logout(): void {
+    this.authApi.logout$().subscribe({
+      next: () => {
+        localStorage.removeItem('token')
+        console.log('Logout successful!');
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        console.error('Logout error', error);
+      }
+    });
   }
 
   profile() {

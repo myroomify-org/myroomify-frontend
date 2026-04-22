@@ -1,12 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MeBookingService {
   // Api
-  url = "http://localhost:8000/api/me/bookings/"
+  url = environment.apiHost + '/me/bookings'
 
   constructor(
     private http: HttpClient
@@ -25,8 +26,8 @@ export class MeBookingService {
     return this.http.get(this.url, {headers: this.getHeaders$()})
   }
 
-  getBooking$(){
-    return this.http.get(this.url, {headers: this.getHeaders$()})
+  getBooking$(id: number){
+    return this.http.get(`${this.url}/${id}`, {headers: this.getHeaders$()})
   }
 
   // Add
@@ -36,10 +37,10 @@ export class MeBookingService {
 
   // Edit
   editBooking$(id:number, data: any){
-    return this.http.put(this.url + id, data, {headers: this.getHeaders$()})
+    return this.http.put(`${this.url}/${id}`, data, {headers: this.getHeaders$()})
   }
 
   cancelBooking$(id: number){
-    return this.http.put(this.url + id + "/cancel", {headers: this.getHeaders$()})
+    return this.http.post(`${this.url}/${id}/cancel`, {}, {headers: this.getHeaders$()})
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import Swal from 'sweetalert2';
 import { firstValueFrom, forkJoin } from 'rxjs';
@@ -65,7 +65,7 @@ export class AdminBookings implements OnInit {
   private initForm() {
     this.bookingForm = this.builder.group({
       id: [''],
-      user_id: [null],
+      user_id: [null, Validators.required],
       room_id: [null, Validators.required],
       check_in: ['', Validators.required],
       check_out: ['', Validators.required],
@@ -325,7 +325,7 @@ export class AdminBookings implements OnInit {
       id: [guestData?.id || null],
       first_name: [guestData?.first_name || '', Validators.required],
       last_name: [guestData?.last_name || '', Validators.required],
-      birth_date: [guestData?.birth_date ? new Date(guestData.birth_date).toISOString().split('T')[0] : '', Validators.required],
+      birth_date: [guestData?.birth_date ? new Date(guestData.birth_date).toISOString().split('T')[0] : '', [Validators.required, this.beforeToday]],
       document_type: [guestData?.document_type || 'id_card', Validators.required], 
       document_number: [guestData?.document_number || '', Validators.required],
       nationality: [toStr(guestData?.nationality)],
@@ -336,6 +336,18 @@ export class AdminBookings implements OnInit {
     })
     
     this.guestArray.push(guestGroup)
+  }
+
+  beforeToday = (control: AbstractControl): ValidationErrors | null => {
+    const val = control.value
+    if (!val) return null
+
+    const input = new Date(val)
+    const today = new Date()
+    input.setHours(0,0,0,0)
+    today.setHours(0,0,0,0)
+
+    return input < today ? null : { beforeToday: true }
   }
 
   openGuestManager(booking: any) {
@@ -413,6 +425,39 @@ export class AdminBookings implements OnInit {
           next: (response: any) => this.success(response.message),
           error: (error: any) => this.failed(error.message)
         })
+      }
+    })
+  }
+
+  // Delete Booking
+  deleteBooking(id: number){
+    this.isSaving = true
+
+    this.bookApi.deleteBooking$(id).subscribe({
+      next: (response: any) => {
+        this.isSaving = false
+        this.getBookings()
+        this.success(response.message)
+      },
+      error: (error: any) => {
+        this.isSaving = false
+        this.failed(error.error?.message || error.message)
+      }
+    })
+  }
+
+  confirmDeleteBooking(id: number){
+    Swal.fire({
+    title: this.translate.instant('ADMIN_ALERTS.CONFIRM.TITLE_DELETE_BOOKING'),
+    text: this.translate.instant('ADMIN_ALERTS.CONFIRM.TEXT_DELETE_BOOKING'),
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CONFIRM_DELETE_BOOKING'),
+    cancelButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CANCEL_DELETE_BOOKING'),
+    confirmButtonColor: '#8b0000'
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.deleteBooking(id)
       }
     })
   }

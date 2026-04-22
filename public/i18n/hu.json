@@ -19,14 +19,24 @@
   "LOGIN": {
     "TITLE": "Belépés",
     "SUBTITLE": "Hozza létre fiókját a teljes élményért!",
-    "USERNAME": "Felhasználónév vagy Email cím",
+    "USERNAME": "Felhasználónév vagy E-mail cím",
     "PASSWORD": "Jelszó",
     "BTN_LOGIN": "Belépés",
     "NO_ACCOUNT": "Még nincs fiókja?",
     "REQUIRED": "Ez a mező kötelező",
+    "FORGOT": {
+      "LINK": "Jelszó visszaállítása",
+      "TITLE": "Jelszó visszaállítása",
+      "EMAIL_LABEL": "E-mail",
+      "EMAIL_PLACEHOLDER": "Adja meg az e-mail címét",
+      "BTN_REQUEST": "Új jelszó kérése",
+      "BACK": "Vissza a belépéshez",
+      "SUCCESS": "Új jelszó kérve",
+      "FAILED": "Sikertelen jelszó-kérelem"
+    },
     "ALERTS": {
       "TITLE_FAILED": "Belépés sikertelen!",
-      "TEXT_FAILED": "Helytelen email vagy jelszó.",
+      "TEXT_FAILED": "Helytelen e-mail vagy jelszó.",
       "TITLE_VERIFICATION": "Emailes megerősítés szükséges",
       "TEXT_VERIFICATION": "Kérjük, ellenőrizze a postafiókját, és erősítse meg e-mail-címét a bejelentkezés előtt!",
       "SUCCESS": "Belépés sikeres!"
@@ -72,7 +82,7 @@
     },
     "ERRORS": {
       "REQUIRED": "Ez a mező kötelező!*",
-      "EMAIL_INVALID": "Kérjük érvényes email címet adjon meg!",
+      "EMAIL_INVALID": "Kérjük érvényes e-mail címet adjon meg!",
       "PASSWORD_LENGTH": "A jelszónak legalább 8 karakteresnek kell lennie!",
       "PASSWORD_MISMATCH": "A jelszavak nem egyeznek!",
       "GDPR_REQUIRED": "A regisztrációhoz el kell fogadnod az adatkezelési tájékoztatót."
@@ -115,7 +125,7 @@
       "EDIT": "Profil szerkesztése",
       "USERNAME": "Felhasználónév",
       "USERNAME_TEXT": "A felhasználónév nem módosítható.",
-      "EMAIL": "Email cím",
+      "EMAIL": "E-mail cím",
       "FIRST_NAME": "Keresztnév",
       "LAST_NAME": "Vezetéknév",
       "PHONE": "Telefonszám",
@@ -139,7 +149,7 @@
     },  
     "SECURITY": {
       "TITLE": "Biztonsági beállítások",
-      "EMAIL_TITLE": "Email cím módosítása",
+      "EMAIL_TITLE": "E-mail cím módosítása",
       "PASSWORD_TITLE": "Jelszó kezelése",
       "PASSWORD_TEXT": "Fiókja biztonsága érdekében használjon erős jelszót.",
       "BTN_CHANGE": "Jelszó megváltoztatása",
@@ -207,7 +217,7 @@
     },
     "CONTACT": {
       "TITLE": "Kapcsolat",
-      "EMAIL": "Email: ",
+      "EMAIL": "E-mail: ",
       "PHONE": "Telefon: "
     }
   },
@@ -286,7 +296,7 @@
       "TITLE_BOOK": "Sikeres foglalás!",
       "TITLE_PASSWORD_CHANGE": "Jelszó sikeresen módosítva!",
       "TEXT_PASSWORD_CHANGE": "A jelszó frissítés utána 2mp-en belül a bejelentkezés oldalra kerül.",
-      "TITLE_EMAIL_UPDATE": "Email sikeresen módosítva!"
+      "TITLE_EMAIL_UPDATE": "E-mail sikeresen módosítva!"
     },
     "WARNING": {
       "BOOK_LOGIN": "A foglaláshoz be kell jelentkeznie.",
@@ -307,7 +317,7 @@
       "TITLE_BOOK_CANCEL":"Hiba történt a foglalás lemondásakor.",
       "TITLE_PASSWORD_CHANGE":"Hiba történt a jelszó módosításakor.",
       "TITLE_PASSWORD_CONFIRM":"A jelszók nem egyeznek.",
-      "TITLE_EMAIL_UPDATE":"Hiba történt az email módosításakor.",
+      "TITLE_EMAIL_UPDATE":"Hiba történt az e-mail módosításakor.",
       "TITLE_PROFILE_UPDATE":"Hiba történt a profil módosításakor."
     }
   },
@@ -334,7 +344,7 @@
     "TABLE": {
       "ID": "Id",
       "NAME": "Név",
-      "EMAIL": "Email",
+      "EMAIL": "E-mail",
       "ROLE": "Jogosultság",
       "ACTIONS": "Kezelés",
       "YOU": "ÉN",
@@ -352,7 +362,7 @@
     "MODAL": {
       "TITLE": "Felhasználó szerkesztés",
       "USERNAME": "Felhasználónév",
-      "EMAIL": "Email",
+      "EMAIL": "E-mail",
       "ROLE": "Jogosultság",
       "PASSWORD": "Kezdeti jelszó"
     }
@@ -361,7 +371,7 @@
   "ADMIN_BOOKINGS": {
     "TITLE": "Foglalások kezelése",
     "SUBTITLE": "Az összes vendégfoglalás áttekintése és kezelése.",
-    "SEARCH_PLACEHOLDER": "Keresés név, email vagy azonosító alapján...",
+    "SEARCH_PLACEHOLDER": "Keresés név, e-mail vagy azonosító alapján...",
     "NEW_BOOKING": "Új foglalás",
     "NO_RESULTS": "Nem található foglalás.",
     "FILTERS": {
@@ -384,7 +394,7 @@
       "TOTAL": "Végösszeg",
       "ACTIONS": "Műveletek",
       "NO_NAME": "Nincs név megadva",
-      "NO_EMAIL": "Nincs email",
+      "NO_EMAIL": "Nincs e-mail",
       "UNASSIGNED": "Nincs szoba"
     },
     "ACTIONS": {
@@ -400,7 +410,7 @@
       "CREATE_TITLE": "Új foglalás létrehozása",
       "EDIT_TITLE": "Foglalás szerkesztése #{{id}}",
       "LABEL_USER": "Ügyfél / Regisztrált felhasználó",
-      "SELECT_USER_OPTIONAL": "Válassz felhasználót (Opcionális)",
+      "SELECT_USER_OPTIONAL": "Válasszon felhasználót",
       "LABEL_USERNAME": "Felhasználónév",
       "PLACEHOLDER_NAME": "Név megadása",
       "LABEL_USER_EMAIL": "Felhasználó e-mail címe",
@@ -499,13 +509,23 @@
       "GUESTS": "Vendég"
     },
     "FORM": {
-      "LABEL_NAME": "Szoba azonosítója",
-      "PLACEHOLDER_NAME": "pl. Royal Suite 505",
+      "LABEL_NAME": "Szoba megnevezése",
+      "PLACEHOLDER_NAME": "pl. Deluxe Szoba 101",
       "LABEL_CAPACITY": "Kapacitás (fő)",
-      "LABEL_PRICE": "Ár / éjszaka ($)",
-      "LABEL_DESC": "Részletes leírás",
-      "PLACEHOLDER_DESC": "Szolgáltatások, felszereltség...",
-      "LABEL_GALLERY": "Szoba galéria"
+      "LABEL_PRICE": "Ár / éj (Ft)",
+      "LABEL_DESC": "Leírás",
+      "PLACEHOLDER_DESC": "Írjon néhány szót a szobáról...",
+      "LABEL_GALLERY": "Galéria"
+    },
+    "FORGOT": {
+      "LINK": "Jelszó visszaállítása",
+      "TITLE": "Jelszó visszaállítása",
+      "EMAIL_LABEL": "E-mail",
+      "EMAIL_PLACEHOLDER": "Adja meg az email címét",
+      "BTN_REQUEST": "Új jelszó kérése",
+      "BACK": "Vissza a bejelentkezéshez",
+      "SUCCESS": "Új jelszó kérve",
+      "FAILED": "Sikertelen jelszó-kérelem"
     },
     "GALLERY": {
       "UPLOAD_TITLE": "További fotók hozzáadása",

@@ -1,11 +1,11 @@
 <div class="login-container">
   <div class="glass-card shadow-lg">
     <div class="text-center mb-4">
-      <h2 class="fw-bold">{{ 'LOGIN.TITLE' | translate }}</h2>
-      <p class="subtitle">{{ 'LOGIN.SUBTITLE' | translate }}</p>
+      <h2 class="fw-bold">{{ showForgot ? ('LOGIN.FORGOT.TITLE' | translate) : ('LOGIN.TITLE' | translate) }}</h2>
+      <p *ngIf="!showForgot" class="subtitle">{{ 'LOGIN.SUBTITLE' | translate }}</p>
     </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <form *ngIf="!showForgot" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <!-- Username -->
       <div class="form-group mb-3">
         <label class="custom-label">{{ 'LOGIN.USERNAME' | translate }}</label>
@@ -30,6 +30,11 @@
         </mat-form-field>
       </div>
 
+      <!-- Forgot password link -->
+      <div class="text-end mb-3">
+        <a class="forgot-link" (click)="openForgot()" style="cursor: pointer; color: #fff">{{ 'LOGIN.FORGOT.LINK' | translate }}</a>
+      </div>
+
       <!-- Login Button -->
       <div class="button-wrapper">
         <button mat-flat-button class="btn-login-custom w-100" [disabled]="loginForm.invalid || loading">
@@ -45,5 +50,26 @@
         </p>
       </div>
     </form>
+
+    <!-- Inline Forgot Password panel (replaces login when active) -->
+    <div *ngIf="showForgot" class="forgot-panel mt-3">
+      <div class="mb-2">
+        <a class="back-link" (click)="backToLogin()" style="cursor: pointer; color: #fff">{{ 'LOGIN.FORGOT.BACK' | translate }}</a>
+      </div>
+      <form [formGroup]="forgotForm" (ngSubmit)="requestNewPassword()">
+        <div class="form-group mb-3">
+          <label class="custom-label">{{ 'LOGIN.FORGOT.EMAIL_LABEL' | translate }}</label>
+          <mat-form-field appearance="outline" class="w-100 no-subscript">
+            <input matInput formControlName="email" placeholder="{{ 'LOGIN.FORGOT.EMAIL_PLACEHOLDER' | translate }}">
+          </mat-form-field>
+        </div>
+
+        <div class="button-wrapper">
+          <button mat-flat-button class="btn-login-custom w-100" type="submit" [disabled]="forgotForm.invalid || forgotLoading">
+            {{ 'LOGIN.FORGOT.BTN_REQUEST' | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

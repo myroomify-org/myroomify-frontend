@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PublicRoomService } from '../../shared/public/public-room-service';
 import { TranslateModule } from '@ngx-translate/core';
+import { environment } from '../../../environments/environment';
 
 // Mat imports
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -49,7 +50,8 @@ export class GuestRooms implements OnInit {
   endDate: Date | null = null
 
   isChoosingCheckout: boolean = false
-  readonly baseUrl = 'http://localhost:8000'
+  readonly baseUrl = environment.baseHost
+  readonly storageUrl = environment.storageHost
 
   constructor(
     private router: Router,
@@ -92,7 +94,7 @@ export class GuestRooms implements OnInit {
     }
     return imageObject.path.startsWith('http') 
       ? imageObject.path 
-      : `${this.baseUrl}/storage/${imageObject.path}`
+      : `${this.storageUrl}/${imageObject.path}`
   }
 
   // Filters

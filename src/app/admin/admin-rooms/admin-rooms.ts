@@ -5,6 +5,7 @@ import { AdminRoomsService } from '../../shared/admin/admin-rooms-service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { environment } from '../../../environments/environment';
 import { AuthService } from '../../shared/auth/auth-service';
 
 interface CardData {
@@ -106,8 +107,8 @@ export class AdminRooms {
   }
 
   // Archive & Restore & Delete
-  maintenanceRoom(id: number) {
-    this.roomApi.maintenanceRoom$(id).subscribe({
+  deleteRoom(id: number) {
+    this.roomApi.deleteRoom$(id).subscribe({
       next: (response: any) => {
         this.success(response.message)
         this.get()
@@ -132,7 +133,7 @@ export class AdminRooms {
 
   // Images
   getPrimaryImage(card: any): string {
-    const backendStorageUrl = 'http://localhost:8000/storage/'
+    const backendStorageUrl = environment.storageHost
     const defaultPlaceholder = 'rooms/room.jpg'
 
     if (card.primary_image && card.primary_image.path) {
@@ -241,7 +242,7 @@ export class AdminRooms {
       confirmButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CONFIRM_MAINTENANCE'),
       cancelButtonText: this.translate.instant('ADMIN_ALERTS.CONFIRM.CANCEL_GENERAL')
     }).then((result) => {
-      if (result.isConfirmed) this.maintenanceRoom(id)
+      if (result.isConfirmed) this.deleteRoom(id)
     })
   }
 

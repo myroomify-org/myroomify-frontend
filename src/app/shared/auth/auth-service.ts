@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { BehaviorSubject, tap } from 'rxjs';
 import { MeProfileService } from '../me/me-profile-service';
@@ -18,10 +19,10 @@ export class AuthService {
   
 
   // Api
-  registerApi = "http://localhost:8000/api/auth/register/"
-  loginApi = "http://localhost:8000/api/auth/login/"
-  logoutApi = "http://localhost:8000/api/auth/logout/"
-  verifyApi = "http://localhost:8000/api/auth/verify-email/"
+  registerApi = environment.apiHost + '/auth/register'
+  loginApi = environment.apiHost + '/auth/login'
+  logoutApi = environment.apiHost + '/auth/logout'
+  forgotPasswordApi = environment.apiHost + '/auth/forgot-password'
 
   constructor(
     private http: HttpClient,
@@ -63,16 +64,19 @@ export class AuthService {
       )
   }
 
+  // Forgot password request
+  forgotPassword$(data: any) {
+    return this.http.post(this.forgotPasswordApi, data)
+  }
+
   logout$() {
     localStorage.removeItem('user')
-    localStorage.removeItem('token')
 
     this.currentUserSubject.next(null)
     this._isLoggedIn.next(false)
-    this.router.navigate(['/login'])
 
     return this.http.post(this.logoutApi, {})
-  }  
+  } 
 
   // AutoLogin
   private autoLogin() {
@@ -94,5 +98,14 @@ export class AuthService {
         this.logout$(); 
       }
     });
+  }
+
+  refreshProfile$() {
+    return this.meApi.getProfile$().pipe(tap((response: any) => {
+      const userData = response.data || response
+      localStorage.setItem('user', JSON.stringify(userData))
+      this.currentUserSubject.next(userData)
+      this._isLoggedIn.next(true)
+    }))
   }
 }
