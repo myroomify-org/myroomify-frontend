@@ -173,11 +173,19 @@ export class AdminRooms {
 
   // Assistant
   private formatImagePath(path: string, baseUrl: string): string {
-    let cleanPath = path.replace(/^\//, '')
-    if (cleanPath.startsWith('public/')) {
-        cleanPath = cleanPath.substring(7)
-    }
-    return `${baseUrl}${cleanPath}`
+      if (!path) return 'rooms/room.jpg'
+
+      let cleanPath = path.replace(/^\//, '')
+      if (cleanPath.startsWith('public/')) {
+          cleanPath = cleanPath.substring(7)
+      }
+
+      const normalizedBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`
+
+      if (!cleanPath.startsWith('storage/') && !normalizedBase.includes('/storage')) {
+      }
+
+      return `${normalizedBase}${cleanPath}`
   }
 
   canAddRoom(): boolean {
