@@ -251,3 +251,45 @@ a:hover {
         display: none;
     }
 }
+
+@media (max-width: 480px) {
+    .navbar {
+        height: auto !important;
+        padding: 10px 0;
+    }
+
+    .mobile-nav-wrapper {
+        gap: 5px !important;
+    }
+
+    .auth-buttons {
+        gap: 5px !important;
+    }
+
+    .auth-buttons a, 
+    .login-link-simple, 
+    .user-profile-btn {
+        font-size: 14px !important;
+        margin: 0 2px !important;
+        padding: 6px 10px !important;
+        white-space: nowrap;
+    }
+
+    .nav-link.active, a:hover {
+        padding: 6px 12px !important;
+    }
+
+    .navbar-toggler-icon-custom {
+        font-size: 1.5rem !important;
+    }
+}
+
+@media (max-width: 320px) {
+    .auth-buttons {
+        display: none !important;
+    }
+
+    .navbar-brand img, .nav-left i {
+        font-size: 1.2rem;
+    }
+}

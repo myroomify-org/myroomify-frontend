@@ -143,3 +143,56 @@
         display: inline-block;
     }
 }
+
+@media (max-width: 480px) {
+    .main-section {
+        padding-top: 100px; 
+        padding-bottom: 40px;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .main-logo {
+        max-width: 180px;
+    }
+
+    .main-bottom h1 {
+        font-size: 1.8rem;
+        padding: 0 15px;
+    }
+
+    .main-bottom .lead {
+        font-size: 1.1rem;
+        padding: 0 20px;
+        margin-bottom: 20px;
+    }
+
+    .room-img {
+        min-height: 300px;
+    }
+
+    .room-price-overlay {
+        font-size: 0.9rem;
+        padding: 4px 12px;
+    }
+}
+
+@media (max-width: 320px) {
+    .main-section {
+        padding-top: 60px;
+    }
+
+    .main-bottom h1 {
+        font-size: 1.5rem;
+    }
+
+    .btn-explore {
+        padding: 10px 25px;
+        width: 80%;
+    }
+    
+    .gdpr-error {
+        margin-left: 0;
+        text-align: center;
+    }
+}

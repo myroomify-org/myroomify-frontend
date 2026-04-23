@@ -147,3 +147,65 @@
         padding-left: 12px !important;
     }
 }
+
+@media (max-width: 576px) {
+    .section-title {
+        font-size: 1.8rem;
+        margin-top: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .full-width-section {
+        padding: 70px 0;
+    }
+
+    .search-filter-bar {
+        padding: 15px !important;
+        margin: 0 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .filter-btn {
+        width: 100%;
+        justify-content: flex-start;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+    }
+
+    .date-separator {
+        display: none;
+    }
+
+    .btn-search {
+        width: 100%;
+        padding: 14px !important;
+        border-radius: 50px !important;
+        font-size: 1rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-top: 10px;
+        box-shadow: 0 4px 12px rgba(45, 64, 55, 0.2);
+    }
+
+    .room-img-container {
+        height: 180px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .room-price {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .card-title {
+        font-size: 1rem;
+    }
+}
